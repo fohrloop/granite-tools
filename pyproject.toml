@@ -1,0 +1,8 @@
+[project]
+name = "granite-tools"
+version = "0.1.0"
+
+[project.urls]
+Homepage = "https://github.com/fohrloop/granite-tools"
+"Source Code" = "https://github.com/fohrloop/granite-tools"
+"Issue Tracker" = "https://github.com/fohrloop/granite-tools/issues"
