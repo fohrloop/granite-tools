@@ -1,8 +1,15 @@
 [project]
 name = "granite-tools"
 version = "0.1.0"
+dependencies = [
+    'typer', # tested on 0.12.5
+    'plotext', # tested on 5.3.2
+]
 
 [project.urls]
 Homepage = "https://github.com/fohrloop/granite-tools"
 "Source Code" = "https://github.com/fohrloop/granite-tools"
 "Issue Tracker" = "https://github.com/fohrloop/granite-tools/issues"
+
+[project.scripts]
+ngram_show = "granite_tools.cli:cli_show_ngrams"
