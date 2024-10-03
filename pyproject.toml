@@ -13,3 +13,4 @@ Homepage = "https://github.com/fohrloop/granite-tools"
 
 [project.scripts]
 ngram_show = "granite_tools.cli:cli_show_ngrams"
+ngram_compare = "granite_tools.cli:cli_compare_ngrams"

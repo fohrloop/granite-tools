@@ -190,7 +190,8 @@ def iter_lines(text, ignore_whitespace: bool = False):
         if not line:
             continue
         freq, ngram = line.split(" ", 1)
-        if ignore_whitespace and any(char in WHITESPACE_CHARS for char in ngram):
+
+        if ignore_whitespace and any(char in ngram for char in WHITESPACE_CHARS):
             continue
         for char, new_char in CHAR_PRINT_MAPPING.items():
             ngram = ngram.replace(char, new_char)
