@@ -1,7 +1,7 @@
 import pytest
 
-from granite_tools import Ngram, NgramList, NormalizationWarning
-from granite_tools.chargram import CHAR_PRINT_MAPPING
+from granite_tools import NgramList, NormalizationWarning
+from granite_tools.chargram import CHAR_PRINT_MAPPING, PositionedNgramDiff
 
 
 class TestNgramList:
@@ -16,9 +16,9 @@ class TestNgramList:
         ngrams = NgramList(ngramtext)
         assert len(ngrams) == 3
         assert list(ngrams.iter_tuples()) == [
-            (92, "a"),
-            (7, "b"),
-            (1, "c"),
+            ("a", 92),
+            ("b", 7),
+            ("c", 1),
         ]
 
     def test_ignore_case(self):
@@ -30,8 +30,8 @@ class TestNgramList:
 
         ngrams = NgramList(ngramtext, ignore_case=True)
         assert list(ngrams.iter_tuples()) == [
-            (80, "a"),
-            (20, "b"),
+            ("a", 80),
+            ("b", 20),
         ]
 
     def test_not_ignore_case(self):
@@ -43,9 +43,9 @@ class TestNgramList:
 
         ngrams = NgramList(ngramtext, ignore_case=False)
         assert list(ngrams.iter_tuples()) == [
-            (41, "a"),
-            (39, "A"),
-            (20, "b"),
+            ("a", 41),
+            ("A", 39),
+            ("b", 20),
         ]
 
     def test_normalize(self):
@@ -56,12 +56,12 @@ class TestNgramList:
 
         ngrams = NgramList(ngramtext, normalize=True)
         assert list(ngrams.iter_tuples()) == [
-            (60, "a"),
-            (40, "b"),
+            ("a", 60),
+            ("b", 40),
         ]
         assert ngrams.normalized is True
 
-    def test_not_normalize(self):
+    def test_explicit_not_normalize(self):
         ngramtext = """
         30 a
         20 b
@@ -70,8 +70,8 @@ class TestNgramList:
         with pytest.warns(NormalizationWarning):
             ngrams = NgramList(ngramtext, normalize=False)
         assert list(ngrams.iter_tuples()) == [
-            (30, "a"),
-            (20, "b"),
+            ("a", 30),
+            ("b", 20),
         ]
         assert ngrams.normalized is False
 
@@ -86,8 +86,8 @@ class TestNgramList:
 
         ngrams = NgramList(ngramtext, ignore_whitespace=True)
         assert list(ngrams.iter_tuples()) == [
-            (50, "e"),
-            (50, "f"),
+            ("e", 50),
+            ("f", 50),
         ]
 
     def test_ignore_whitespace_no_normalize(self):
@@ -102,8 +102,8 @@ class TestNgramList:
         with pytest.warns(NormalizationWarning):
             ngrams = NgramList(ngramtext, ignore_whitespace=True, normalize=False)
         assert list(ngrams.iter_tuples()) == [
-            (25, "e"),
-            (25, "f"),
+            ("e", 25),
+            ("f", 25),
         ]
 
     def test_not_ignore_whitespace(self):
@@ -119,10 +119,66 @@ class TestNgramList:
         space = CHAR_PRINT_MAPPING[" "]
 
         expected = [
-            (30, f"a{space}b"),
-            (25, "e"),
-            (25, "f"),
-            (10, f"{space}c"),
-            (10, f"d{space}"),
+            (f"a{space}b", 30),
+            ("e", 25),
+            ("f", 25),
+            (f"{space}c", 10),
+            (f"d{space}", 10),
         ]
         assert list(ngrams.iter_tuples()) == expected
+
+
+class TestNgramDiff:
+    """Test difference calculations between two NgramLists."""
+
+    def test_diff_simple(self):
+        with pytest.warns(NormalizationWarning):
+            ngrams1 = NgramList(
+                """
+            10 a
+            9 b
+            5 c
+            0.1 e
+            """,
+                normalize=False,
+            )
+            ngrams2 = NgramList(
+                """
+            12 a
+            6 e
+            4 b
+            0.3 c
+            """,
+                normalize=False,
+            )
+
+        diff = ngrams1.diff(ngrams2, n=3)
+        assert list(diff.iter_ngrams("ref")) == [
+            PositionedNgramDiff("a", 10, 1, 0, 0),
+            PositionedNgramDiff("b", 9, 2, 0, 0),
+            PositionedNgramDiff("c", 5, 3, 0, 0),
+            PositionedNgramDiff("e", 0.1, 4, 0, 0),
+        ]
+        assert list(diff.iter_ngrams("other")) == [
+            PositionedNgramDiff("a", 12, 1, freq_diff=+2, rank_diff=0),
+            PositionedNgramDiff("e", 6, 2, freq_diff=+5.9, rank_diff=+2),
+            PositionedNgramDiff("b", 4, 3, freq_diff=-5, rank_diff=-1),
+            PositionedNgramDiff("c", 0.3, 4, freq_diff=-4.7, rank_diff=-1),
+        ]
+
+    def cannot_mix_normalized_and_non_normalized(self):
+        ngrams1 = NgramList(
+            """
+        10 a
+        """,
+            normalize=True,
+        )
+        ngrams2 = NgramList(
+            """
+        12 a
+        """,
+            normalize=False,
+        )
+
+        with pytest.raises(RuntimeError, match="different `.normalized` value"):
+            ngrams1.diff(ngrams2, n=1)

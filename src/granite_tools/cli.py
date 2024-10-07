@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-import io
 import re
 import warnings
-from contextlib import redirect_stdout
 from enum import Enum
 from functools import partial
 from itertools import zip_longest
@@ -17,10 +15,10 @@ except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
 
-from granite_tools.chargram import NgramList
+from granite_tools.ngram import NgramList
 
 
-def show_ngrams_for_file(
+def get_printable_for_ngrams(
     filename: str | Path,
     ngrams_count: int,
     ignore_case: bool,
@@ -30,36 +28,25 @@ def show_ngrams_for_file(
     plot: bool = False,
     raw: bool = False,
 ):
-    file_contents = Path(filename).read_text()
-    foldername = filename.parent.name
-    with warnings.catch_warnings(record=True) as recorded_warnings:
-        ngrams = NgramList(
-            file_contents,
-            ignore_case=ignore_case,
-            ignore_whitespace=ignore_whitespace,
-            normalize=not raw,
-        )
-    for w in recorded_warnings:
-        print("WARNING:", w.message)
 
+    foldername = filename.parent.name
+    ngrams = _get_ngramlist(
+        filename, ignore_case=ignore_case, ignore_whitespace=ignore_whitespace, raw=raw
+    )
     if plot:
-        ngrams.to_barplot(
+        printable = ngrams.to_barplot(
             ngrams_count=ngrams_count,
             freq_type=freq_type,
             title=foldername,
         )
     else:
-        lines = list(
-            ngrams.iter_txt(
-                ngrams_count=ngrams_count,
-                resolution=resolution,
-                freq_type=freq_type,
-            )
+        printable = ngrams.to_table(
+            ngrams_count=ngrams_count,
+            resolution=resolution,
+            freq_type=freq_type,
+            title=foldername,
         )
-        max_width = max(len(l) for l in lines)
-        print(" " * 3 + foldername)
-        print(" " * 3 + "-" * (max_width - 3))
-        print("\n".join(lines))
+    return printable
 
 
 class NgramSize(str, Enum):
@@ -184,7 +171,7 @@ def show_ngrams(
     files = _get_file_iterator(ngram_src, ngram_size)
 
     for file in files:
-        show_ngrams_for_file(
+        printable = get_printable_for_ngrams(
             file,
             ngrams_count=ngrams_count,
             ignore_case=ignore_case,
@@ -194,6 +181,7 @@ def show_ngrams(
             plot=plot,
             raw=raw,
         )
+        print(printable)
 
 
 ARG_NGRAM_SRC_REF = Annotated[
@@ -211,8 +199,87 @@ ARG_NGRAM_SRC_OTHER = Annotated[
     ),
 ]
 
+ARG_NGRAMS_COUNT_COMPARE = Annotated[
+    int,
+    typer.Option(
+        "--ngrams-count",
+        "-n",
+        help="The number of ngrams to show (most common first). If using with --diff option, then this number of ngrams is taken from both corpora, and the union of the top ngrams is shown.",
+    ),
+]
+
+ARG_DIFF = Annotated[
+    bool,
+    typer.Option(
+        "--diff",
+        help="Show difference using first ngram source as reference.",
+    ),
+]
+
+ARG_SWAP = Annotated[
+    bool,
+    typer.Option(
+        "-S",
+        "--swap",
+        help='Swap "ref" and "other" input arguments (`ngram_src_ref` and `ngram_src_other`).',
+    ),
+]
+
 
 def compare_ngrams(
+    ngram_src_ref: ARG_NGRAM_SRC_REF,
+    ngram_src_other: ARG_NGRAM_SRC_OTHER,
+    ngrams_count: ARG_NGRAMS_COUNT_COMPARE = DEFAULT_MAX_RANK,
+    ngram_size: ARG_NGRAM_SIZE = NgramSize.all,
+    ignore_case: ARG_IGNORE_CASE = False,
+    ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
+    resolution: ARG_RESOLUTION = 2,
+    freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
+    plot: ARG_PLOT = False,
+    raw: ARG_RAW = False,
+    diff: ARG_DIFF = False,
+    swap: ARG_SWAP = False,
+):
+    """Compare ngrams from two folders or files."""
+    if swap:
+        ngram_src_other, ngram_src_ref = ngram_src_ref, ngram_src_other
+
+    if diff:
+        compare_diff_ngrams(
+            ngram_src_ref=ngram_src_ref,
+            ngram_src_other=ngram_src_other,
+            ngrams_count=ngrams_count,
+            ngram_size=ngram_size,
+            ignore_case=ignore_case,
+            ignore_whitespace=ignore_whitespace,
+            resolution=resolution,
+            freq_type=freq_type,
+            plot=plot,
+            raw=raw,
+        )
+        return
+
+    files_ref = _get_file_iterator(ngram_src_ref, ngram_size)
+    files_other = _get_file_iterator(ngram_src_other, ngram_size)
+
+    func = partial(
+        get_printable_for_ngrams,
+        ngrams_count=ngrams_count,
+        ignore_case=ignore_case,
+        ignore_whitespace=ignore_whitespace,
+        resolution=resolution,
+        freq_type=freq_type,
+        plot=plot,
+        raw=raw,
+    )
+    for file_ref, file_other in zip(files_ref, files_other):
+        out_ref = func(file_ref)
+        out_other = func(file_other)
+        width = _get_width(plot=plot, resolution=resolution)
+        print_side_by_side(out_ref, out_other, size=width)
+
+
+def compare_diff_ngrams(
     ngram_src_ref: ARG_NGRAM_SRC_REF,
     ngram_src_other: ARG_NGRAM_SRC_OTHER,
     ngrams_count: ARG_NGRAMS_COUNT = DEFAULT_MAX_RANK,
@@ -224,30 +291,69 @@ def compare_ngrams(
     plot: ARG_PLOT = False,
     raw: ARG_RAW = False,
 ):
-    """Compare ngrams from two folders or files."""
+
+    if freq_type != "absolute":
+        raise typer.BadParameter(
+            f'Using other "--type" than "absolute" with "--diff" is not supported. '
+        )
+
     files_ref = _get_file_iterator(ngram_src_ref, ngram_size)
     files_other = _get_file_iterator(ngram_src_other, ngram_size)
+    width = _get_width(plot=plot, resolution=resolution)
 
-    func = partial(
-        show_ngrams_for_file,
-        ngrams_count=ngrams_count,
-        ignore_case=ignore_case,
-        ignore_whitespace=ignore_whitespace,
-        resolution=resolution,
-        freq_type=freq_type,
-        plot=plot,
-        raw=raw,
-    )
     for file_ref, file_other in zip(files_ref, files_other):
-        with redirect_stdout(io.StringIO()) as f:
-            func(file_ref)
-            out_ref = f.getvalue()
-        with redirect_stdout(io.StringIO()) as f:
-            func(file_other)
-            out_other = f.getvalue()
 
-        width = 50 if plot else 15 + resolution
-        print_side_by_side(out_ref, out_other, size=width)
+        ngrams_ref = _get_ngramlist(
+            file_ref,
+            ignore_case=ignore_case,
+            ignore_whitespace=ignore_whitespace,
+            raw=raw,
+        )
+        ngrams_other = _get_ngramlist(
+            file_other,
+            ignore_case=ignore_case,
+            ignore_whitespace=ignore_whitespace,
+            raw=raw,
+        )
+        diff = ngrams_ref.diff(ngrams_other, n=ngrams_count)
+
+        if plot:
+            printable_ref, printable_other = diff.to_barplots(
+                title_ref=file_ref.parent.name,
+                title_other=file_other.parent.name,
+                freq_type=freq_type,
+            )
+        else:
+            printable_ref, printable_other = diff.to_tables(
+                title_ref=file_ref.parent.name,
+                title_other=file_other.parent.name,
+                freq_type=freq_type,
+            )
+        print_side_by_side(printable_ref, printable_other, size=width)
+
+
+def _get_width(plot: bool, resolution: int) -> int:
+    return 50 if plot else 15 + resolution
+
+
+def _get_ngramlist(
+    filename: str | Path,
+    ignore_case: bool,
+    ignore_whitespace: bool,
+    raw: bool = False,
+) -> NgramList:
+    file_contents = Path(filename).read_text()
+
+    with warnings.catch_warnings(record=True) as recorded_warnings:
+        ngrams = NgramList(
+            file_contents,
+            ignore_case=ignore_case,
+            ignore_whitespace=ignore_whitespace,
+            normalize=not raw,
+        )
+    for w in recorded_warnings:
+        print("WARNING:", w.message)
+    return ngrams
 
 
 def _make_title_row_narrower(title_line: str, size: int):
@@ -274,15 +380,15 @@ def print_side_by_side(left: str, right: str, size=40):
     print("\n".join(side_by_side))
 
 
-# Remove escape codes (used for coloring, etc.)
-# From: https://stackoverflow.com/a/14693789/3015186
-ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
-
-
 def _get_required_padding(line: str, target_width: int, padchar=" "):
     printable_chars = remove_ansi_escape_sequences(line)
     padlength = max(0, target_width - len(printable_chars))
     return padchar * padlength
+
+
+# Remove escape codes (used for coloring, etc.)
+# From: https://stackoverflow.com/a/14693789/3015186
+ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
 def remove_ansi_escape_sequences(string: str) -> str:
@@ -316,3 +422,4 @@ def cli_compare_ngrams():
 
 if __name__ == "__main__":
     typer.run(show_ngrams)
+ARG_NGRAMS_COUNT

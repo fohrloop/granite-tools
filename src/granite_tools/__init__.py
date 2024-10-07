@@ -1,3 +1,3 @@
-from .chargram import Ngram as Ngram
-from .chargram import NgramList as NgramList
-from .chargram import NormalizationWarning as NormalizationWarning
+from .ngram import Ngram as Ngram
+from .ngram import NgramList as NgramList
+from .ngram import NormalizationWarning as NormalizationWarning
