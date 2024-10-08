@@ -425,6 +425,8 @@ class NgramDiffList:
         rank_width = get_required_rank_width(diffs)
 
         def fmt(freq):
+            if freq is None:
+                return "???"
             return f"{freq:{freq_width}.{resolution}f}"
 
         for diff in diffs:
@@ -438,10 +440,19 @@ class NgramDiffList:
                 )
                 freq_str = f"{fmt(diff.freq)} {cumulative_str}"
 
-            if which == "ref":
-                rank_chars = f"{diff.rank:4}: {diff.chars}"
+            if diff.rank is None:
+                rank_str = "???".rjust(rank_width)
             else:
-                rank_chars = f"{diff.rank:{rank_width}} ({diff.rank_diff:+{rank_width}d}): {diff.chars}"
+                rank_str = f"{diff.rank:{rank_width}}"
+            if diff.rank_diff is None:
+                rank_diff_str = "???".rjust(rank_width)
+            else:
+                rank_diff_str = f"{diff.rank_diff:+{rank_width}d}"
+
+            if which == "ref":
+                rank_chars = f"{rank_str}: {diff.chars}"
+            else:
+                rank_chars = f"{rank_str} ({rank_diff_str}): {diff.chars}"
 
             yield f"{rank_chars} {freq_str}"
 
