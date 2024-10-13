@@ -1,7 +1,7 @@
 import pytest
 
 from granite_tools import NgramList, NormalizationWarning
-from granite_tools.chargram import CHAR_PRINT_MAPPING, PositionedNgramDiff
+from granite_tools.ngram import CHAR_PRINT_MAPPING, PositionedNgramDiff
 
 
 class TestNgramList:
