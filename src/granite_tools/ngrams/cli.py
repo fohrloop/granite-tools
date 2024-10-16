@@ -15,7 +15,7 @@ except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
 
-from granite_tools.ngram import NgramList
+from granite_tools.ngrams.ngram import NgramList
 
 
 def get_printable_for_ngrams(
@@ -25,26 +25,32 @@ def get_printable_for_ngrams(
     ignore_whitespace: bool,
     resolution: int,
     freq_type: FrequencyType,
-    plot: bool = False,
+    out: ResultType,
     raw: bool = False,
+    exclude_chars: str = "",
 ):
 
     foldername = filename.parent.name
     ngrams = _get_ngramlist(
-        filename, ignore_case=ignore_case, ignore_whitespace=ignore_whitespace, raw=raw
+        filename,
+        ignore_case=ignore_case,
+        ignore_whitespace=ignore_whitespace,
+        raw=raw,
+        exclude_chars=exclude_chars,
     )
-    if plot:
+    if out == "plot":
         printable = ngrams.to_barplot(
             ngrams_count=ngrams_count,
             freq_type=freq_type,
             title=foldername,
         )
     else:
-        printable = ngrams.to_table(
+        printable = ngrams.to_printable(
             ngrams_count=ngrams_count,
             resolution=resolution,
             freq_type=freq_type,
             title=foldername,
+            out=out,
         )
     return printable
 
@@ -60,6 +66,17 @@ class FrequencyType(str, Enum):
     absolute = "absolute"
     cumulative = "cumulative"
     both = "both"
+
+
+class ResultType(str, Enum):
+    table = "table"
+    plot = "plot"
+    plaintext = "plaintext"
+
+
+class DiffResultType(str, Enum):
+    table = "table"
+    plot = "plot"
 
 
 NGRAM_SIZE_MAP = {
@@ -94,7 +111,7 @@ ARG_NGRAMS_COUNT = Annotated[
     typer.Option(
         "--ngrams-count",
         "-n",
-        help="The number of ngrams to show (most common first).",
+        help="The number of ngrams to show (most common first). To include all the ngrams, use 0.",
     ),
 ]
 
@@ -134,16 +151,16 @@ ARG_RESOLUTION = Annotated[
 ARG_FREQ_TYPE = Annotated[
     FrequencyType,
     typer.Option(
-        "--type",
+        "--freq",
         help="Type of frequency (ngram score) to show.",
     ),
 ]
 
-ARG_PLOT = Annotated[
-    bool,
+ARG_OUT = Annotated[
+    ResultType,
     typer.Option(
-        "--plot",
-        help="Draw a barplot instead of showing a table.",
+        "--type",
+        help="The output presentation type. 'plot' draws a barplot. 'plaintext' is a plain text list. This format is supported by dariogoetz/keyboard_layout_optimizer. The 'table' shows a simple table.",
     ),
 ]
 
@@ -152,6 +169,14 @@ ARG_RAW = Annotated[
     typer.Option(
         "--raw",
         help="Use raw values of the ngram frequencies/counts, instead of normalizing them.",
+    ),
+]
+
+ARG_EXCLUDE_WITH_CHARS = Annotated[
+    str,
+    typer.Option(
+        "--exclude-chars",
+        help='Exclude ngrams which contain any of the given characters. Example: --exclude-chars "äö€"',
     ),
 ]
 
@@ -164,8 +189,9 @@ def show_ngrams(
     ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
     resolution: ARG_RESOLUTION = 2,
     freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
-    plot: ARG_PLOT = False,
+    out: ARG_OUT = "table",
     raw: ARG_RAW = False,
+    exclude_chars: ARG_EXCLUDE_WITH_CHARS = "",
 ):
     """Show ngrams from a folder or a file."""
     files = _get_file_iterator(ngram_src, ngram_size)
@@ -178,8 +204,9 @@ def show_ngrams(
             ignore_whitespace=ignore_whitespace,
             resolution=resolution,
             freq_type=freq_type,
-            plot=plot,
+            out=out,
             raw=raw,
+            exclude_chars=exclude_chars,
         )
         print(printable)
 
@@ -204,7 +231,7 @@ ARG_NGRAMS_COUNT_COMPARE = Annotated[
     typer.Option(
         "--ngrams-count",
         "-n",
-        help="The number of ngrams to show (most common first). If using with --diff option, then this number of ngrams is taken from both corpora, and the union of the top ngrams is shown.",
+        help="The number of ngrams to show (most common first). If using with --diff option, then this number of ngrams is taken from both corpora, and the union of the top ngrams is shown. To include all the ngrams, use 0.",
     ),
 ]
 
@@ -235,7 +262,7 @@ def compare_ngrams(
     ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
     resolution: ARG_RESOLUTION = 2,
     freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
-    plot: ARG_PLOT = False,
+    out: ARG_OUT = "table",
     raw: ARG_RAW = False,
     diff: ARG_DIFF = False,
     swap: ARG_SWAP = False,
@@ -254,7 +281,7 @@ def compare_ngrams(
             ignore_whitespace=ignore_whitespace,
             resolution=resolution,
             freq_type=freq_type,
-            plot=plot,
+            out=out,
             raw=raw,
         )
         return
@@ -269,13 +296,13 @@ def compare_ngrams(
         ignore_whitespace=ignore_whitespace,
         resolution=resolution,
         freq_type=freq_type,
-        plot=plot,
+        out=out,
         raw=raw,
     )
     for file_ref, file_other in zip(files_ref, files_other):
         out_ref = func(file_ref)
         out_other = func(file_other)
-        width = _get_width(plot=plot, resolution=resolution)
+        width = _get_width(plot=out == "plot", resolution=resolution)
         print_side_by_side(out_ref, out_other, size=width)
 
 
@@ -288,14 +315,19 @@ def compare_diff_ngrams(
     ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
     resolution: ARG_RESOLUTION = 2,
     freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
-    plot: ARG_PLOT = False,
+    out: ARG_OUT = "table",
     raw: ARG_RAW = False,
 ):
 
     if freq_type != "absolute":
         raise typer.BadParameter(
-            f'Using other "--type" than "absolute" with "--diff" is not supported. '
+            f'Using other "--freq-type" than "absolute" with "--diff" is not supported. '
         )
+    if out == "plaintext":
+        raise typer.BadParameter(
+            'Cannot use "plaintext" output format with "--diff" option.'
+        )
+    plot = out == "plot"
 
     files_ref = _get_file_iterator(ngram_src_ref, ngram_size)
     files_other = _get_file_iterator(ngram_src_other, ngram_size)
@@ -324,7 +356,7 @@ def compare_diff_ngrams(
                 freq_type=freq_type,
             )
         else:
-            printable_ref, printable_other = diff.to_tables(
+            printable_ref, printable_other = diff.to_printable(
                 title_ref=file_ref.parent.name,
                 title_other=file_other.parent.name,
                 freq_type=freq_type,
@@ -341,6 +373,7 @@ def _get_ngramlist(
     ignore_case: bool,
     ignore_whitespace: bool,
     raw: bool = False,
+    exclude_chars: str = "",
 ) -> NgramList:
     file_contents = Path(filename).read_text()
 
@@ -350,6 +383,7 @@ def _get_ngramlist(
             ignore_case=ignore_case,
             ignore_whitespace=ignore_whitespace,
             normalize=not raw,
+            exclude_chars=exclude_chars,
         )
     for w in recorded_warnings:
         print("WARNING:", w.message)

@@ -1,7 +1,7 @@
 import pytest
 
-from granite_tools import NgramList, NormalizationWarning
-from granite_tools.ngram import CHAR_PRINT_MAPPING, PositionedNgramDiff
+from granite_tools.ngrams import NgramList, NormalizationWarning
+from granite_tools.ngrams.ngram import CHAR_PRINT_MAPPING, PositionedNgramDiff
 
 
 class TestNgramList:
@@ -106,6 +106,95 @@ class TestNgramList:
             ("f", 25),
         ]
 
+    def test_exclude_chars(self):
+        ngramtext = """
+        30 ab
+        10 bc
+        10 cd
+        25 ef
+        25 ae
+        """
+
+        ngrams = NgramList(
+            ngramtext,
+            exclude_chars="a",
+        )
+
+        expected = [
+            ("ef", 55.55555555555556),
+            ("bc", 22.22222222222222),
+            ("cd", 22.22222222222222),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
+    def test_exclude_chars_different_case(self):
+        ngramtext = """
+        30 ab
+        10 bc
+        10 cd
+        25 ef
+        25 ae
+        """
+
+        ngrams = NgramList(
+            ngramtext, exclude_chars="A", ignore_case=False, normalize=False
+        )
+
+        expected = [
+            ("ab", 30),
+            ("ae", 25),
+            ("ef", 25),
+            ("bc", 10),
+            ("cd", 10),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
+    def test_exclude_chars_different_case2(self):
+
+        # Now, ignore case
+        ngramtext = """
+        30 ab
+        10 bc
+        10 cd
+        25 ef
+        25 ae
+        """
+
+        with pytest.warns(NormalizationWarning):
+            ngrams = NgramList(
+                ngramtext, exclude_chars="A", ignore_case=True, normalize=False
+            )
+
+        expected = [
+            ("ef", 25),
+            ("bc", 10),
+            ("cd", 10),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
+    def test_exclude_chars_different_case3(self):
+
+        # Now, ignore case
+        ngramtext = """
+        30 AB
+        10 BC
+        10 CD
+        25 EF
+        25 AE
+        """
+
+        with pytest.warns(NormalizationWarning):
+            ngrams = NgramList(
+                ngramtext, exclude_chars="a", ignore_case=True, normalize=False
+            )
+
+        expected = [
+            ("ef", 25),
+            ("bc", 10),
+            ("cd", 10),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
     def test_not_ignore_whitespace(self):
         ngramtext = """
         30 a b
@@ -122,8 +211,8 @@ class TestNgramList:
             (f"a{space}b", 30),
             ("e", 25),
             ("f", 25),
-            (f"{space}c", 10),
             (f"d{space}", 10),
+            (f"{space}c", 10),
         ]
         assert list(ngrams.iter_tuples()) == expected
 

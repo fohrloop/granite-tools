@@ -12,13 +12,14 @@ import plotext
 if typing.TYPE_CHECKING:
     from typing import Dict, Iterable, Optional, Sequence, Set, Tuple
 
-CHAR_PRINT_MAPPING = {" ": "␣", "\\n": "⏎", "\\\\": "\\"}
+CHAR_PRINT_MAPPING = {" ": "␣", "\\n": "⏎", "\t": "⇥", "\\\\": "\\"}
 
-WHITESPACE_CHARS = (" ", "\\n")
+WHITESPACE_CHARS = (" ", "\\n", "\t")
 """Whitespace characters (as in the original ngram files)"""
 
 FreqType = Literal["absolute", "cumulative" "both"]
 NgramListType = Literal["ref", "other"]
+OutType = Literal["table", "plaintext"]
 
 
 @dataclass
@@ -92,6 +93,7 @@ class NgramList:
         ignore_case: bool = False,
         ignore_whitespace: bool = False,
         normalize: Optional[bool] = None,
+        exclude_chars: str = "",
     ):
         """Create a new NgramList from a string of ngrams
 
@@ -109,6 +111,8 @@ class NgramList:
             If True, normalize the ngrams so that the sum of all frequencies is
             100.0. If False, and the input `ngramtext` is not normalized, a
             NormalizationWarning is issued. Default: True.
+        exclude_chars: str
+            Exclude ngrams that contain any of the characters in the string.
 
         Example
         -------
@@ -120,9 +124,13 @@ class NgramList:
             normalize = NORMALIZE_DEFAULT
 
         self._ngrams: dict[str, Ngram] = dict()
-        for freq, chars in iter_lines(ngramtext, ignore_whitespace=ignore_whitespace):
-            if ignore_case:
-                chars = chars.lower()
+        for freq, chars in iter_lines(
+            ngramtext,
+            ignore_whitespace=ignore_whitespace,
+            ignore_case=ignore_case,
+            exclude_chars=exclude_chars,
+        ):
+
             if chars in self._ngrams:
                 self._ngrams[chars].freq += freq
             else:
@@ -147,7 +155,7 @@ class NgramList:
         self, ngrams_count: int | None = None, subset: Set[str] | None = None
     ) -> Iterable[PositionedNgram]:
         total: float = 0
-        if ngrams_count is None:
+        if not ngrams_count:
             ngrams_count = float("inf")
 
         for rank, (chars, freq) in enumerate(self.iter_tuples(), start=1):
@@ -163,7 +171,12 @@ class NgramList:
     def iter_tuples(self) -> Iterable[tuple[str, float]]:
         """Iterates over the ngrams in the list, the most frequent ngram first,
         yielding a tuple of (chars, freq,)"""
-        for ngram in sorted(self._ngrams.values(), key=lambda x: x.freq, reverse=True):
+
+        # The sorting is done first by frequency (descending) and then by the
+        # characters in the ngram (ascending).
+        for ngram in sorted(
+            self._ngrams.values(), key=lambda x: (-x.freq, x.chars), reverse=False
+        ):
             yield ngram.chars, ngram.freq
 
     def iter_txt(
@@ -176,21 +189,20 @@ class NgramList:
             freq_type=freq_type,
         )
 
-    def to_table(
+    def to_printable(
         self,
         title: str,
         ngrams_count: int,
         resolution=2,
         freq_type: FreqType = "absolute",
+        out: OutType = "table",
     ) -> str:
-        return to_table(
-            self.iter_txt(
-                ngrams_count=ngrams_count,
-                resolution=resolution,
-                freq_type=freq_type,
-            ),
-            title=title,
+        iterable = self.iter_txt(
+            ngrams_count=ngrams_count,
+            resolution=resolution,
+            freq_type=freq_type,
         )
+        return to_printable(iterable, out, title)
 
     def to_barplot(
         self, ngrams_count: int, title: str, freq_type: FreqType = "absolute"
@@ -375,7 +387,7 @@ class NgramDiffList:
             freq_type=freq_type,
         )
 
-    def to_tables(
+    def to_printable(
         self,
         title_ref: str,
         title_other: str,
@@ -472,6 +484,26 @@ def to_table(rows: Iterable[str], title: str):
     return "\n".join(rows)
 
 
+def to_printable(iterable: Iterable[str], out: OutType, title: str) -> str:
+    if out == "table":
+        return to_table(
+            iterable,
+            title=title,
+        )
+    elif out == "plaintext":
+        return to_plaintext(iterable)
+
+
+def to_plaintext(iterable: Iterable[str]) -> str:
+    out_str_parts = []
+    for row in iterable:
+        parts = row.split()
+        if not parts:
+            continue
+        out_str_parts.append(f"{parts[2]} {parts[1]}")
+    return "\n".join(out_str_parts)
+
+
 def iter_txt(
     ngrams: Iterable[PositionedNgram],
     resolution=2,
@@ -526,13 +558,35 @@ def total_is_normalized(total: float) -> bool:
     return abs(total - 100.0) < 1e-4
 
 
-def iter_lines(text, ignore_whitespace: bool = False):
+def iter_lines(
+    text,
+    ignore_whitespace: bool = False,
+    ignore_case: bool = False,
+    exclude_chars: str = "",
+):
     lines = text.split("\n")
+
+    if ignore_case:
+        exclude_chars = exclude_chars.lower()
+
     for line_ in lines:
         line = line_.lstrip()
         if not line:
             continue
         freq, ngram = line.split(" ", 1)
+
+        skip_ngram = False
+
+        if ignore_case:
+            ngram = ngram.lower()
+
+        for char in exclude_chars:
+            if char in ngram:
+                skip_ngram = True
+                break
+
+        if skip_ngram:
+            continue
 
         if ignore_whitespace and any(char in ngram for char in WHITESPACE_CHARS):
             continue

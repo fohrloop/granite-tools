@@ -29,32 +29,10 @@ Show ngram files. Example:
   10: er ▇▇▇▇▇▇▇▇▇▇ 1.28
 ```
 
-Full help:
+Full help, see:
 
-```
+ ```
 ❯ ngram_show --help
-                                                                                                                                                     
- Usage: ngram_show [OPTIONS] NGRAM_SRC                                                                                                               
-                                                                                                                                                     
- Show ngrams from a folder or a file.                                                                                                                
-                                                                                                                                                     
-╭─ Arguments ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *    ngram_src      PATH  Path to a folder of ngram files or to a single *-gram.txt file. [required]                                              │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --ngrams-count       -n      INTEGER                     The number of ngrams to show (most common first). [default: 40]                          │
-│ --ngram-size         -s      [1|2|3|all]                 Which ngram size to show. [default: all]                                                 │
-│ --ignore-case        -i                                  Ignore case when comparing ngrams (i.e. consider 'ab', 'aB', 'Ab', and 'AB' to be the    │
-│                                                          same).                                                                                   │
-│ --ignore-whitespace  -w                                  Ignore all ngrams which contain whitespace (i.e. Drop ngrams with whitespace).           │
-│ --resolution                 INTEGER                     The resolution for printed numbers. Example with resolution of 3: 0.234. This only       │
-│                                                          affects the tabular form (not plots).                                                    │
-│                                                          [default: 2]                                                                             │
-│ --type                       [absolute|cumulative|both]  Type of frequency (ngram score) to show. [default: absolute]                             │
-│ --plot                                                   Draw a barplot instead of showing a table.                                               │
-│ --raw                                                    Use raw values of the ngram frequencies/counts, instead of normalizing them.             │
-│ --help                                                   Show this message and exit.                                                              │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Data requirements for `ngram_show`
@@ -127,39 +105,10 @@ i --diff -w
 2827: ---  0.00                                     3196 (-3176): was  0.01
 ```
 
-Full help:
+Full help, see:
 
 ```
 ❯ ngram_compare --help
-                                                                                                                                                     
- Usage: ngram_compare [OPTIONS] NGRAM_SRC_REF NGRAM_SRC_OTHER                                                                                        
-                                                                                                                                                     
- Compare ngrams from two folders or files.                                                                                                           
-                                                                                                                                                     
-╭─ Arguments ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *    ngram_src_ref        PATH  Path to a folder of ngram files or to a single *-gram.txt file. This is used as the reference. [required]         │
-│ *    ngram_src_other      PATH  Path to a folder of ngram files or to a single *-gram.txt file. This is compared to the reference (=other)        │
-│                                 [required]                                                                                                        │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --ngrams-count       -n      INTEGER                     The number of ngrams to show (most common first). If using with --diff option, then this │
-│                                                          number of ngrams is taken from both corpora, and the union of the top ngrams is shown.   │
-│                                                          [default: 40]                                                                            │
-│ --ngram-size         -s      [1|2|3|all]                 Which ngram size to show. [default: all]                                                 │
-│ --ignore-case        -i                                  Ignore case when comparing ngrams (i.e. consider 'ab', 'aB', 'Ab', and 'AB' to be the    │
-│                                                          same).                                                                                   │
-│ --ignore-whitespace  -w                                  Ignore all ngrams which contain whitespace (i.e. Drop ngrams with whitespace).           │
-│ --resolution                 INTEGER                     The resolution for printed numbers. Example with resolution of 3: 0.234. This only       │
-│                                                          affects the tabular form (not plots).                                                    │
-│                                                          [default: 2]                                                                             │
-│ --type                       [absolute|cumulative|both]  Type of frequency (ngram score) to show. [default: absolute]                             │
-│ --plot                                                   Draw a barplot instead of showing a table.                                               │
-│ --raw                                                    Use raw values of the ngram frequencies/counts, instead of normalizing them.             │
-│ --diff                                                   Show difference using first ngram source as reference.                                   │
-│ --swap               -S                                  Swap "ref" and "other" input arguments (`ngram_src_ref` and `ngram_src_other`).          │
-│ --help                                                   Show this message and exit.                                                              │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-
 ```
 
 ### Data requirements for `ngram_compare`
