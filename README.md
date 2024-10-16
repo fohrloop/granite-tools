@@ -11,8 +11,10 @@ python -m pip install git+https://github.com/fohrloop/granite-tools.git
 # Commands
 
 ## `ngram_show`
+Show the contents of ngram files.
 
-Show ngram files. Example:
+### Example Showing ngram files (barplot)
+
 
 ```
 ❯ ngram_show ./ngrams/kla-english -s 2 --plot -n 10
@@ -29,6 +31,24 @@ Show ngram files. Example:
   10: er ▇▇▇▇▇▇▇▇▇▇ 1.28
 ```
 
+### Example: Converting ngram files
+
+This example converts existing ngram files (1-grams.txt, 2-grams.txt, 3-grams.txt) into new ones (and does some conversions):
+```
+❯ ngram_show /ngrams/somecorpus/ -s 1 -n 0 -w -i --resolution=6 --type=plaintext --exclude-chars="€" > ngrams/newcorpus/1-grams.txt
+❯ ngram_show /ngrams/somecorpus/ -s 2 -n 0 -w -i --resolution=6 --type=plaintext --exclude-chars="€" > ngrams/newcorpus/2-grams.txt
+❯ ngram_show /ngrams/somecorpus/ -s 3 -n 0 -w -i --resolution=6 --type=plaintext --exclude-chars="€" > ngrams/newcorpus/3-grams.txt
+```
+- `--exclude-chars="€"`: Removes any ngrams with `€` in them.
+- `-i`, which is same as `ignore-case`: converts every upper case character to lowercase (merges ngrams like `aB`, `Ab` in to `ab`)
+- `-w,`, which is same as `ignore-whitespace`: removes any ngrams with whitespace
+- `--type=plaintext` converts into plaintext format (same as the input format, so just <freq> <chars> pairs on each row)
+- `-n 0` takes all ngrams from the file instead of just few first.
+- `--resolution=6` saves with resolution of 6 digits.
+
+The new files (1-grams.txt, 2-grams.txt, 3-grams.txt) are all normalized; the frequencies sum up to 100.0 (with floating point accuracy).
+
+### Full help
 Full help, see:
 
  ```
