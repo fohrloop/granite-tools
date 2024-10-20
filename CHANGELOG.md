@@ -1,5 +1,11 @@
 # Changelog
 
+## granite-tools 0.3.0
+🗓️ 2024-10-20
+
+- ✨ Add parameter `--include-chars` which can be used to exclude any ngrams with the given characters (for `ngram_show`)
+
+
 ## granite-tools 0.2.0
 🗓️ 2024-10-16
 

@@ -6,6 +6,7 @@ from enum import Enum
 from functools import partial
 from itertools import zip_longest
 from pathlib import Path
+from typing import Optional
 
 import typer
 
@@ -28,6 +29,7 @@ def get_printable_for_ngrams(
     out: ResultType,
     raw: bool = False,
     exclude_chars: str = "",
+    include_chars: Optional[str] = None,
 ):
 
     foldername = filename.parent.name
@@ -37,6 +39,7 @@ def get_printable_for_ngrams(
         ignore_whitespace=ignore_whitespace,
         raw=raw,
         exclude_chars=exclude_chars,
+        include_chars=include_chars,
     )
     if out == "plot":
         printable = ngrams.to_barplot(
@@ -176,7 +179,15 @@ ARG_EXCLUDE_WITH_CHARS = Annotated[
     str,
     typer.Option(
         "--exclude-chars",
-        help='Exclude ngrams which contain any of the given characters. Example: --exclude-chars "äö€"',
+        help='Exclude ngrams which contain any of the given characters. Example: --exclude-chars "äö€". May not be used together with --include-chars.',
+    ),
+]
+
+ARG_INCLUDE_WITH_CHARS = Annotated[
+    Optional[str],
+    typer.Option(
+        "--include-chars",
+        help='Include only ngrams which consist of the given characters. Example: --include-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ". May not be used together with --exclude-chars.',
     ),
 ]
 
@@ -192,8 +203,13 @@ def show_ngrams(
     out: ARG_OUT = "table",
     raw: ARG_RAW = False,
     exclude_chars: ARG_EXCLUDE_WITH_CHARS = "",
+    include_chars: ARG_INCLUDE_WITH_CHARS = None,
 ):
     """Show ngrams from a folder or a file."""
+
+    if exclude_chars and include_chars:
+        raise typer.BadParameter("Cannot use --exclude-chars with --include-chars!")
+
     files = _get_file_iterator(ngram_src, ngram_size)
 
     for file in files:
@@ -207,6 +223,7 @@ def show_ngrams(
             out=out,
             raw=raw,
             exclude_chars=exclude_chars,
+            include_chars=include_chars,
         )
         print(printable)
 
@@ -374,6 +391,7 @@ def _get_ngramlist(
     ignore_whitespace: bool,
     raw: bool = False,
     exclude_chars: str = "",
+    include_chars: Optional[str] = None,
 ) -> NgramList:
     file_contents = Path(filename).read_text()
 
@@ -384,6 +402,7 @@ def _get_ngramlist(
             ignore_whitespace=ignore_whitespace,
             normalize=not raw,
             exclude_chars=exclude_chars,
+            include_chars=include_chars,
         )
     for w in recorded_warnings:
         print("WARNING:", w.message)

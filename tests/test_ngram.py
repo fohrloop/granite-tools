@@ -195,6 +195,69 @@ class TestNgramList:
         ]
         assert list(ngrams.iter_tuples()) == expected
 
+    def test_include_chars(self):
+
+        ngramtext = """
+        30 ab
+        10 bc
+        10 cd
+        25 ef
+        25 ae
+        """
+
+        with pytest.warns(NormalizationWarning):
+            ngrams = NgramList(
+                ngramtext, include_chars="bcd", ignore_case=True, normalize=False
+            )
+
+        expected = [
+            ("bc", 10),
+            ("cd", 10),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
+    def test_include_chars_ignore_case(self):
+
+        ngramtext = """
+        30 ab
+        10 bc
+        10 cd
+        25 Cd
+        25 ae
+        """
+
+        with pytest.warns(NormalizationWarning):
+            ngrams = NgramList(
+                ngramtext, include_chars="bcd", ignore_case=True, normalize=False
+            )
+
+        expected = [
+            ("cd", 10 + 25),
+            ("bc", 10),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
+    def test_include_chars_ignore_case_false(self):
+
+        ngramtext = """
+        30 ab
+        10 bc
+        10 cd
+        25 Cd
+        25 ae
+        """
+
+        with pytest.warns(NormalizationWarning):
+            ngrams = NgramList(
+                ngramtext, include_chars="bcd", ignore_case=False, normalize=False
+            )
+
+        expected = [
+            ("bc", 10),
+            ("cd", 10),
+        ]
+        assert list(ngrams.iter_tuples()) == expected
+
     def test_not_ignore_whitespace(self):
         ngramtext = """
         30 a b

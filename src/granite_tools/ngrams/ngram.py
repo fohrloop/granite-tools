@@ -94,6 +94,7 @@ class NgramList:
         ignore_whitespace: bool = False,
         normalize: Optional[bool] = None,
         exclude_chars: str = "",
+        include_chars: Optional[str] = None,
     ):
         """Create a new NgramList from a string of ngrams
 
@@ -113,6 +114,11 @@ class NgramList:
             NormalizationWarning is issued. Default: True.
         exclude_chars: str
             Exclude ngrams that contain any of the characters in the string.
+            May not be used with include_chars. Default: "".
+        include_chars: str | None
+            If given, only include ngrams that consists of characters in
+            this string. If None, all ngrams are included. May not be used with
+            exclude_chars. Default: None.
 
         Example
         -------
@@ -120,6 +126,7 @@ class NgramList:
         >>> ngrams = NgramList(ngramtext)
 
         """
+
         if normalize is None:
             normalize = NORMALIZE_DEFAULT
 
@@ -129,6 +136,7 @@ class NgramList:
             ignore_whitespace=ignore_whitespace,
             ignore_case=ignore_case,
             exclude_chars=exclude_chars,
+            include_chars=include_chars,
         ):
 
             if chars in self._ngrams:
@@ -563,11 +571,20 @@ def iter_lines(
     ignore_whitespace: bool = False,
     ignore_case: bool = False,
     exclude_chars: str = "",
+    include_chars: Optional[str] = None,
 ):
+    if include_chars and exclude_chars:
+        raise ValueError("include_chars and exclude_chars cannot be used together.")
+
+    include_chars: str = include_chars or ""
+
     lines = text.split("\n")
 
     if ignore_case:
         exclude_chars = exclude_chars.lower()
+        include_chars = include_chars.lower()
+
+    include_chars_set = set(include_chars)
 
     for line_ in lines:
         line = line_.lstrip()
@@ -584,6 +601,8 @@ def iter_lines(
             if char in ngram:
                 skip_ngram = True
                 break
+        if include_chars and not all(char in include_chars_set for char in ngram):
+            skip_ngram = True
 
         if skip_ngram:
             continue
