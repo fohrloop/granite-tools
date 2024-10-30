@@ -12,5 +12,5 @@ Homepage = "https://github.com/fohrloop/granite-tools"
 "Issue Tracker" = "https://github.com/fohrloop/granite-tools/issues"
 
 [project.scripts]
-ngram_show = "granite_tools.cli:cli_show_ngrams"
-ngram_compare = "granite_tools.cli:cli_compare_ngrams"
+ngram_show = "granite_tools.ngrams.cli:cli_show_ngrams"
+ngram_compare = "granite_tools.ngrams.cli:cli_compare_ngrams"

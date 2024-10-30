@@ -1,5 +1,10 @@
 # Changelog
 
+## granite-tools 0.3.1
+🗓️ 2024-10-30
+
+- 🐞 Fix the `ngram_show` and `ngram_compare` commands. These were importing from a wrong module.
+
 ## granite-tools 0.3.0
 🗓️ 2024-10-20
 
