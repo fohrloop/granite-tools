@@ -9,7 +9,7 @@ Tools used in creation of the [Granite](https://github.com/fohrloop/granite-layo
 
 ## Install option A: uv
 
-You can also just use [uv](https://docs.astral.sh/uv/) and let it handle the virtual environments part for you. In this case
+You can use [uv](https://docs.astral.sh/uv/) and let it handle python (virtual) environments for you. In this case
 
 - install [uv](https://docs.astral.sh/uv/)
 - Clone this repo or just download the contents
