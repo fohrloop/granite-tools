@@ -305,23 +305,23 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "choix", specifier = ">=0.3.5" },
-    { name = "matplotlib", specifier = ">=3.9.2" },
-    { name = "plotext", specifier = ">=5.3.2" },
-    { name = "pydantic", specifier = ">=2.9.2" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "textual", specifier = ">=0.86.1" },
+    { name = "choix", specifier = "==0.3.5" },
+    { name = "matplotlib", specifier = "==3.9.2" },
+    { name = "plotext", specifier = "==5.3.2" },
+    { name = "pydantic", specifier = "==2.9.2" },
+    { name = "pyyaml", specifier = "==6.0.2" },
+    { name = "textual", specifier = "==0.86.1" },
     { name = "typer", specifier = "==0.12.5" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "ipython", specifier = ">=8.29.0" },
-    { name = "mypy", specifier = ">=1.13.0" },
-    { name = "pytest", specifier = ">=8.3.3" },
-    { name = "pytest-asyncio", specifier = ">=0.24.0" },
-    { name = "textual-dev", specifier = ">=1.6.1" },
-    { name = "types-pyyaml", specifier = ">=6.0.12.20240917" },
+    { name = "ipython", specifier = "==8.29.0" },
+    { name = "mypy", specifier = "==1.13.0" },
+    { name = "pytest", specifier = "==8.3.3" },
+    { name = "pytest-asyncio", specifier = "==0.24.0" },
+    { name = "textual-dev", specifier = "==1.6.1" },
+    { name = "types-pyyaml", specifier = "==6.0.12.20240917" },
 ]
 
 [[package]]
