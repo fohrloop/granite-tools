@@ -28,7 +28,7 @@ python -m pip install git+https://github.com/fohrloop/granite-tools.git
 
 # Examples / Screenshots
 
-
+## Scoring
 ### Screenshots from granite-scorer-baseline
 
 ![Creating the initial order with granite-scorer-baseline](docs/img/granite-scorer-baseline1.png)
@@ -41,6 +41,31 @@ python -m pip install git+https://github.com/fohrloop/granite-tools.git
 ### Screenshots from granite-scorer-compare
 ![](docs/img/granite-scorer-compare.png)
 
+## Ngram frequency analysis
+
+The following assumes that the ngram files follow the same format as the [Keyboard Layout Optimizer](https://github.com/dariogoetz/keyboard_layout_optimizer); `<frequency> <chars>` on each line. For example:
+
+```
+7.851906052482727  
+7.534280931977296 e
+5.621867629166546 t
+4.477877757676168 r
+4.430916637427879 a
+```
+
+and that each set of ngrams are called `1-grams.txt`, `2-grams.txt` and `3-grams.txt` within a single folder, like this:
+
+```
+📁 ngrams/
+├─📁 leipzig/
+| ├─📄 1-grams.txt
+| ├─📄 2-grams.txt
+| └─📄 3-grams.txt
+└─📁 tldr17/
+  ├─📄 1-grams.txt
+  ├─📄 2-grams.txt
+  └─📄 3-grams.txt
+```
 
 ### Example: Showing ngram files with `ngram_show`
 
