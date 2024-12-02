@@ -1,0 +1,28 @@
+# This is a config file just for testing purposes
+key_indices:
+  - [       0,              0       ]
+  - [       1,  2,      2,  1       ]
+
+hands:
+  - [      Left,                       Right ]
+  - [      Left, Left,          Right, Right ]
+
+symbols:
+  - [       1,            A       ]
+  - [       2,  3,    C,  B       ]
+
+finger_matrix:
+  - [       m,            m       ]
+  - [       m,  i,    i,  m       ]
+
+key_category_matrix:
+  - [       M,            M       ]
+  - [       m,  i,    i,  m       ]
+
+color_matrix:
+  - [       t,            t       ]
+  - [       h,  h,    h,  h       ]
+
+color_mapping:
+  t: orange3
+  h: chartreuse3

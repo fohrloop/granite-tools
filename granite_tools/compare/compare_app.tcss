@@ -1,0 +1,118 @@
+
+* {
+  scrollbar-color: white 10%;
+}
+
+#keyseq_instructions {
+  margin-top:1;
+  margin-bottom:1;
+  margin-left: 2;
+  margin-right: 2;
+}
+
+.hidden {
+  display: None;
+}
+
+.ngram-card {
+    width: 16;
+    color: auto;
+    content-align: center middle;
+}
+
+.centered-full-width-container {
+  width: 100%;
+  align: center middle;
+}
+
+NgramSortColumn {
+  width:60;
+}
+
+#instructions-text-container {
+  height: 7;
+}
+
+#position-bar-container {
+  height:1;
+  margin: 1 0 0 0;
+}
+
+#additional-text-container {
+  width: 100%;
+  content-align: center top;
+  align: center top;
+}
+
+#additional_text {
+  text-align: center;
+  width: 80;
+  height:5;
+}
+
+NgramCard {
+  width: 20;
+  align: center middle;
+}
+NgramSelectionColumn {
+    align: center middle;
+    width: auto;
+}
+
+#ngram-cards-container {
+  height: 6;
+  align: center middle;
+}
+
+
+#progress-container {
+  align: center middle;
+  height: 2;
+  margin-top: 1;
+  margin-bottom: 1;
+  margin-left: 2;
+  margin-right: 2;
+}
+
+#log-container {
+  margin: 1 0 0 0;
+}
+
+NgramSortColumn {
+  height: 6;
+}
+
+
+
+
+.box {
+    height: 5;
+    margin: 1;
+    padding: 1;
+    color: white 90%;
+    border: #777777;
+    background: #1e1e1e;
+}
+
+.bar--bar {
+  color:rgb(177, 177, 177);
+}
+
+
+ExitModal {
+  align: center middle;
+}
+
+ExitModal > Vertical {
+  width: auto;
+  height: auto;
+  padding: 1 2;
+}
+
+ExitModal > Vertical > Horizontal {
+  width: auto;
+  height: auto;
+  padding: 1 0 0 0;
+}
+
+
