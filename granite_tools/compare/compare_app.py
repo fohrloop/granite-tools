@@ -1,4 +1,4 @@
-"""The Key Sequence Comparer App.
+"""The Key Sequence Comparer App; granite-scorer-compare
 
 Development
 ------------
@@ -10,6 +10,7 @@ Run in another terminal: (this runs the app)
 
 from __future__ import annotations
 
+import sys
 import datetime as dt
 import typing
 from dataclasses import dataclass
@@ -346,8 +347,10 @@ def get_files(file: Path | str) -> tuple[Path | None, Path]:
     return initial_order_file, pickle_file
 
 
-if __name__ == "__main__":
-    import sys
-
+def main():
     app = KeySequenceCompareApp(sys.argv[1], config=read_config(sys.argv[2]))
     app.run()
+
+
+if __name__ == "__main__":
+    main()

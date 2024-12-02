@@ -1,4 +1,4 @@
-"""The Key Sequence Sorter App.
+"""The Key Sequence Sorter App; granite-scorer-baseline
 
 Development
 ------------
@@ -9,10 +9,9 @@ Run in another terminal: (this runs the app)
 """
 
 from __future__ import annotations
-
+import sys
 import datetime as dt
 import typing
-from collections import Counter
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
@@ -356,8 +355,10 @@ class KeySequenceSortApp(App):
         return self.manager.ordered_ngrams
 
 
-if __name__ == "__main__":
-    import sys
-
+def main():
     app = KeySequenceSortApp(sys.argv[1], config=read_config(sys.argv[2]))
     app.run()
+
+
+if __name__ == "__main__":
+    main()
