@@ -1,0 +1,58 @@
+# Arbitrary indices for each key. Used to
+# * Give each key on each side an index number
+# * Pair left side keys to right side keys
+# * Define the order in which the key sequences to be sorted are presented to the user
+key_indices:
+  - [       13,  10,  7,  4,  1,     1,  4,  7,  10,  13,      ]
+  - [   16, 14,  11,  8,  5,  2,     2,  5,  8,  11,  14,  16  ]
+  - [       15,  12,  9,  6,  3,     3,  6,  9,  12,  15,      ]
+
+# The symbols to use for each key. (so that you don't have to memorize the matrix positions)
+symbols:
+  - [       Q,  W,  E,  R,  T,     Y,  U,  I,  O,  P       ]
+  - [   1,  A,  S,  D,  F,  G,     H,  J,  K,  L,  ;,  2   ]
+  - [       Z,  X,  C,  V,  B,     N,  M,",",  .,  /       ]
+
+# Hand used to press each key
+hands:
+  - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
+  - [Left, Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right, Right]
+  - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
+
+# For calculating if something is SFB
+finger_matrix:
+  - [       p,  r,  m,  i,  i,      i,  i,  m,  r,  p       ]
+  - [   p,  p,  r,  m,  i,  i,      i,  i,  m,  r,  p,  p   ]
+  - [       p,  r,  m,  i,  i,      i,  i,  m,  r,  p       ]
+
+# Visualization. Any (single) symbols you want.
+key_category_matrix:
+  - [       P,  r,  m,  i,  I,      I,  i,  m,  r,  P       ]
+  - [   p,  p,  r,  m,  i,  I,      I,  i,  m,  r,  p,  p   ]
+  - [       p,  r,  m,  i,  I,      I,  i,  m,  r,  p       ]
+
+# Colors:
+# See the`color_mapping` for the meanings of the symbols.
+color_matrix:
+  - [       Q,  t,  t,  t,  C,      C,  t,  t,  t,  Q       ]
+  - [   p,  h,  h,  h,  h,  c,      c,  h,  h,  h,  h,  p   ]
+  - [       b,  b,  b,  b,  C,      C,  b,  b,  b,  b       ]
+
+# Mapping between color index in `color_matrix` and the actual color
+# Any colors supported by rich. See: https://rich.readthedocs.io/en/stable/appendix/colors.html
+color_mapping:
+  h: chartreuse1
+  c: chartreuse2
+  C: salmon1
+  b: yellow1
+  t: royal_blue1
+  p: salmon1
+  Q: deep_pink1
+
+## Used for calculating row dirrerences and redirects
+# * format: [column, row]
+# * Columns should grow from left to right, rows from top to bottom.
+matrix_positions:
+  - [       [1,0], [2,0], [3,0], [4,0], [5,0],                  [10,0], [11,0], [12,0], [13,0], [14,0]        ]
+  - [[0,1], [1,1], [2,1], [3,1], [4,1], [5,1],                  [10,1], [11,1], [12,1], [13,1], [14,1], [15,1]]
+  - [       [1,2], [2,2], [3,2], [4,2], [5,2],                  [10,2], [11,2], [12,2], [13,2], [14,2]        ]

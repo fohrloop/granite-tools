@@ -1,0 +1,94 @@
+
+* {
+  scrollbar-color: white 10%;
+}
+
+
+.datatable--header {
+  background: #121212;
+  color: #dadada;
+}
+
+.datatable--header-cursor {
+  background: #dadada;
+  color: #121212;
+}
+
+.datatable--header-hover {
+  background: #444444;
+  color: #121212;
+}
+
+
+.datatable--cursor {
+  background: yellow;
+}
+
+.keyseq_moving-cursor-only .datatable--cursor {
+    background: $primary-darken-3;
+}
+
+.datatable--hover {
+  background: $error-darken-3;
+}
+
+#keyseq_instructions {
+  margin-top:1;
+  margin-bottom:1;
+  margin-left: 2;
+  margin-right: 5;
+}
+
+
+Log {
+  dock: bottom;
+  height: 7;
+  overflow_x: hidden;
+  background: $background-lighten-1;
+}
+
+#progress-container {
+  align: center middle;
+  height: 2;
+  margin-top: 1;
+  margin-bottom: 1;
+  margin-left: 2;
+  margin-right: 2;
+}
+
+
+.bar--bar {
+  color:rgb(177, 177, 177);
+}
+
+ExitModal {
+  align: center middle;
+}
+
+ExitModal > Vertical {
+  width: auto;
+  height: auto;
+  padding: 1 2;
+}
+
+ExitModal > Vertical > Horizontal {
+  width: auto;
+  height: auto;
+  padding: 1 0 0 0;
+}
+
+
+GotoModal {
+  align: center middle;
+}
+
+GotoModal > Vertical {
+  width: 40;
+  height: auto;
+  padding: 1 2 1 2;
+}
+
+GotoModal > Vertical > Static{
+  padding: 0 0 1 0;
+}
+

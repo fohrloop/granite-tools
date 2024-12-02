@@ -1,5 +1,10 @@
 # Changelog
 
+## granite-tools 1.0.0
+🗓️ TBD
+
+- ✨ Add ngram / key sequence scoring tools
+
 ## granite-tools 0.3.1
 🗓️ 2024-10-30
 
