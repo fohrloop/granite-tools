@@ -7,6 +7,22 @@ Tools used in creation of the [Granite](https://github.com/fohrloop/granite-layo
 
 # Installing
 
+## Install option A: uv
+
+You can also just use [uv](https://docs.astral.sh/uv/) and let it handle the virtual environments part for you. In this case
+
+- install [uv](https://docs.astral.sh/uv/)
+- Clone this repo or just download the contents
+- Use `uv run <command>` instead of `<command>` (must be executed in this directory). It's also possible to activate the virtual environment in the created `.venv` directory (after first run), if you want that.
+- This might be the right option for you if you are not familiar with python and virtual environments and.  It's a bit more hassle free.
+
+
+## Install option B: python virtual environments
+
+- Use **python 3.12** in a fresh virtual environment (this is important as package versions are pinned so you may mess up your system if you don't)
+
 ```
 python -m pip install git+https://github.com/fohrloop/granite-tools.git
 ```
+
+
