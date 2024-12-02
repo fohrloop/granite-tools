@@ -22,7 +22,9 @@ Homepage = "https://github.com/fohrloop/granite-tools"
 [project.scripts]
 ngram_show = "granite_tools.ngrams.cli:cli_show_ngrams"
 ngram_compare = "granite_tools.ngrams.cli:cli_compare_ngrams"
-
+granite-scorer-baseline = "granite_tools.sort_app.sort_app:main"
+granite-scorer-view = "granite_tools.viewer.viewer_app:main"
+granite-scorer-compare = "granite_tools.compare.compare_app:main"
 
 [tool.uv]
 dev-dependencies = [

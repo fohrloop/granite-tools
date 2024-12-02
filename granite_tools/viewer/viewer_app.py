@@ -1,4 +1,4 @@
-"""The Key Sequence Sorter App.
+"""The Key Sequence Sorter App; granite-scorer-view
 
 Development
 ------------
@@ -10,6 +10,7 @@ Run in another terminal: (this runs the app)
 
 from __future__ import annotations
 
+import sys
 import datetime as dt
 import typing
 from functools import cached_property
@@ -248,8 +249,10 @@ class NgramTableViewerApp(App):
         self.write_log(message.text)
 
 
-if __name__ == "__main__":
-    import sys
-
+def main():
     app = NgramTableViewerApp(sys.argv[1], config=read_config(sys.argv[2]))
     app.run()
+
+
+if __name__ == "__main__":
+    main()
