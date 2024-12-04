@@ -10,9 +10,12 @@ with open('somefile.compare.pickle', 'rb') as f:
 
 ### initial_order
 
-- Has the initial order of key sequences
-- The numbers correspond to the `key_indices` in the configuration YAML.
+- Has the initial order of key sequences.
+- The numbers in a key sequence correspond to the `key_indices` in the configuration YAML.
 - The order is from least to most effort.
+- The type of initial_order is `list[KeySeq]` where `KeySeq` is a tuple of one or two integers.
+
+The main purpose of `initial_order` is to form the `comparisons_all` during the first initialization.
 
 ### processed_key_sequences & pairs_per_sequence
 

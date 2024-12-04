@@ -4,17 +4,41 @@ import pickle
 import random
 import typing
 from collections import Counter
+from typing import TypedDict
 
 import numpy as np
 from scipy.stats import norm  # type: ignore
 
+from granite_tools.app_types import KeySeq
 from granite_tools.compare.comparisons import keyseqs_to_comparisons
 from granite_tools.compare.fitting import get_scores
 
 if typing.TYPE_CHECKING:
-    KeySeq = tuple[int, ...]
-
     from granite_tools.compare.compare_app import KeySequenceCompareApp
+
+
+class CompareDataDict(TypedDict):
+
+    comparisons_all: list[tuple[KeySeq, KeySeq]]
+    initial_order: list[KeySeq]
+    current_order: list[KeySeq]
+    processed_key_sequences: list[KeySeq]
+    current_scores: dict[KeySeq, float]
+    p95_fraction: float
+    pairs_per_sequence: int
+
+
+def load_compare_pickle(file_path: str) -> CompareDataDict:
+    """Loads data from .compare.pickle file"""
+    with open(file_path, "rb") as f:
+        data = pickle.load(f)
+    return typing.cast(CompareDataDict, data)
+
+
+def save_compare_pickle(file_path: str, d: CompareDataDict) -> None:
+    """Loads data into a .compare.pickle file"""
+    with open(file_path, "wb") as f:
+        pickle.dump(d, f)
 
 
 def get_distribution_sigma(n: int, p95_fraction=1 / 5) -> float:
@@ -77,10 +101,20 @@ class NoCurrentComparisonPair(RuntimeError): ...
 
 
 class ComparisonBasedScorer:
+    comparisons_all: list[tuple[KeySeq, KeySeq]]
+    """The most important piece of information. The first N-1 pairs are the pairs created
+    based on the initial_order (lenght N). The rest of the pairs are added in batches
+    in the end of each round during fitting. Each item in the list is a tuple of two
+    key sequences. The left side of the tuple is the one with higher score (more effort).
+
+    This is used at the end of each round to calculate scores for the key sequences,
+    which is then used to create the key sequence order / ranking.
+    """
 
     comparisons_new: list[tuple[KeySeq, KeySeq]]
-    """The comparisons that are being made with the current key sequence (the
-    left side of the comparison). These have not yet been fitted."""
+    """The comparisons that are being made with the current key sequence. These have not
+    yet been fitted. These will be added to `comparisons_all` when the round is
+    finished."""
 
     pair_index: int
     """The index of the current comparison pair (in `current_comparison_pairs`)."""
@@ -109,6 +143,15 @@ class ComparisonBasedScorer:
         current_order : list[KeySeq], optional
             The current order. If not given, the initial order is used. This should be
             used when loading a saved state from a file.
+        p95_fraction: float, optional
+            Controls how close or far away from the "current key sequence" the random
+            pairs for comparison are selected. The 1/4 means that 95% of the pairs will
+            be chosen within an range corresponding 1/4 of all the key sequences (1/8
+            to each direction)
+        pairs_per_sequence : int, optional
+            The number of pairs to compare with each key sequence.
+        processed_key_sequences : list[KeySeq], optional
+            The key sequences that have already been processed.
         """
         self.current_order = (
             current_order.copy() if current_order is not None else initial_order.copy()
@@ -121,7 +164,7 @@ class ComparisonBasedScorer:
             else []
         )
         self.current_key_sequence: KeySeq | None = None
-        self.current_scores: dict[KeySeq, int] = dict()
+        self.current_scores: dict[KeySeq, float] = dict()
         self.pairs_per_sequence = pairs_per_sequence
         self.p95_fraction = p95_fraction
         self.app = app
@@ -211,7 +254,6 @@ class ComparisonBasedScorer:
         self.refresh()
 
     def fit(self, allow_unfinished: bool = False):
-
         if not allow_unfinished and not self.is_current_round_finished():
             raise RoundNotFinishedError("The current round is not yet finished.")
         self.comparisons_all += self.comparisons_new
@@ -248,7 +290,7 @@ class ComparisonBasedScorer:
     def is_finished(self) -> bool:
         return len(self.processed_key_sequences) >= len(self.initial_order)
 
-    def to_dict(self) -> dict[str, object]:
+    def to_dict(self) -> CompareDataDict:
         return {
             "processed_key_sequences": self.processed_key_sequences.copy(),
             "comparisons_all": self.comparisons_all.copy(),
@@ -264,17 +306,15 @@ class ComparisonBasedScorer:
         d = self.to_dict()
         if not self._verify_data(d):
             return False
-        with open(file_path, "wb") as f:
-            pickle.dump(d, f)
+        save_compare_pickle(file_path, d)
         return True
 
     @classmethod
     def load_from_file(
         cls, file_path: str, app: KeySequenceCompareApp | None = None
     ) -> ComparisonBasedScorer:
-        with open(file_path, "rb") as f:
-            data = pickle.load(f)
 
+        data = load_compare_pickle(file_path)
         instance = cls(
             data["initial_order"],
             current_order=data["current_order"],
@@ -322,7 +362,7 @@ class ComparisonBasedScorer:
 class DataValidityError(RuntimeError): ...
 
 
-def verify_data(data: dict):
+def verify_data(data: CompareDataDict):
     initial_pairs = len(data["initial_order"]) - 1
     p = data["pairs_per_sequence"]
     n_sequences = len(data["processed_key_sequences"])
@@ -347,7 +387,7 @@ def verify_data(data: dict):
             pair = data["comparisons_all"][idx]
             if seq not in pair:
                 raise DataValidityError(
-                    f"Key sequence {seq} is not in the comparison pair {pair} at index {idx} or comparisons_all!"
+                    f"Key sequence {seq} is not in the comparison pair {pair} at index {idx} of comparisons_all!"
                 )
             other = pair[0] if pair[1] == seq else pair[1]
             if other in pairs_for_this_keyseq:
@@ -363,14 +403,43 @@ def verify_data(data: dict):
             f"Duplicate key sequence {most_common[0]} in processed_key_sequences!"
         )
 
+    set_initial = set(data["initial_order"])
+    set_current = set(data["current_order"])
+    set_processed = set(data["processed_key_sequences"])
     if len(data["processed_key_sequences"]) == len(data["initial_order"]):
-        set_initial = set(data["initial_order"])
-        set_processed = set(data["processed_key_sequences"])
         if set_initial != set_processed:
             missing = set_initial - set_processed
             extra = set_processed - set_initial
             raise DataValidityError(
                 f"Key sequences in processed_key_sequences do not match the ones in initial_order!: {missing=} {extra=}"
+            )
+
+    if set_initial != set_current:
+        raise DataValidityError(
+            "The initial_order does not contain the same key sequences as the current_order!"
+        )
+
+    # All processed key sequences must be in the initial order and current order
+    for pair in data["comparisons_all"]:
+        for keyseq in pair:
+            if keyseq not in set_initial:
+                raise DataValidityError(
+                    f"comparisons_all contains pair {pair} which has key sequence {keyseq} that is not part of initial_order"
+                )
+            if keyseq not in set_current:
+                raise DataValidityError(
+                    f"comparisons_all contains pair {pair} which has key sequence {keyseq} that is not part of current_order"
+                )
+
+    # All processed pairs must be in the initial order and in the current order
+    for keyseq in data["processed_key_sequences"]:
+        if keyseq not in set_initial:
+            raise DataValidityError(
+                f"processed_key_sequences contains key sequence {keyseq} that is not part of initial_order"
+            )
+        if keyseq not in set_current:
+            raise DataValidityError(
+                f"processed_key_sequences contains key sequence {keyseq} that is not part of current_order"
             )
 
 

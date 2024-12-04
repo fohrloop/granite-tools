@@ -6,7 +6,6 @@ import pytest
 from granite_tools.compare.compare_app import KeySequenceCompareApp
 from granite_tools.compare.scorer import verify_data
 from granite_tools.config import Config
-from granite_tools.effort import create_permutations, get_hands_data
 
 this_folder = Path(__file__).parent
 
@@ -14,18 +13,12 @@ KeySeq = tuple[int, ...]
 
 
 @pytest.fixture
-def permutations(config_full: Config):
-    hands = get_hands_data(config_full)
-    return create_permutations(hands.left, hands.right, sequence_lengths=(1, 2))
-
-
-@pytest.fixture
-def testfile(permutations: list[KeySeq]):
+def testfile(permutations_full: list[KeySeq]):
     filename = "__tmp_file_compare_app_tests__"
     file = this_folder / filename
     pickle_file = file.with_suffix(".compare.pickle")
     with open(file, "w") as f:
-        for ks in permutations:
+        for ks in permutations_full:
             f.write(f"{','.join(map(str,ks))}\n")
     if pickle_file.exists():
         pickle_file.unlink()

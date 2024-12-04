@@ -23,7 +23,7 @@ if typing.TYPE_CHECKING:
     from textual.binding import BindingType
     from textual.widgets.data_table import ColumnKey
 
-    from granite_tools.effort import Hands
+    from granite_tools.hands import Hands
 
 TABLE_COLUMNS = (
     "indices",
@@ -224,6 +224,7 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
         bindings.pop("left")
         bindings.pop("home")
         bindings.pop("end")
+        bindings.pop("enter")
         bindings.pop("ctrl+home")
         bindings.pop("ctrl+end")
         bindings.pop("ctrl+pageup")
@@ -496,8 +497,8 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
                 )
             self.add_row_with_autolabel(
                 key_seq,
-                hands.left.get_symbols(key_seq),
-                hands.right.get_symbols(key_seq),
+                hands.left.get_symbols_visualization(key_seq),
+                hands.right.get_symbols_visualization(key_seq),
                 loc="end",
                 select_added_row=False,
                 change_to_moving_selection=False,

@@ -66,7 +66,7 @@ class TestKeySeqApp:
             await pilot.press("enter")
             await pilot.press("ctrl+s")
             assert app.ordered_ngrams == [(0,), (0, 1), (0, 0), (1,), (2,)]
-            assert app.manager.current_ngram == (0, 2)
+            assert app.manager._current_ngram == (0, 2)
             assert app.manager.ngrams_left_side_of_current == [(0,), (0, 1)]
             assert app.manager.ngrams_right_side_of_current == [(0, 0), (1,), (2,)]
 
@@ -83,7 +83,7 @@ class TestKeySeqApp:
         async with app.run_test() as pilot:
 
             assert app.ordered_ngrams == [(0,), (0, 1), (0, 0), (1,), (2,)]
-            assert app.manager.current_ngram == (0, 2)
+            assert app.manager._current_ngram == (0, 2)
             assert app.manager.ngrams_left_side_of_current == [(0,), (0, 1)]
             assert app.manager.ngrams_right_side_of_current == [(0, 0), (1,), (2,)]
 

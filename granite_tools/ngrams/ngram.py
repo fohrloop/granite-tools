@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import io
+import sys
 import typing
 import warnings
 from contextlib import redirect_stdout
 from dataclasses import dataclass
 from typing import Literal
 
-import plotext
+import plotext  # type:ignore
 
 if typing.TYPE_CHECKING:
     from typing import Dict, Iterable, Optional, Sequence, Set, Tuple
@@ -17,7 +18,7 @@ CHAR_PRINT_MAPPING = {" ": "␣", "\\n": "⏎", "\t": "⇥", "\\\\": "\\"}
 WHITESPACE_CHARS = (" ", "\\n", "\t")
 """Whitespace characters (as in the original ngram files)"""
 
-FreqType = Literal["absolute", "cumulative" "both"]
+FreqType = Literal["absolute", "cumulative", "both"]
 NgramListType = Literal["ref", "other"]
 OutType = Literal["table", "plaintext"]
 
@@ -164,7 +165,7 @@ class NgramList:
     ) -> Iterable[PositionedNgram]:
         total: float = 0
         if not ngrams_count:
-            ngrams_count = float("inf")
+            ngrams_count = sys.maxsize
 
         for rank, (chars, freq) in enumerate(self.iter_tuples(), start=1):
             if subset and chars not in subset:
@@ -335,7 +336,7 @@ class NgramDiffList:
 
     def iter_ngrams(
         self, which: NgramListType = "ref"
-    ) -> Iterable[Tuple[str, float | None, float | None]]:
+    ) -> Iterable[PositionedNgramDiff]:
         if which not in ("ref", "other"):
             raise ValueError("which must be either 'ref' or 'other'")
         diffs = self.ref if which == "ref" else self.other
@@ -360,7 +361,7 @@ class NgramDiffList:
         freqs = []
         ylabels = []
         cumfreqs = []
-        cumfreq = 0
+        cumfreq: float = 0
         base_width = 50
 
         diffs = list(self.iter_ngrams(which))
@@ -486,7 +487,7 @@ def get_required_rank_width(diffs: list[PositionedNgramDiff]) -> int:
 
 def to_table(rows: Iterable[str], title: str):
     rows = list(rows)
-    max_width = max(len(l) for l in rows)
+    max_width = max(len(row) for row in rows)
     rows.insert(0, f"{title.center(max_width)}")
     rows.insert(1, "-" * (max_width))
     return "\n".join(rows)
@@ -576,7 +577,7 @@ def iter_lines(
     if include_chars and exclude_chars:
         raise ValueError("include_chars and exclude_chars cannot be used together.")
 
-    include_chars: str = include_chars or ""
+    include_chars = include_chars or ""
 
     lines = text.split("\n")
 

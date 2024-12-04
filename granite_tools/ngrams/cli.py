@@ -20,7 +20,7 @@ from granite_tools.ngrams.ngram import NgramList
 
 
 def get_printable_for_ngrams(
-    filename: str | Path,
+    filename: Path,
     ngrams_count: int,
     ignore_case: bool,
     ignore_whitespace: bool,
@@ -200,7 +200,7 @@ def show_ngrams(
     ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
     resolution: ARG_RESOLUTION = 2,
     freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
-    out: ARG_OUT = "table",
+    out: ARG_OUT = ResultType.table,
     raw: ARG_RAW = False,
     exclude_chars: ARG_EXCLUDE_WITH_CHARS = "",
     include_chars: ARG_INCLUDE_WITH_CHARS = None,
@@ -279,7 +279,7 @@ def compare_ngrams(
     ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
     resolution: ARG_RESOLUTION = 2,
     freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
-    out: ARG_OUT = "table",
+    out: ARG_OUT = ResultType.table,
     raw: ARG_RAW = False,
     diff: ARG_DIFF = False,
     swap: ARG_SWAP = False,
@@ -332,13 +332,13 @@ def compare_diff_ngrams(
     ignore_whitespace: ARG_IGNORE_WHITESPACE = False,
     resolution: ARG_RESOLUTION = 2,
     freq_type: ARG_FREQ_TYPE = FrequencyType.absolute,
-    out: ARG_OUT = "table",
+    out: ARG_OUT = ResultType.table,
     raw: ARG_RAW = False,
 ):
 
     if freq_type != "absolute":
         raise typer.BadParameter(
-            f'Using other "--freq-type" than "absolute" with "--diff" is not supported. '
+            'Using other "--freq-type" than "absolute" with "--diff" is not supported. '
         )
     if out == "plaintext":
         raise typer.BadParameter(
@@ -450,7 +450,8 @@ def remove_ansi_escape_sequences(string: str) -> str:
 
 def _get_file_iterator(ngram_src: Path, ngram_size: NgramSize):
     if not ngram_src.exists():
-        raise typer.Exit(f"{ngram_src} does not exist!")
+        print(f"{ngram_src} does not exist!")
+        raise typer.Exit(1)
 
     if ngram_src.is_file():
         if ngram_size != NgramSize.all:

@@ -10,8 +10,8 @@ Run in another terminal: (this runs the app)
 
 from __future__ import annotations
 
-import sys
 import datetime as dt
+import sys
 import typing
 from dataclasses import dataclass
 from functools import cached_property
@@ -28,14 +28,14 @@ from textual.widgets import Footer, Label, Log
 
 from granite_tools.compare.scorer import ComparisonBasedScorer
 from granite_tools.config import Config, read_config
-from granite_tools.effort import get_hands_data
 from granite_tools.exit_modal import ExitModal
+from granite_tools.hands import get_hands_data
 from granite_tools.order import load_key_seqs_from_file
 from granite_tools.progress import Progress
 
 if typing.TYPE_CHECKING:
 
-    from granite_tools.effort import Hands
+    from granite_tools.hands import Hands
 
     KeySeq = tuple[int, ...]
 
@@ -326,8 +326,8 @@ class KeySequenceCompareApp(App):
         self.main_area.set_progress(progress)
 
     def handle_fit_start(self, key_sequence: KeySeq, processed: int, total: int):
-        left = self.hands.left.get_symbols(key_sequence)
-        right = self.hands.right.get_symbols(key_sequence)
+        left = self.hands.left.get_symbols_visualization(key_sequence)
+        right = self.hands.right.get_symbols_visualization(key_sequence)
         self.write_log(
             f"Fitting {left} {right} {key_sequence} -- {processed+1}/{total}"
         )
@@ -348,7 +348,12 @@ def get_files(file: Path | str) -> tuple[Path | None, Path]:
 
 
 def main():
-    app = KeySequenceCompareApp(sys.argv[1], config=read_config(sys.argv[2]))
+    try:
+        app = KeySequenceCompareApp(sys.argv[1], config=read_config(sys.argv[2]))
+    except IndexError:
+        docs = """Usage:\ngranite-scorer-compare <ngram-ranking-file|saved-pickle-file> <config-file-yml>"""
+        print(docs)
+        sys.exit(1)
     app.run()
 
 

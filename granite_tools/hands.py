@@ -1,123 +1,25 @@
 from __future__ import annotations
 
-import itertools
 import typing
-from enum import Enum, auto
 from itertools import zip_longest
-from typing import ClassVar, Literal, TypedDict, cast
+from typing import ClassVar, Literal, Sequence, TypedDict, cast
 
 from pydantic import BaseModel, Field, field_validator
 from rich.text import Text
 
-if typing.TYPE_CHECKING:
-    from granite_tools.config import Config
-
-HandType = Literal["Left", "Right"]
-
-
-class OrderedStrEnum(Enum):
-    def __lt__(self, other):
-        if isinstance(other, OrderedStrEnum):
-            return self.value < other.value
-        return NotImplemented
-
-    def __le__(self, other):
-        if isinstance(other, OrderedStrEnum):
-            return self.value <= other.value
-        return NotImplemented
-
-    def __gt__(self, other):
-        if isinstance(other, OrderedStrEnum):
-            return self.value > other.value
-        return NotImplemented
-
-    def __ge__(self, other):
-        if isinstance(other, OrderedStrEnum):
-            return self.value >= other.value
-        return NotImplemented
-
-
-class RepeatType(OrderedStrEnum):
-    # From least to most effort
-    REP = auto()  # Repeated key
-    SFS = auto()  # Single Finger Skipgram
-    SFB = auto()  # Single Finger Bigram
-    RSFT = auto()  # Single Finger Trigram with a repeat
-    SFT = auto()  # Single Finger Trigram
-
-
-class RowDiffType(OrderedStrEnum):
-    # From least to most effort
-    # 1u: 1 unit differece in rows
-    # 2u: 2 unit differece in rows
-    RowDiff2u = auto()
-    # These others consists of "scissor" type of movement
-    # and other non-ergonomic movements caused by row difference.
-    MiddleBelowIndex2u = auto()  # two positions
-    MiddleBelowPinky1u = auto()
-    IndexBelowPinky2u = auto()
-    MiddleBelowRing2u = auto()
-    PinkyBelowRing2u = auto()
-    MiddleBelowPinky2u = auto()
-    RingBelowPinky1u = auto()
-    RingBelowPinky2u = auto()
-
-
-class DirectionType(OrderedStrEnum):
-    """Directions track the some unfomfortable horizontal movements. From bigrams, they
-    catch few outward and inwards rolls (involving pinky but no index). From trigrams,
-    they additionally catch different types of redirects.
-
-    Here are all trigrams with three different fingers used:
-
-        p  r  m  i
-       ------------
-    1:  1  2  3        in (pr)
-    2:  1  2     3     in (pr)
-    3:  1  3  2        redir4
-    4:  1  3     2     redir2
-    5:  1     2  3     in (pm)
-    6:  1     3  2     redir2
-    7:  2  1  3        redir4
-    8:  2  1     3     redir3
-    9:  2  3  1        redir4
-    10: 2  3     1     redir3
-    11: 2     1  3     redir3
-    12: 2     3  1     redir3
-    13: 3  1  2        redir4
-    14: 3  1     2     redir2
-    15: 3  2  1        out (rp)
-    16: 3  2     1     out (rp)
-    17: 3     1  2     redir2
-    18: 3     2  1     out (mp)
-    19:    1  2  3
-    20:    1  3  2     redir1
-    21:    2  1  3     redir1
-    22:    2  3  1     redir1
-    23:    3  1  2     redir1
-    24     3  2  1
-
-    Redirect levels (easiest to hardest)
-    1: No pinky invoved (easiest). Score (a.u.): 0.4
-    2: Index in the middle. Score (a.u): 3.1
-    3: Index not in the middle. Score: (a.u): 10
-    4: Index not included. Score: (a.u) 25
-
-    In/Out (easiest to most difficult)
-    * in (pm): Pinky->Middle. Score (a.u):  0.8
-    * in (pr): Pinky->Ring. Score (a.u):  1.5
-    * out (mp): Middle -> Pinky. Score (a.u.): 2.5
-    * out (rp): Ring -> Pinky. Score (a.u.): 7
-    """
-
-    Redirect1 = 0.4
-    InwardsPinkyMiddle = 0.8
-    InwardsPinkyRing = 1.5
-    OutwardsMiddlePinky = 2.5
-    Redirect2 = 3.1
-    OutwardsRingPinky = 7
-    Redirect3 = 10
-    Redirect4 = 25
+from granite_tools.app_types import (
+    DirectionType,
+    FingerType,
+    HandOrKey,
+    Index,
+    Middle,
+    Pinky,
+    RepeatType,
+    Ring,
+    RowDiffType,
+    TrigramMainType,
+)
+from granite_tools.config import Config
 
 
 def get_rowdiff_for_bigram(
@@ -131,7 +33,7 @@ def get_rowdiff_for_bigram(
     higher_finger, _ = min(*finger_rows, key=lambda x: x[1])
     diff = abs(row1 - row2)
 
-    if diff == 0:
+    if diff == 0 or FingerType.T in (lower_finger, higher_finger):
         return None
 
     if lower_finger == FingerType.M and higher_finger == FingerType.I:
@@ -225,36 +127,10 @@ def get_direction_for_trigram(
     return max(bigram1, bigram2)
 
 
-class FingerType(OrderedStrEnum):
-    # From least to most effort
-    T = auto()  # thumb
-    I = auto()  # index
-    M = auto()  # middle
-    R = auto()  # ring
-    P = auto()  # pinky
-
-    @classmethod
-    def from_str(cls, finger: str) -> FingerType:
-        return {
-            "t": cls.T,
-            "i": cls.I,
-            "m": cls.M,
-            "r": cls.R,
-            "p": cls.P,
-        }[finger]
-
-
-Ring = FingerType.R
-Index = FingerType.I
-Middle = FingerType.M
-Pinky = FingerType.P
-Thumb = FingerType.T
-
-
 class Hand(BaseModel):
-    hand: HandType
-    symbols: dict[int, str]
-    """Keys: key indices. Values: symbols on keyboard."""
+    hand: HandOrKey
+    symbols_visualization: dict[int, str]
+    """Keys: key indices. Values: symbols on keyboard (for visualization purposes)."""
 
     fingers: dict[int, str] = Field(default_factory=dict)
     """For calculaing if somethign is SFB."""
@@ -268,20 +144,30 @@ class Hand(BaseModel):
     matrix_positions: dict[int, tuple[int, int]] = Field(default_factory=dict)
     """Keys: key indices. Values: (column, row) positions in the matrix."""
 
-    @field_validator("symbols", mode="before")
+    @field_validator("symbols_visualization", mode="before")
     def sort_dict(cls, v):
         return dict(sorted(v.items(), key=lambda item: item[0]))
 
-    def get_symbols(self, key_seq: tuple[int, ...] | None, fallback="") -> str:
+    def get_symbols_visualization(
+        self, key_seq: Sequence[int] | None, fallback=""
+    ) -> str:
         if key_seq is None:
             return fallback
         # Get a symbol
         symbols = ""
         for key_idx in key_seq:
-            if key_idx not in self.symbols:
+            if key_idx not in self.symbols_visualization:
                 return fallback
-            symbols += self.symbols[key_idx]
+            symbols += self.symbols_visualization[key_idx]
         return symbols
+
+    def get_index(self, char: str) -> int | None:
+        # Cannot have a reverse mapping since a symbol could potentially be typed with
+        # multiple keys..
+        for idx, symbol in self.symbols_visualization.items():
+            if symbol == char.upper():
+                return idx
+        return None
 
     def get_finger(self, key_idx: int) -> FingerType | None:
         """Returns the finger for a given key index."""
@@ -289,6 +175,12 @@ class Hand(BaseModel):
         if not f:
             return None
         return FingerType.from_str(f)
+
+    def get_matrix_positions(self, indices: list[int]) -> list[tuple[int, int]]:
+        return [self.matrix_positions[idx] for idx in indices]
+
+    def get_fingers(self, key_idxs: Sequence[int]) -> list[FingerType | None]:
+        return [self.get_finger(key_idx) for key_idx in key_idxs]
 
     def get_repeats_tuple(
         self, key_seq: tuple[int, ...]
@@ -425,25 +317,103 @@ class Hand(BaseModel):
             return None
         return get_direction_for_trigram(finger1, finger2, finger3)
 
+    def is_redir(self, key_seq: tuple[int, ...]) -> bool:
+        """Checks if a trigram is a redir. Can only detect redirs on trigrams where
+        all fingers are different. Redirs with jus two fingers will return False."""
+        direction = self.get_direction(key_seq)
+
+        if direction is None:
+            return False
+        return direction in (
+            DirectionType.Redirect1,
+            DirectionType.Redirect2,
+            DirectionType.Redirect3,
+            DirectionType.Redirect4,
+        )
+
 
 class Hands(BaseModel):
     left: Hand
     right: Hand
+    config: Config  # the config used in creation
 
-    def get_symbols(
-        self, hand: HandType, key_seq: tuple[int, ...] | None, fallback=""
+    def get_symbols_visualization(
+        self, hand: HandOrKey, key_seq: Sequence[int] | None, fallback=""
     ) -> str:
         handobj = getattr(self, hand.lower())
-        return handobj.get_symbols(key_seq, fallback)
+        return handobj.get_symbols_visualization(key_seq, fallback)
+
+    def get_matrix_position(self, key_idx: int) -> tuple[int, int]:
+        if key_idx in self.left.matrix_positions:
+            return self.left.matrix_positions[key_idx]
+        if key_idx in self.right.matrix_positions:
+            return self.right.matrix_positions[key_idx]
+        raise ValueError(f"Key index {key_idx} not found in matrix positions")
+
+    def get_matrix_positions(self, indices: list[int]) -> list[tuple[int, int]]:
+        # Get all matrix positions from a single hand (left or right)
+        try:
+            out = []
+            for idx in indices:
+                out.append(self.left.matrix_positions[idx])
+            return out
+        except KeyError:
+            out = []
+            for idx in indices:
+                out.append(self.right.matrix_positions[idx])
+            return out
+
+    def where(self, text: str) -> tuple[tuple[int, ...], tuple[HandOrKey, ...]]:
+        indices = []
+        keytypes = []
+        for char in text.upper():
+            if (idx := self.left.get_index(char)) is not None:
+                indices.append(idx)
+                keytypes.append(self.left.hand)
+                continue
+            elif (idx := self.right.get_index(char)) is not None:
+                indices.append(idx)
+                keytypes.append(self.right.hand)
+            else:
+                indices.append(-999)
+                keytypes.append("Untypable")
+        return tuple(indices), tuple(keytypes)
+
+    def get_fingers(self, text: str) -> tuple[list[FingerType | None], list[HandOrKey]]:
+        indices, handtypes = self.where(text)
+
+        fingers = []
+        for idx, handtype in zip(indices, handtypes):
+            if handtype == "Left":
+                fingers.append(self.left.get_finger(idx))
+            elif handtype == "Right":
+                fingers.append(self.right.get_finger(idx))
+            else:
+                fingers.append(None)
+        return fingers, handtypes
+
+    def get_trigram_type(self, handtypes: list[HandOrKey]) -> TrigramMainType:
+
+        if len(handtypes) != 3:
+            raise ValueError(f"Not a trigram! {handtypes}")
+        elif handtypes[0] == handtypes[1] == handtypes[2]:
+            return TrigramMainType.ONEHAND
+        elif handtypes[0] == handtypes[1] or handtypes[1] == handtypes[2]:
+            return TrigramMainType.BALANCED
+        elif handtypes[0] == handtypes[2] and handtypes[0] != handtypes[1]:
+            return TrigramMainType.SKIPGRAM
+        elif "Untypable" in handtypes:
+            return TrigramMainType.UNTYPABLE
+        raise ValueError("Unknown trigram type")
 
     def get_symbols_text(
         self,
-        hand: HandType,
+        hand: HandOrKey,
         key_seq: tuple[int, ...] | None,
         fallback="",
         center: int | None = None,
     ) -> Text:
-        symbols = self.get_symbols(hand, key_seq, fallback)
+        symbols = self.get_symbols_visualization(hand, key_seq, fallback)
         color = "sky_blue1" if hand.lower() == "left" else "light_pink1"
         if center is not None:
             symbols = symbols.center(center)
@@ -631,11 +601,25 @@ class Hands(BaseModel):
             )
         )
 
+    def get_indices(self) -> list[int]:
+        """Gets the union of all indices on both hands."""
+        return sorted(
+            set(self.left.symbols_visualization.keys())
+            | set(self.right.symbols_visualization.keys())
+        )
+
+    def get_common_indices(self) -> list[int]:
+        """Gets the common indices on both hands."""
+        return sorted(
+            set(self.left.symbols_visualization.keys())
+            & set(self.right.symbols_visualization.keys())
+        )
+
 
 def get_hands_data(config: Config) -> Hands:
 
     class HandData(TypedDict):
-        symbols: dict[int, str]
+        symbols_visualization: dict[int, str]
         fingers: dict[int, str]
         key_categories: dict[int, str]
         colors: dict[int, str]
@@ -647,14 +631,14 @@ def get_hands_data(config: Config) -> Hands:
 
     hands: HandsData = {
         "Left": {
-            "symbols": {},
+            "symbols_visualization": {},
             "fingers": {},
             "key_categories": {},
             "colors": {},
             "matrix_positions": {},
         },
         "Right": {
-            "symbols": {},
+            "symbols_visualization": {},
             "fingers": {},
             "key_categories": {},
             "colors": {},
@@ -662,7 +646,7 @@ def get_hands_data(config: Config) -> Hands:
         },
     }
 
-    nonematrix = [[None for _ in sublist] for sublist in config.symbols]
+    nonematrix = [[None for _ in sublist] for sublist in config.symbols_visualization]
     finger_matrix = config.finger_matrix or nonematrix
     key_category_matrix = config.key_category_matrix or nonematrix
     color_matrix = config.color_matrix or nonematrix
@@ -672,7 +656,7 @@ def get_hands_data(config: Config) -> Hands:
 
     row_iterator = zip_longest(
         config.hands,
-        config.symbols,
+        config.symbols_visualization,
         config.key_indices,
         finger_matrix,
         key_category_matrix,
@@ -709,7 +693,7 @@ def get_hands_data(config: Config) -> Hands:
 
             dct = hands[hand]  # type: ignore # (no idea why mypy still complains.)
 
-            dct["symbols"][index_int] = str(symbol)
+            dct["symbols_visualization"][index_int] = str(symbol)
             if finger:
                 dct["fingers"][index_int] = str(finger)
             if color:
@@ -727,7 +711,7 @@ def get_hands_data(config: Config) -> Hands:
     return Hands(
         left=Hand(
             hand="Left",
-            symbols=hands["Left"]["symbols"],
+            symbols_visualization=hands["Left"]["symbols_visualization"],
             key_categories=hands["Left"]["key_categories"],
             fingers=hands["Left"]["fingers"],
             colors=hands["Left"]["colors"],
@@ -735,51 +719,11 @@ def get_hands_data(config: Config) -> Hands:
         ),
         right=Hand(
             hand="Right",
-            symbols=hands["Right"]["symbols"],
+            symbols_visualization=hands["Right"]["symbols_visualization"],
             key_categories=hands["Right"]["key_categories"],
             fingers=hands["Right"]["fingers"],
             colors=hands["Right"]["colors"],
             matrix_positions=hands["Right"]["matrix_positions"],
         ),
+        config=config,
     )
-
-
-def create_permutations(
-    left: Hand, right: Hand, sequence_lengths: tuple[int, ...] = (1, 2)
-) -> list[tuple[int, ...]]:
-    """This creates permutations of given sequence lengths that can be typed with at
-    least one of the hands. The returned list contains tuples of key indices."""
-    key_indices = get_union_of_keys(left, right)
-
-    permutations_lst = []
-    for seq_length in sequence_lengths:
-        for seq in itertools.product(key_indices, repeat=seq_length):
-
-            if not permutation_is_typable(left, right, seq):
-                continue
-            permutations_lst.append(seq)
-
-    return permutations_lst
-
-
-def permutation_is_typable(
-    left: Hand, right: Hand, permutation: tuple[int, ...]
-) -> bool:
-    """Check if permutation is typable with at least one hand"""
-    for hand in (left, right):
-        can_be_typed = True
-
-        for key in permutation:
-            if key not in hand.symbols:
-                can_be_typed = False
-                break
-
-        if can_be_typed:
-            return True
-
-    return False
-
-
-def get_union_of_keys(left: Hand, right: Hand) -> list[int]:
-    """Gets the union of key indices from both hands."""
-    return sorted(set(left.symbols.keys()) | set(right.symbols.keys()))  # type: ignore

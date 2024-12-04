@@ -1,4 +1,4 @@
-# granite-tools
+# granite-tools 👨‍🔬⚗️⌨️
 
 Tools used in creation of the [Granite](https://github.com/fohrloop/granite-layout) keyboard layout. Main features:
 

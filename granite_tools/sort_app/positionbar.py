@@ -76,10 +76,10 @@ def get_bar(
 
 def single_bar(x, marker, colors) -> str:
     # modified (pruned) version of single_bar from plotext/_utility.py
-    l = len(x)
+    lenofx = len(x)
     lc = len(colors)
     bar = [marker * el for el in x]
-    bar = [ut.apply_ansi(bar[i], colors[i % lc], 1) for i in range(l)]
+    bar = [ut.apply_ansi(bar[i], colors[i % lc], 1) for i in range(lenofx)]
     return "".join(bar)
 
 

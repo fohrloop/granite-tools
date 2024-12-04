@@ -1,6 +1,7 @@
 import pytest
 
-from granite_tools.effort import Hand, create_permutations
+from granite_tools.hands import Hand
+from granite_tools.permutations import create_permutations
 from granite_tools.sort_app.placement_manager import (
     NgramPlacementManager,
     split_ordered_ngrams_into_two_halfs,
@@ -8,14 +9,16 @@ from granite_tools.sort_app.placement_manager import (
 
 
 class TestPlacementManager:
-    left = Hand(hand="Left", symbols={x: str(x) for x in range(7)})
-    right = Hand(hand="Right", symbols={x: chr(ord("A") + x) for x in range(7)})
+    left = Hand(hand="Left", symbols_visualization={x: str(x) for x in range(7)})
+    right = Hand(
+        hand="Right", symbols_visualization={x: chr(ord("A") + x) for x in range(7)}
+    )
     permutations = create_permutations(left, right, sequence_lengths=(1,))
 
     def test_basics(self):
         manager = NgramPlacementManager(permutations=self.permutations)
         assert manager.all_ngrams == [(0,), (1,), (2,), (3,), (4,), (5,), (6,)]
-        assert manager.current_ngram == (0,)
+        assert manager._current_ngram == (0,)
         assert manager.ordered_ngrams == []
         assert manager._current_ngram_movement_history == []
         assert manager.left_of_current is None
@@ -27,7 +30,7 @@ class TestPlacementManager:
         # The previous current ngram was placed
         assert manager.ordered_ngrams == [(0,)]
         # The current ngram is now the next one
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
 
         # Current is always added to the center. If that's not possible, the
         # right side has more items.
@@ -57,7 +60,7 @@ class TestPlacementManager:
         # The previous current ngram was placed
         assert manager.ordered_ngrams == [(0,)]
         # The current ngram is now the next one
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
 
         manager.move_right()
         assert manager.left_of_current == (0,)
@@ -66,7 +69,7 @@ class TestPlacementManager:
         manager.place_current_ngram()
         # The previous current ngram was placed (the the right side)
         assert manager.ordered_ngrams == [(0,), (1,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
 
         # We should be in the middle now
         assert manager.left_of_current == (0,)
@@ -77,7 +80,7 @@ class TestPlacementManager:
         # Let's place this one to the middle
         manager.place_current_ngram()
         assert manager.ordered_ngrams == [(0,), (2,), (1,)]
-        assert manager.current_ngram == (3,)
+        assert manager._current_ngram == (3,)
         assert manager.left_of_current == (0,)
         assert manager.right_of_current == (2,)
         assert manager.ngrams_left_side_of_current == [(0,)]
@@ -87,7 +90,7 @@ class TestPlacementManager:
         manager.move_left()
         manager.place_current_ngram()
         assert manager.ordered_ngrams == [(3,), (0,), (2,), (1,)]
-        assert manager.current_ngram == (4,)
+        assert manager._current_ngram == (4,)
         assert manager.left_of_current == (0,)
         assert manager.right_of_current == (2,)
         assert manager.ngrams_left_side_of_current == [(3,), (0,)]
@@ -121,7 +124,7 @@ class TestPlacementManager:
 
         # Now let's start placing the (4,) again.
         manager.reset_current_ngram()
-        assert manager.current_ngram == (4,)
+        assert manager._current_ngram == (4,)
         assert manager.ordered_ngrams == [(3,), (0,), (2,), (1,)]
         assert manager.left_of_current == (0,)
         assert manager.right_of_current == (2,)
@@ -132,7 +135,7 @@ class TestPlacementManager:
         manager.previous_ngram()
         manager.previous_ngram()
         assert manager.ordered_ngrams == [(0,), (1,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (0,)
         assert manager.right_of_current == (1,)
 
@@ -143,7 +146,7 @@ class TestPlacementManager:
         manager.move_right()
         manager.place_current_ngram()
         assert manager.ordered_ngrams == [(2,), (0,), (1,), (3,)]
-        assert manager.current_ngram == (4,)
+        assert manager._current_ngram == (4,)
         assert manager.left_of_current == (0,)
         assert manager.right_of_current == (1,)
         assert manager.ngrams_left_side_of_current == [(2,), (0,)]
@@ -153,7 +156,7 @@ class TestPlacementManager:
         manager.move_left()
         manager.place_current_ngram()
         assert manager.ordered_ngrams == [(2,), (4,), (0,), (1,), (3,)]
-        assert manager.current_ngram == (5,)
+        assert manager._current_ngram == (5,)
         assert manager.left_of_current == (4,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(2,), (4,)]
@@ -175,7 +178,7 @@ class TestPlacementManager:
         manager.place_current_ngram()
         assert manager.is_finished()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -184,21 +187,21 @@ class TestPlacementManager:
         # Should not be possible to move anymore as the last item has been placed.
         manager.move_right()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
         assert manager.ngrams_right_side_of_current == [(0,)]
         manager.move_left()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
         assert manager.ngrams_right_side_of_current == [(0,)]
         manager.move_back()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -208,7 +211,7 @@ class TestPlacementManager:
         manager.place_current_ngram()
         assert manager.is_finished()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -218,7 +221,7 @@ class TestPlacementManager:
         manager.reset_current_ngram()
         assert manager.is_finished()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -228,7 +231,7 @@ class TestPlacementManager:
         manager.previous_ngram()
         assert not manager.is_finished()
         assert manager.ordered_ngrams == [(1,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -238,7 +241,7 @@ class TestPlacementManager:
         manager.place_current_ngram()
         assert manager.is_finished()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (2,)
+        assert manager._current_ngram == (2,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (0,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -247,39 +250,39 @@ class TestPlacementManager:
     def test_move_to_left_when_there_is_nothing_is_not_possible(self):
         manager = NgramPlacementManager(permutations=self.permutations)
         assert manager.all_ngrams == [(0,), (1,), (2,), (3,), (4,), (5,), (6,)]
-        assert manager.current_ngram == (0,)
+        assert manager._current_ngram == (0,)
         assert manager.ordered_ngrams == []
 
         manager.place_current_ngram()
         assert manager.left_of_current is None
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
         assert manager.right_of_current == (0,)
 
         manager.move_left()
         assert manager.left_of_current is None
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
         assert manager.right_of_current == (0,)
 
     def test_move_to_right_when_there_is_nothing_is_not_possible(self):
         manager = NgramPlacementManager(permutations=self.permutations)
         assert manager.all_ngrams == [(0,), (1,), (2,), (3,), (4,), (5,), (6,)]
-        assert manager.current_ngram == (0,)
+        assert manager._current_ngram == (0,)
         assert manager.ordered_ngrams == []
 
         manager.place_current_ngram()
         assert manager.left_of_current is None
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
         assert manager.right_of_current == (0,)
 
         manager.move_right()
         assert manager.left_of_current == (0,)
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
         assert manager.right_of_current is None
 
         # Moving again does not change anything.
         manager.move_right()
         assert manager.left_of_current == (0,)
-        assert manager.current_ngram == (1,)
+        assert manager._current_ngram == (1,)
         assert manager.right_of_current is None
 
     def test_moving_back_too_many_times_is_okay(self):
@@ -290,7 +293,7 @@ class TestPlacementManager:
         manager.place_current_ngram()
         manager.place_current_ngram()
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (3,)
+        assert manager._current_ngram == (3,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (2,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -319,7 +322,7 @@ class TestPlacementManager:
 
         # Check that we are in the beginning state
         assert manager.ordered_ngrams == [(1,), (2,), (0,)]
-        assert manager.current_ngram == (3,)
+        assert manager._current_ngram == (3,)
         assert manager.left_of_current == (1,)
         assert manager.right_of_current == (2,)
         assert manager.ngrams_left_side_of_current == [(1,)]
@@ -330,7 +333,7 @@ class TestPlacementManager:
         assert manager.all_ngrams == [(0,), (1,), (2,), (3,), (4,), (5,), (6,)]
         manager.load_state([(0,), (3,), (1,), (2,)])
         assert manager.ordered_ngrams == [(0,), (3,), (1,), (2,)]
-        assert manager.current_ngram == (4,)
+        assert manager._current_ngram == (4,)
         assert manager.left_of_current == (3,)
         assert manager.right_of_current == (1,)
         assert manager.ngrams_left_side_of_current == [(0,), (3,)]
@@ -339,7 +342,7 @@ class TestPlacementManager:
         #  Adding new ngrams should continue from the last one
         manager.place_current_ngram()
         assert manager.ordered_ngrams == [(0,), (3,), (4,), (1,), (2,)]
-        assert manager.current_ngram == (5,)
+        assert manager._current_ngram == (5,)
         assert manager.left_of_current == (3,)
         assert manager.right_of_current == (4,)
 
@@ -347,11 +350,125 @@ class TestPlacementManager:
         manager.previous_ngram()
         manager.previous_ngram()
         assert manager.ordered_ngrams == [(0,), (1,), (2,)]
-        assert manager.current_ngram == (3,)
+        assert manager._current_ngram == (3,)
         assert manager.left_of_current == (0,)
         assert manager.right_of_current == (1,)
         assert manager.ngrams_left_side_of_current == [(0,)]
         assert manager.ngrams_right_side_of_current == [(1,), (2,)]
+
+    def test_loading_state_with_different_order(self):
+
+        def get_permutations(n_indices: int, sequence_lengths=(1, 2)):
+            left = Hand(
+                hand="Left", symbols_visualization={x: str(x) for x in range(n_indices)}
+            )
+            right = Hand(
+                hand="Right",
+                symbols_visualization={x: chr(ord("A") + x) for x in range(n_indices)},
+            )
+            return create_permutations(left, right, sequence_lengths=sequence_lengths)
+
+        # simulate a case where the granite configuration file has got a new key after
+        # a ranking file has been created and saved, and user wants to add new ngrams
+        # to the ranking file.
+        permutations_old = get_permutations(2)
+        permutations_new = get_permutations(3)
+
+        # sanity check
+        assert permutations_old == [(0,), (1,), (0, 0), (0, 1), (1, 0), (1, 1)]
+        # fmt: off
+        assert permutations_new == [(0,), (1,), (2,), (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+        # fmt: on
+
+        manager = NgramPlacementManager(permutations=permutations_new)
+        assert manager.all_ngrams == permutations_new
+
+        # The old state is loaded (it's permutations_old shuffled. Or, ehm, ordered.)
+        old_state = [(1, 1), (0, 1), (0, 0), (1,), (1, 0), (0,)]
+        manager.load_state(old_state)
+        assert manager.ordered_ngrams == old_state
+
+        # The all_ngram contains first the old permutations order, and then the new ones.
+        assert manager.all_ngrams[: manager._current_index] == permutations_old
+        # In fact, this is what it should be:
+        assert manager.all_ngrams == [
+            (0,),
+            (1,),
+            (0, 0),
+            (0, 1),
+            (1, 0),
+            (1, 1),  # last one in permutations_old
+            (2,),  # first new one (the first one to place!)
+            (0, 2),
+            (1, 2),
+            (2, 0),
+            (2, 1),
+            (2, 2),
+        ]
+
+        assert manager._current_ngram == (2,)
+        # The location is at the middle. (between 1 and 2)
+        # old state is [(1, 1), (0, 1), (0, 0), (1,), (1, 0), (0,)], and new ngrams are
+        # always placed at the middle.
+        assert manager.ngrams_left_side_of_current == [(1, 1), (0, 1), (0, 0)]
+        assert manager.ngrams_right_side_of_current == [(1,), (1, 0), (0,)]
+
+        # Now let's place the (2,)
+        manager.place_current_ngram()
+        assert manager.ordered_ngrams == [
+            (1, 1),
+            (0, 1),
+            (0, 0),
+            (2,),
+            (1,),
+            (1, 0),
+            (0,),
+        ]
+        # This is next from all_ngrams (after (2,))
+        assert manager._current_ngram == (0, 2)
+        assert manager.ngrams_left_side_of_current == [(1, 1), (0, 1), (0, 0)]
+        assert manager.ngrams_right_side_of_current == [(2,), (1,), (1, 0), (0,)]
+
+        # Let's place the last ones
+        for expected_ngram in [(0, 2), (1, 2), (2, 0), (2, 1), (2, 2)]:
+            assert manager._current_ngram == expected_ngram
+            manager.place_current_ngram()
+
+        assert manager.ordered_ngrams == [
+            (1, 1),
+            (0, 1),
+            (0, 0),
+            (0, 2),
+            (2, 0),
+            (2, 2),
+            (2, 1),
+            (1, 2),
+            (2,),
+            (1,),
+            (1, 0),
+            (0,),
+        ]
+
+        # You can go back even if the state was loaded (with different order than
+        # in the permutations in the __init__)
+        for _ in range(6):
+            manager.previous_ngram()
+        # this was the starting point
+        assert manager._current_ngram == (2,)
+        assert manager.ordered_ngrams == old_state
+
+        # Now, backing even before the "start" is possible
+        manager.previous_ngram()
+        manager.previous_ngram()
+
+        # we loaded: [(1, 1), (0, 1), (0, 0), (1,), (1, 0), (0,)]
+        # the ordering for those is [(0,), (1,), (0, 0), (0, 1), (1, 0), (1, 1)]
+        # going back one should give us (1,1) and then (1,0)
+
+        assert manager.ordered_ngrams == [(0, 1), (0, 0), (1,), (0,)]
+        assert manager._current_ngram == (1, 0)
+        assert manager.ngrams_left_side_of_current == [(0, 1), (0, 0)]
+        assert manager.ngrams_right_side_of_current == [(1,), (0,)]
 
     def test_loading_bad_state(self):
         manager = NgramPlacementManager(permutations=self.permutations)
@@ -359,6 +476,16 @@ class TestPlacementManager:
         with pytest.raises(ValueError):
             # The 9999 is not in the permutations
             manager.load_state([(0,), (9999,), (1,), (2,)])
+        with pytest.raises(ValueError):
+            # Duplicates in data
+            manager.load_state(
+                [
+                    (0,),
+                    (2,),
+                    (1,),
+                    (2,),
+                ]
+            )
 
     def test_ordered_ngrams_area_widths(self):
         manager = NgramPlacementManager(
@@ -369,7 +496,7 @@ class TestPlacementManager:
         manager.place_current_ngram()
         manager.place_current_ngram()
 
-        assert manager.current_ngram == (4,)
+        assert manager._current_ngram == (4,)
         assert manager.ordered_ngrams == [(1,), (3,), (2,), (0,)]
         assert manager.left_of_current == (3,)
         assert manager.right_of_current == (2,)
@@ -391,7 +518,7 @@ class TestPlacementManager:
         assert manager.ordered_ngrams_area_widths() == (0, 1, 0, 3)
 
         manager.place_current_ngram()
-        assert manager.current_ngram == (5,)
+        assert manager._current_ngram == (5,)
         assert manager.ordered_ngrams == [(1,), (4,), (3,), (2,), (0,)]
         assert manager.left_of_current == (4,)
         assert manager.right_of_current == (3,)

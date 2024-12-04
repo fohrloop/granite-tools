@@ -5,12 +5,13 @@ Development
 Run in one terminal: (this shows logs and prints)
     uv run textual console
 Run in another terminal: (this runs the app)
-    uv run textual run --dev app/sort_app/sort_app.py foo examples/keyseq_effort_numbers_mini.yml
+    uv run textual run --dev granite_tools/sort_app/sort_app.py  foo examples/keyseq_effort_numbers_mini.yml
 """
 
 from __future__ import annotations
-import sys
+
 import datetime as dt
+import sys
 import typing
 from dataclasses import dataclass
 from functools import cached_property
@@ -26,16 +27,17 @@ from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Footer, Label, Log
 
 from granite_tools.config import Config, read_config
-from granite_tools.effort import create_permutations, get_hands_data
 from granite_tools.exit_modal import ExitModal
+from granite_tools.hands import get_hands_data
 from granite_tools.order import load_key_seqs_from_file
+from granite_tools.permutations import create_permutations
 from granite_tools.progress import Progress
 from granite_tools.sort_app.placement_manager import NgramPlacementManager
 from granite_tools.sort_app.positionbar import PositionBar
 
 if typing.TYPE_CHECKING:
 
-    from granite_tools.effort import Hands
+    from granite_tools.hands import Hands
 
     KeySeq = tuple[int, ...]
 
@@ -226,6 +228,7 @@ class KeySequenceSortApp(App):
     ]
 
     def __init__(self, file_out: Path | str, config: Config) -> None:
+        super().__init__()
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
@@ -241,7 +244,6 @@ class KeySequenceSortApp(App):
             permutations=permutations,
             callback=self.refresh_ngram_view,
         )
-        super().__init__()
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app. This happens before on_mount."""
@@ -251,9 +253,15 @@ class KeySequenceSortApp(App):
 
     def on_mount(self) -> None:
         """Called when the app is mounted."""
-        self.load_from_file()
-        self.write_log("Session started.")
-        self.write_log(STARTING_INSTRUCTIONS)
+        try:
+            self.load_from_file()
+            self.write_log("Session started.")
+            self.write_log(STARTING_INSTRUCTIONS)
+        except Exception as e:
+            self.write_log(
+                f'ERROR DURING INIT!\n\n Error text: "{e}"\n\nERROR! YOU SHOULD EXIT THE APPLICATION (see above)'
+            )
+            raise e
 
     def action_exit(self):
         self.push_screen(ExitModal(), self.conditional_exit)
@@ -273,8 +281,8 @@ class KeySequenceSortApp(App):
         if ngram_keyseq is None or idx is None:
             return
 
-        ngram_left = self.hands.left.get_symbols(ngram_keyseq)
-        ngram_right = self.hands.right.get_symbols(ngram_keyseq)
+        ngram_left = self.hands.left.get_symbols_visualization(ngram_keyseq)
+        ngram_right = self.hands.right.get_symbols_visualization(ngram_keyseq)
 
         self.write_log(f"Placed ngram {ngram_left} {ngram_right} to {idx+1}")
 
@@ -322,7 +330,7 @@ class KeySequenceSortApp(App):
         cur_idx = self.manager.current_placement_index()
 
         curpos = (
-            (f"pos: ", (str(cur_idx + 1), "plum3"), ", ")
+            ("pos: ", (str(cur_idx + 1), "plum3"), ", ")
             if cur_idx is not None
             else ("",)
         )
@@ -343,7 +351,7 @@ class KeySequenceSortApp(App):
         self.main_area.update(
             left=self.manager.left_of_current,
             right=self.manager.right_of_current,
-            new=self.manager.current_ngram,
+            new=self.manager._current_ngram,
             additional_text=text,
             is_finished=self.manager.is_finished(),
             positions=self.manager.ordered_ngrams_area_widths(),

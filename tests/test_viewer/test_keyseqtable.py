@@ -5,7 +5,7 @@ from unittest.mock import mock_open, patch
 import pytest
 from textual.app import App
 
-from granite_tools.effort import Hands
+from granite_tools.hands import Hands
 from granite_tools.order import DuplicateValuesError
 from granite_tools.viewer.keyseq_table import KeySequenceTable
 

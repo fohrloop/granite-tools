@@ -10,8 +10,8 @@ Run in another terminal: (this runs the app)
 
 from __future__ import annotations
 
-import sys
 import datetime as dt
+import sys
 import typing
 from functools import cached_property
 from pathlib import Path
@@ -23,8 +23,9 @@ from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.widgets import Footer, Label, Log, Static
 
 from granite_tools.config import Config, read_config
-from granite_tools.effort import create_permutations, get_hands_data
 from granite_tools.exit_modal import ExitModal
+from granite_tools.hands import get_hands_data
+from granite_tools.permutations import create_permutations
 from granite_tools.progress import Progress
 from granite_tools.viewer.keyseq_table import GotoModal, KeySequenceTable
 

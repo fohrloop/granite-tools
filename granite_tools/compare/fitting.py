@@ -12,6 +12,9 @@ def get_scores(
     unique_key_sequences = {ks for pair in comparison_data for ks in pair}
     mapping = {i: ks for i, ks in enumerate(unique_key_sequences)}
     reverse_mapping = {ks: i for i, ks in mapping.items()}
+
+    # The choix eats pairs of integers starting from 0. The left side of each pair
+    # should be the one with higher score.
     data = []
     for a, b in comparison_data:
         data.append((reverse_mapping[a], reverse_mapping[b]))
@@ -30,5 +33,7 @@ def get_scores(
             logging.warning("Failed with alpha = %s", alpha)
             alpha *= 10
 
+    # The choix gives scores to each integer (starting from 0). Map that back to key
+    # sequences.
     scores = {mapping[i]: float(score) for i, score in enumerate(scores_arr)}
     return scores
