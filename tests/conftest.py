@@ -4,7 +4,7 @@ from unittest.mock import mock_open, patch
 import pytest
 
 from granite_tools.config import Config, read_config
-from granite_tools.effort import Hands, get_hands_data
+from granite_tools.hands import Hands, get_hands_data
 
 test_folder = Path(__file__).parent
 examples_folder = test_folder.parent / "examples"
@@ -19,7 +19,7 @@ hands:
   - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
   - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
 
-symbols:
+symbols_visualization:
   - [       1,  2,  3,  4,  5,     E,  D,  C,  B,  A       ]
   - [       6,  7,  8,  9,  0,     J,  I,  H,  G,  F,      ]
 """.strip()
@@ -52,7 +52,7 @@ TEST_CONFIG = {
             "Right",
         ],
     ],
-    "symbols": [
+    "symbols_visualization": [
         ["1", "2", "3", "4", "5", "E", "D", "C", "B", "A"],
         ["6", "7", "8", "9", "0", "J", "I", "H", "G", "F"],
     ],
@@ -76,6 +76,11 @@ def config_minimal() -> Config:
 @pytest.fixture
 def config_full() -> Config:
     return read_config(examples_folder / "keyseq_effort.yml")
+
+
+@pytest.fixture
+def hands_full(config_full: Config) -> Hands:
+    return get_hands_data(config_full)
 
 
 @patch("builtins.open", mock_open(read_data=TEST_CONFIG_TXT))

@@ -8,7 +8,7 @@ hands:
   - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
   - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
 
-symbols:
+symbols_visualization:
   - [       1,  2,  3,  4,  5,     E,  D,  C,  B,  A       ]
   - [       6,  7,  8,  9,  0,     J,  I,  H,  G,  F,      ]
 

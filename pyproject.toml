@@ -7,9 +7,12 @@ requires-python = ">=3.12"
 dependencies = [
     "choix==0.3.5",
     "matplotlib==3.9.2",
+    "pandas==2.2.3",
     "plotext==5.3.2",
     "pydantic==2.9.2",
     "pyyaml==6.0.2",
+    "scikit-learn==1.5.2",
+    "seaborn==0.13.2",
     "textual==0.86.1",
     "typer==0.12.5",
 ]
@@ -25,16 +28,47 @@ ngram_compare = "granite_tools.ngrams.cli:cli_compare_ngrams"
 granite-scorer-baseline = "granite_tools.sort_app.sort_app:main"
 granite-scorer-view = "granite_tools.viewer.viewer_app:main"
 granite-scorer-compare = "granite_tools.compare.compare_app:main"
+granite-ngram-score-ratio-template = "granite_tools.scorer.cli:create_ngram_score_ratio_template"
+granite-trigram-score-template = "granite_tools.scorer.cli:create_score_template_cli"
+granite-trigram-score-fit = "granite_tools.scorer.cli:fit_parameters_cli"
+granite-trigram-score-fit-check = "granite_tools.scorer.cli:fit_check_cli"
 
 [tool.uv]
 dev-dependencies = [
     "ipython==8.29.0",
+    "isort==5.13.2",
     "mypy==1.13.0",
+    "pandas-stubs==2.2.3.241126",
+    "pyinstrument>=5.0.0",
     "pytest-asyncio==0.24.0",
     "pytest==8.3.3",
+    "ruff==0.8.3",
+    "scipy-stubs==1.14.1.5",
     "textual-dev==1.6.1",
     "types-pyyaml==6.0.12.20240917",
 ]
+
+[tool.ruff.lint]
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+select = [
+    # E: pycodestyle
+    "E",
+    # F: Pyflakes
+    "F",
+    # W291: trailing-whitespace. Ref: https://docs.astral.sh/ruff/rules/trailing-whitespace/
+    "W291",
+    # Disallow TODO
+    "FIX001",
+    "FIX002",
+    "FIX003",
+    # isort
+    "I",
+]
+ignore = ['E501']
+
+[tool.mypy]
+exclude = "granite_tools/ngrams/.*"
 
 [build-system]
 requires = ["hatchling"]

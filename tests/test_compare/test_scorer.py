@@ -199,8 +199,10 @@ class TestComparisonBasedScorer:
         scorer1.save_to_file(tempfile)
 
         # Now we have our first fit done. Let's load it and continue the work.
-        # The pached function will record the key sequences used in the filtering
-        with patch("granite_tools.compare.scorer.filter_candidates", patched_filter_candidates):
+        # The patched function will record the key sequences used in the filtering
+        with patch(
+            "granite_tools.compare.scorer.filter_candidates", patched_filter_candidates
+        ):
             scorer2 = ComparisonBasedScorer.load_from_file(tempfile)
 
         # Check that correct all_key_sequences was used. In particular, when filtering
@@ -316,6 +318,7 @@ def get_data(
 
     return dict(
         initial_order=initial_order,
+        current_order=initial_order,  # not correct order but works for tests
         pairs_per_sequence=pairs_per_sequence,
         processed_key_sequences=processed_key_sequences,
         comparisons_all=comparisons_all,
@@ -376,7 +379,7 @@ class TestVerifyData:
         with pytest.raises(
             DataValidityError,
             match=re.escape(
-                "Key sequence (0,) is not in the comparison pair ((10,), (11,)) at index 12 or comparisons_all!"
+                "Key sequence (0,) is not in the comparison pair ((10,), (11,)) at index 12 of comparisons_all!"
             ),
         ):
             verify_data(data)

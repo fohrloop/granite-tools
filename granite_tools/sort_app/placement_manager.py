@@ -3,6 +3,8 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
+from granite_tools.permutations import iterate_permutations
+
 if typing.TYPE_CHECKING:
     from typing import Callable, Literal
 
@@ -28,14 +30,15 @@ class NgramPlacementManager:
     """The permutations of the key sequences (corresponding to ngrams)."""
 
     _current_index: int
-    """The current index of the permutations list."""
+    """The current index of the permutations list (in self.all_ngrams)."""
 
-    current_ngram: KeySeq
+    _current_ngram: KeySeq
+    """Points to self.all_ngrams[self._current_index]."""
 
     ordered_ngrams: list[KeySeq]
     """Holds the user selected order of key sequences. This gets a new member in the
     list (in a specific place; not necessarily to the end of the list) each time a key
-    sequence is added. The items are taken from the all_key_sequences."""
+    sequence is added. The items are taken from the self.all_ngrams."""
 
     _current_ngram_movement_history: list[NgramPlacementState]
 
@@ -44,14 +47,14 @@ class NgramPlacementManager:
     ) -> None:
         self.all_ngrams = permutations
         self._current_index = 0
-        self.current_ngram = tuple()
+        self._current_ngram = tuple()
         self._current_ngram_movement_history = []
         self.ordered_ngrams = []
         self._callback = callback
         self._start_placing_next_ngram()
 
     def _start_placing_next_ngram(self) -> None:
-        self.current_ngram = self.all_ngrams[self._current_index]
+        self._current_ngram = self.all_ngrams[self._current_index]
 
         self.placement_state = NgramPlacementState(
             *split_ordered_ngrams_into_two_halfs(
@@ -70,14 +73,14 @@ class NgramPlacementManager:
 
         if self.left_of_current is not None:
             idx_left = self.ordered_ngrams.index(self.left_of_current)
-            self.ordered_ngrams.insert(idx_left + 1, self.current_ngram)
+            self.ordered_ngrams.insert(idx_left + 1, self._current_ngram)
         elif self.right_of_current is not None:
             idx_right = self.ordered_ngrams.index(self.right_of_current)
-            self.ordered_ngrams.insert(idx_right, self.current_ngram)
+            self.ordered_ngrams.insert(idx_right, self._current_ngram)
         else:
-            self.ordered_ngrams.append(self.current_ngram)
+            self.ordered_ngrams.append(self._current_ngram)
 
-        ngram_placed = self.current_ngram
+        ngram_placed = self._current_ngram
         self._current_index += 1
 
         if not self.is_finished():
@@ -216,12 +219,38 @@ class NgramPlacementManager:
 
     def load_state(self, ordered_ngrams: list[KeySeq]):
         n_new = len(ordered_ngrams)
-        if set(ordered_ngrams) != set(self.all_ngrams[:n_new]):
+        set_of_ordered_ngrams = set(ordered_ngrams)
+        if len(ordered_ngrams) != len(set_of_ordered_ngrams):
+            raise ValueError("The data contains duplicate ngrams.")
+
+        extra_ngrams = set(ordered_ngrams) - set(self.all_ngrams)
+        if extra_ngrams:
             raise ValueError(
-                "The data cannot be loaded because it contains ngrams not supported by the configuration."
+                f"The data cannot be loaded because it contains ngrams not supported by the configuration. Indices: {extra_ngrams}"
             )
+
+        # all indices in the data used to produce the old (loaded) state
+        old_order = []
+        indices = sorted(x[0] for x in ordered_ngrams if len(x) == 1)
+        max_sequence_length = max(len(x) for x in ordered_ngrams)
+        sequence_lengths = tuple(range(1, max_sequence_length + 1))
+
+        for seq in iterate_permutations(indices, sequence_lengths):
+            if seq not in set_of_ordered_ngrams:
+                continue
+            old_order.append(seq)
+
+        missing = []
+        for seq in self.all_ngrams:
+            if seq not in old_order:
+                missing.append(seq)
+
+        # This makes it possible to (1) rank ngrams with a config file, (2) add key(s)
+        # to the config and (3) continue on top of it without issues.
+        self.all_ngrams = old_order + missing
         self.ordered_ngrams = ordered_ngrams
         self._current_index = n_new
+
         if not self.is_finished():
             self._start_placing_next_ngram()
         else:

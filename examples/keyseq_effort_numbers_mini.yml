@@ -7,7 +7,7 @@ hands:
   - [      Left,                       Right ]
   - [      Left, Left,          Right, Right ]
 
-symbols:
+symbols_visualization:
   - [       1,            A       ]
   - [       2,  3,    C,  B       ]
 
