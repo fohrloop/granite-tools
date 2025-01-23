@@ -20,11 +20,11 @@ from granite_tools.scorer.bigram_scores import (
 from granite_tools.scorer.scorer import (
     TrigramModelParameters,
     TrigramScoreSets,
+    create_optimization_target_function,
     get_initial_params_and_bounds,
-    get_trigram_params_error_fun,
     group_trigram_scores,
     iter_trigrams_scores,
-    load_trigram_scores,
+    load_trigram_relative_scores,
     max_abs_error,
     optimize_parameters,
 )
@@ -52,7 +52,7 @@ def create_score_template_cli():
 ARG_CONFIG = Annotated[
     Path,
     typer.Argument(
-        help="The path to the keyboard configuration (YAML) file.",
+        help="The path to the Granite configuration (YAML) file.",
         show_default=False,
     ),
 ]
@@ -95,20 +95,34 @@ ARG_TRIGRAM_SCORE_FILE = Annotated[
     ),
 ]
 
+ARG_ANCHOR_SCORES_FILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the anchor scores file. Created with granite_tools/scripts/scoreratios_fit.py",
+        show_default=False,
+    ),
+]
+
 
 def fit_parameters(
     config_file: ARG_CONFIG,
     bigram_ranking_file: ARG_BIGRAM_RANKING_FILE,
     trigram_score_file: ARG_TRIGRAM_SCORE_FILE,
+    raw_anchor_ngram_scores_file: ARG_ANCHOR_SCORES_FILE,
 ):
     config_base = read_config(str(config_file))
     hands = get_hands_data(config_base)
-    bigram_scores = load_bigram_and_unigram_scores(bigram_ranking_file)
+    bigram_scores = load_bigram_and_unigram_scores(
+        bigram_ranking_file, raw_anchor_ngram_scores_file
+    )
     x0, bounds = get_initial_params_and_bounds()
-    trigram_scores = load_trigram_scores(trigram_score_file)
-    scoresets = TrigramScoreSets.from_trigram_scores(trigram_scores, hands)
-    scorefunc = get_trigram_params_error_fun(scoresets, hands, bigram_scores)
-    params = optimize_parameters(scorefunc, x0, bounds, hands.config)
+    trigram_scores = load_trigram_relative_scores(trigram_score_file)
+
+    scoresets = TrigramScoreSets.from_relative_trigram_scores(trigram_scores, hands)
+    scorefunc = create_optimization_target_function(scoresets, hands, bigram_scores)
+
+    print("Note: bounds not used.")
+    params = optimize_parameters(scorefunc, x0, None, hands.config)
 
     for name, value in zip(
         (
@@ -118,8 +132,7 @@ def fit_parameters(
             "unigram_coeff",
             "skipgram_b_coeff",
             "easy_rolling_coeff",
-            "bigram_raw_range_max",
-            "bigram_scaling_exponent",  # TODO: needs fix
+            "bigram_range_max",
         ),
         params,
     ):
@@ -173,12 +186,16 @@ def fit_check(
     config_file: ARG_CONFIG,
     bigram_ranking_file: ARG_BIGRAM_RANKING_FILE,
     trigram_score_file: ARG_TRIGRAM_SCORING_INPUT_FILE,
+    raw_anchor_ngram_scores_file: ARG_ANCHOR_SCORES_FILE,
     trigram_type: ARG_TRIGRAM_TYPE = TrigramType.all,
 ):
     config = read_config(config_file)
     hands = get_hands_data(config)
     scoresets = TrigramScoreSets.from_file(trigram_score_file, hands)
-    bigram_scores = load_bigram_and_unigram_scores(bigram_ranking_file)
+    bigram_scores = load_bigram_and_unigram_scores(
+        bigram_ranking_file, raw_anchor_ngram_scores_file
+    )
+
     params = TrigramModelParameters.from_config(config)
     trigram_scores_iter = iter_trigrams_scores(params, scoresets, hands, bigram_scores)
     groups = group_trigram_scores(trigram_scores_iter, group_sort_by=max_abs_error)
@@ -190,8 +207,8 @@ def fit_check(
     )
 
 
-def create_ngram_score_ratio_template():
-    typer.run(create_ngram_score_ratio_template_)
+def create_bigram_score_ratio_template():
+    typer.run(create_bigram_score_ratio_template_)
 
 
 ARG_NGRAM_RANKING_FILE = Annotated[
@@ -219,7 +236,7 @@ ARG_SCORE_RATIO_NGRAM_GAP = Annotated[
 ]
 
 
-def create_ngram_score_ratio_template_(
+def create_bigram_score_ratio_template_(
     ranking_file: ARG_NGRAM_RANKING_FILE,
     config_file: ARG_CONFIG,
     outfile: ARG_NGRAM_TEMPLATE_OUTFILE,
@@ -245,7 +262,7 @@ def create_ngram_score_ratio_template_(
 
     save_score_ratios(outfile, ngrams, refs)
 
-    print(f"Created ngram score ratio template file: {outfile}")
+    print(f"Created bigram score ratio template file: {outfile}")
     print(f"\n Number of anchor ngrams: {len(selected_key_sequences)}")
     print(f" Number of score ratios: {len(ngram_pairs)}")
 

@@ -7,15 +7,15 @@ from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
+from denseweight import DenseWeight
 from numpy.linalg import norm
 from pydantic import BaseModel, ConfigDict
+from scipy.interpolate import PchipInterpolator
 from scipy.optimize import minimize
 
 from granite_tools.app_types import (
-    ONEHAND_ROLLING_TYPES,
     ONEHAND_TRIGRAM_TYPES,
     FingerType,
-    OnehandRollingType,
     OnehandTrigramType,
 )
 from granite_tools.config import read_config
@@ -43,8 +43,7 @@ DEFAULT_SFB_IN_ONEHAND_COEFF = 1.03
 DEFAULT_VERT2U_COEFF = 1.40
 DEFAULT_DIRCHANGE_COEFF = 1.1
 DEFAULT_EASY_ROLLING_COEFF = 1.0
-DEFAULT_BIGRAM_RAW_RANGE_MAX = 5.0
-DEFAULT_BIGRAM_SCALING_EXPONENT = 1.0
+DEFAULT_BIGRAM_RANGE_MAX = 5.0
 
 
 HAND_TYPES = ("Left", "Right")
@@ -56,6 +55,8 @@ def get_vert2u_multiplier(indices: Sequence[int], hand: Hand, coeff: float) -> f
     and the 2nd key is not typed with the middle finger, but either with pinky, ring or
     index. In all other cases, the multiplier is 1.0."""
 
+    # TODO: This logic must be completely redefined. The vert2u is property of a bigram
+    # now.
     matrix_positions = [hand.matrix_positions[idx] for idx in indices]
     if len(matrix_positions) != 3:
         raise ValueError("Only trigrams are supported")
@@ -70,6 +71,8 @@ def get_vert2u_multiplier(indices: Sequence[int], hand: Hand, coeff: float) -> f
         fingers = [hand.get_finger(idx) for idx in indices]
         if FingerType.T in fingers:
             return 1.0
+        # TODO: Update this! The new logic is: If any top row key is pressed with middle
+        # finger, the trigram is not vert2u.
         if fingers[1] == FingerType.M and mid_row == top_row:
             return 1.0
         return coeff
@@ -116,14 +119,14 @@ def _get_multiplier_from_cosine(cos_theta: float, coeff: float):
 
 
 def get_cosine_of_trigram_angle(
-    trigram_matrix_positions: list[tuple[int, int]]
+    trigram_matrix_positions: Sequence[tuple[int, int]],
 ) -> float:
     u, v = get_bigram_vectors(trigram_matrix_positions, invert_y=True)
     return get_cos_between_two_vectors(u, v)
 
 
 def get_bigram_vectors(
-    trigram_matrix_positions: list[tuple[int, int]], invert_y: bool = True
+    trigram_matrix_positions: Sequence[tuple[int, int]], invert_y: bool = True
 ):
     """Gets the two bigram vetors from the matrix positions of a trigram
 
@@ -173,6 +176,8 @@ def get_sft_multiplier(indices, hand: Hand, coeff: float) -> float:
     if fingers[0] is None:
         raise ValueError("Finger not found")
     if len(set(fingers)) == 1:
+        # TODO: Make sure all keys are different from each other
+        # TODO: Make SFBT a new type
         return coeff
     return 1.0
 
@@ -197,6 +202,7 @@ def get_sfb_in_onehand_multiplier(indices, hand: Hand, coeff: float) -> float:
     fingers = [hand.get_finger(idx) for idx in indices]
     if len(set(fingers)) != 2:
         return 1.0
+    # TODO: Fix logic: Do not count repeats as SFB. Also, do not count SFT as SFB.
     if fingers[0] == fingers[1] or fingers[1] == fingers[2]:
         return coeff
     return 1.0
@@ -209,6 +215,7 @@ def get_trigram_score(
     bigram_scores: dict[KeySeq, float],
     mapping: EasyRollingTrigramsMap | None = None,
 ) -> dict:
+    """Gets a trigram score using the trigram model."""
     indices, keytypes = hands.where(ngram)
     trigramtype = get_trigram_type(ngram, hands, mapping=mapping)
 
@@ -229,15 +236,15 @@ def get_trigram_score(
 
 
 def to_key_sequences(
-    indices: list[int],
-    keyseqtypes: list[HandOrKey],
+    indices: Sequence[int],
+    keyseqtypes: Sequence[HandOrKey],
 ) -> tuple[tuple[KeySeq], tuple[HandOrKey]]:
     return tuple(zip(*iterate_keyseqtypes_(indices, keyseqtypes)))  # type:ignore
 
 
 def iterate_keyseqtypes_(
-    indices: list[int],
-    keyseqtypes: list[HandOrKey],
+    indices: Sequence[int],
+    keyseqtypes: Sequence[HandOrKey],
 ) -> Iterator[tuple[KeySeq, HandOrKey]]:
     prev_keyseqtype = None
     keyseqs: list[int] = []
@@ -254,8 +261,8 @@ def iterate_keyseqtypes_(
 
 
 def to_skipgram_key_sequences(
-    indices: list[int],
-    keyseqtypes: list[HandOrKey],
+    indices: Sequence[int],
+    keyseqtypes: Sequence[HandOrKey],
 ) -> tuple[tuple[KeySeq, KeySeq], tuple[HandOrKey, HandOrKey]]:
     if len(indices) != 3:
         raise ValueError("Only trigrams are supported")
@@ -272,8 +279,8 @@ def to_skipgram_key_sequences(
 
 
 def get_balanced_score(
-    indices: list[int],
-    keytypes: list[HandOrKey],
+    indices: Sequence[int],
+    keytypes: Sequence[HandOrKey],
     bigram_scores: dict[KeySeq, float],
     params: TrigramModelParameters,
 ):
@@ -309,8 +316,8 @@ class UntypableError(RuntimeError): ...
 
 
 def get_skipgram_score(
-    indices: list[int],
-    keytypes: list[HandOrKey],
+    indices: Sequence[int],
+    keytypes: Sequence[HandOrKey],
     bigram_scores: dict[KeySeq, float],
     params: TrigramModelParameters,
 ) -> dict:
@@ -365,7 +372,7 @@ def _get_unigram_and_bigram_scores(
 
 
 def get_onehand_score(
-    indices: list[int],
+    indices: Sequence[int],
     hand: Hand,
     bigram_scores: dict[KeySeq, float],
     params: TrigramModelParameters,
@@ -389,7 +396,7 @@ def get_onehand_score(
 
 
 def get_onehand_base_score(
-    indices: list[int],
+    indices: Sequence[int],
     hand: Hand,
     bigram_scores: dict[KeySeq, float],
     params: TrigramModelParameters,
@@ -412,7 +419,7 @@ def get_onehand_base_score(
 
 
 def get_extra_multipliers(
-    indices: list[int],
+    indices: Sequence[int],
     hand: Hand,
     params: TrigramModelParameters,
 ):
@@ -455,8 +462,8 @@ class TrigramScoreDict(typing.TypedDict):
     trigram_family_name: str
     trigram: str
     reference_trigram: str
-    scaled_target_score: float
-    scaled_estimated_score: float
+    score_ratio_actual: float
+    score_ratio_pred: float
     estimated_score: float
     estimated_score_details: dict
 
@@ -476,9 +483,24 @@ def iter_trigrams_scores(
     ----------
     bigram_scores:
         Should be the bigram scores scaled from 1.0 to 5.0
+
+    Returns
+    -------
+    Iterator[TrigramScoreDict]
+        An iterator which yields dictionaries with the trigram scores and additional
+        information. Meaning of the keys:
+
+        - score_ratio_actual: The target score is the target score from the manually
+          given scores (from the trigram scoring file). Because it's scaled score it
+          means that it's scaled by dividing by the score of the reference trigram.
+        - score_ratio_pred: The estimated score is the score estimated by the
+          model. This is also scaled by dividing by the score of the reference trigram.
+          In other words, it is model_score(trigram)/model_score(reference_trigram).
     """
 
-    def get_score_(trigram: str) -> dict:
+    def get_trigram_score_(trigram: str) -> dict:
+        """Convenience function which handles expection(s) and makes it easier to call
+        get_trigram_score."""
         try:
             return get_trigram_score(
                 trigram, hands, model_params, bigram_scores, mapping=mapping
@@ -490,35 +512,38 @@ def iter_trigrams_scores(
 
     for reference_trigram_name, scoreset in scoresets:
         trigram_family_name = scoreset.ref_family
-        ref_score_dct = get_score_(reference_trigram_name)
+        ref_score_dct = get_trigram_score_(reference_trigram_name)
         ref_score = ref_score_dct["score"]
 
-        for trigram, scaled_target_score in scoreset.scores.items():
-            estimated_score_dct = get_score_(trigram)
+        for trigram, score_ratio_actual in scoreset.scores.items():
+            estimated_score_dct = get_trigram_score_(trigram)
             estimated_score = estimated_score_dct["score"]
-            scaled_estimated_score = estimated_score / ref_score
+            score_ratio_pred = estimated_score / ref_score
             yield dict(
                 trigram_family_name=trigram_family_name,
                 trigram=trigram,
                 reference_trigram=reference_trigram_name,
-                scaled_target_score=scaled_target_score,
-                scaled_estimated_score=scaled_estimated_score,
+                score_ratio_actual=score_ratio_actual,
+                score_ratio_pred=score_ratio_pred,
                 estimated_score=estimated_score,
                 estimated_score_details=estimated_score_dct,
             )
 
 
 def get_scaled_bigram_scores(
-    bigram_scores: dict[KeySeq, float],
-    newmax: float,
-    exponent: float = DEFAULT_BIGRAM_SCALING_EXPONENT,
+    bigram_scores: dict[KeySeq, float], newmax: float, newmin: float = 1
 ) -> dict[KeySeq, float]:
+    """Creates scaled bigram scores based on non-scaled ones. Uses linear scaling."""
 
     scaled_scores = dict()
-    s = get_linear_scaling_function(oldmin=1, oldmax=5, newmin=1, newmax=newmax)
-
+    s = get_linear_scaling_function(
+        oldmin=min(bigram_scores.values()),
+        oldmax=max(bigram_scores.values()),
+        newmin=newmin,
+        newmax=newmax,
+    )
     for keyseq, score in bigram_scores.items():
-        scaled_scores[keyseq] = s(score) ** exponent
+        scaled_scores[keyseq] = s(score)
     return scaled_scores
 
 
@@ -560,7 +585,7 @@ class TrigramScoreSets:
         return self._trigram_sets[reference_trigram]
 
     @classmethod
-    def from_trigram_scores(
+    def from_relative_trigram_scores(
         cls, trigram_scoredict: dict[str, dict[str, float]], hands: Hands
     ) -> TrigramScoreSets:
         """Create TrigramScoreSets from a trigram score dictionary.
@@ -586,8 +611,8 @@ class TrigramScoreSets:
 
     @classmethod
     def from_file(cls, file: str | Path, hands: Hands) -> TrigramScoreSets:
-        trigram_scores = load_trigram_scores(file)
-        return cls.from_trigram_scores(trigram_scores, hands)
+        trigram_scores = load_trigram_relative_scores(file)
+        return cls.from_relative_trigram_scores(trigram_scores, hands)
 
     def __iter__(self) -> Iterator[tuple[str, TrigramScoreSet]]:
         return iter(self._trigram_sets.items())
@@ -611,7 +636,7 @@ def get_trigram_family(trigram: str, hands: Hands) -> str:
     return family
 
 
-def load_trigram_scores(file) -> dict[str, dict[str, float]]:
+def load_trigram_relative_scores(file) -> dict[str, dict[str, float]]:
     with open(file, "rb") as f:
         return tomllib.load(f)
 
@@ -657,15 +682,11 @@ def sort_trigram_score_groups(
 
 
 def max_abs_error(dcts: Sequence[TrigramScoreDict]) -> float:
-    return max(
-        [abs(d["scaled_target_score"] - d["scaled_estimated_score"]) for d in dcts]
-    )
+    return max([abs(_get_error(d)) for d in dcts])
 
 
 def average_abs_error(dcts: Sequence[TrigramScoreDict]) -> float:
-    return sum(
-        [abs(d["scaled_target_score"] - d["scaled_estimated_score"]) for d in dcts]
-    ) / len(dcts)
+    return sum([abs(_get_error(d)) for d in dcts]) / len(dcts)
 
 
 class TrigramModelParameters(BaseModel):
@@ -679,8 +700,6 @@ class TrigramModelParameters(BaseModel):
     unigram_coeff: float = DEFAULT_UNIGRAM_COEFF
     skipgram_b_coeff: float = DEFAULT_SKIPGRAM_B_COEFF
     easy_rolling_coeff: float = DEFAULT_EASY_ROLLING_COEFF
-    bigram_raw_range_max: float = DEFAULT_BIGRAM_RAW_RANGE_MAX
-    bigram_scaling_exponent: float = DEFAULT_BIGRAM_SCALING_EXPONENT
 
     # Non-optimized (manually tuned)
     sft_coeff: float = DEFAULT_SFT_COEFF
@@ -727,16 +746,6 @@ class TrigramModelParameters(BaseModel):
                 if config.sfb_in_onehand_coeff is not None
                 else DEFAULT_SFB_IN_ONEHAND_COEFF
             ),
-            bigram_raw_range_max=(
-                config.bigram_raw_range_max
-                if config.bigram_raw_range_max is not None
-                else DEFAULT_BIGRAM_RAW_RANGE_MAX
-            ),
-            bigram_scaling_exponent=(
-                config.bigram_scaling_exponent
-                if config.bigram_scaling_exponent is not None
-                else DEFAULT_BIGRAM_SCALING_EXPONENT
-            ),
         )
 
     @classmethod
@@ -748,8 +757,6 @@ class TrigramModelParameters(BaseModel):
             unigram_coeff=x[3],
             skipgram_b_coeff=x[4],
             easy_rolling_coeff=x[5],
-            bigram_raw_range_max=x[6],
-            bigram_scaling_exponent=x[7],
         )
 
     def as_tuple(self, only_model_params: bool = True) -> tuple[float, ...]:
@@ -761,8 +768,6 @@ class TrigramModelParameters(BaseModel):
             self.unigram_coeff,
             self.skipgram_b_coeff,
             self.easy_rolling_coeff,
-            self.bigram_raw_range_max,
-            self.bigram_scaling_exponent,
         )
         if only_model_params:
             return model_params
@@ -772,62 +777,109 @@ class TrigramModelParameters(BaseModel):
         )
 
 
-def get_trigram_params_error_fun(
+def create_optimization_target_function(
     scoresets: TrigramScoreSets,
     hands: Hands,
     bigram_scores: dict[KeySeq, float],
     mapping: EasyRollingTrigramsMap | None = None,
 ):
+    """Creates a function that can be used as the target for optimizing the trigram
+    model parameters.
+
+    bigram_scores: The non-scaled bigram scores; original bigram scores."""
+
     # Calculate this mapping only once as it's always the same. About 85% speed improvement.
     mapping = mapping or (
         get_easy_rolling_type_mapping(hands.config.easy_rolling_trigrams, hands)
         if hands.config.easy_rolling_trigrams is not None
         else None
     )
+    get_lower_limit, get_upper_limit = get_limit_funcs(hands.config.limit_multipliers)
 
-    def scorefunc(x, *_):
-        # Calculates RMSE
-        all_scores_func = get_all_errors_func(
-            scoresets, hands, bigram_scores, mapping=mapping
+    score_ratios = [sr for (_, ss) in scoresets for sr in ss.scores.values()]
+    use_dense_weight = len(score_ratios) > 2
+    if use_dense_weight:
+        dw = DenseWeight(alpha=1.0)
+        dw.fit(score_ratios)
+
+    def func(x: tuple[float], *_: typing.Any) -> float:
+        """Function that can be used as optimization target. Takes the model parameters
+        as a tuple (or: Sequence) and returns a single float."""
+        sum_: float = 0
+        iterator = create_score_iterator(
+            x, scoresets, hands, bigram_scores, mapping=mapping
         )
-        scoredct = all_scores_func(x, *_)
-        squared_sum = 0
-        for score in scoredct.values():
-            squared_sum += score**2
-        return (squared_sum / len(scoredct)) ** 0.5
 
-    return scorefunc
+        for i, d in enumerate(iterator):
+            err = _get_error(d)
+            r = d["score_ratio_actual"]
+            limit_func = get_lower_limit if err < 0 else get_upper_limit
+            err_limit = limit_func((r,))[0] - r
+            scaled_err = err / err_limit
+            if use_dense_weight:
+                density_based_weight = dw([r])[0]
+            # TODO: Add back or remove completely?
+            # sum_ += (density_based_weight * err) ** 2
+            sum_ += scaled_err**2
+        return (sum_ / (i + 1)) ** 0.5
+
+    return func
 
 
-def get_all_errors_func(
+def _get_error(d: TrigramScoreDict) -> float:
+    """Calculates a loss values for a single trigram score pair (trigram model scores)"""
+    return d["score_ratio_pred"] - d["score_ratio_actual"]
+
+
+def create_score_iterator(
+    x: tuple[float, ...],
     scoresets: TrigramScoreSets,
     hands: Hands,
     bigram_scores: dict[KeySeq, float],
     mapping: EasyRollingTrigramsMap | None = None,
 ):
-    """Create a function that returns a list of scores for all trigrams in the scoresets"""
-    mapping = mapping or (
-        get_easy_rolling_type_mapping(hands.config.easy_rolling_trigrams, hands)
-        if hands.config.easy_rolling_trigrams is not None
-        else None
+    """Create a function that returns an iterator of scores for all trigrams in the
+    scoresets
+
+    Parameters
+    ----------
+    bigram_scores: The non-scaled bigram scores; original bigram scores.
+    """
+
+    model_params = TrigramModelParameters.from_tuple(x)
+
+    bigram_scores_scaled = get_scaled_bigram_scores(bigram_scores, newmax=5, newmin=1)
+
+    return iter_trigrams_scores(
+        model_params, scoresets, hands, bigram_scores_scaled, mapping=mapping
     )
 
-    def scorefunc(x, *_):
-        model_params = TrigramModelParameters.from_tuple(x)
 
-        scores = dict()
-        for d in iter_trigrams_scores(
-            model_params, scoresets, hands, bigram_scores, mapping=mapping
-        ):
-            score = d["scaled_target_score"] - d["scaled_estimated_score"]
-            scores[d["trigram"]] = score
+def get_scoredict(
+    x: tuple[float, ...],
+    scoresets: TrigramScoreSets,
+    hands: Hands,
+    bigram_scores: dict[KeySeq, float],
+    mapping: EasyRollingTrigramsMap | None = None,
+):
+    """Create a function that returns a dict of scores for all trigrams in the scoresets
 
-        return scores
+    Parameters
+    ----------
+    bigram_scores: The non-scaled bigram scores; original bigram scores."""
 
-    return scorefunc
+    scoredicts = create_score_iterator(
+        x, scoresets, hands, bigram_scores, mapping=mapping
+    )
+
+    scores: dict[str, float] = dict()
+    for d in scoredicts:
+        scores[d["trigram"]] = _get_error(d)
+
+    return scores
 
 
-def get_initial_params_and_bounds() -> list[float]:
+def get_initial_params_and_bounds() -> tuple[list[float], list[tuple[float, float]]]:
     """Create initial params for optimization"""
     x0 = [
         1.4,  # vert2u_coeff
@@ -836,8 +888,6 @@ def get_initial_params_and_bounds() -> list[float]:
         0.6,  # unigram_coeff
         1.1,  # skipgram_b_coeff
         0.6,  # easy_rolling_coeff
-        40,  # bigram_raw_range_max
-        0.3,  # bigram_scaling_exponent
     ]
 
     bounds = [
@@ -847,8 +897,6 @@ def get_initial_params_and_bounds() -> list[float]:
         (0.05, 1.0),  # unigram_coeff
         (0.1, 2.0),  # skipgram_b_coeff
         (0.1, 1.0),  # easy_rolling_coeff
-        (1.1, 400),  # bigram_raw_range_max
-        (0.1, 0.7),  # bigram_scaling_exponent
     ]
     return x0, bounds
 
@@ -856,7 +904,7 @@ def get_initial_params_and_bounds() -> list[float]:
 def optimize_parameters(
     scorefunc: typing.Callable[[list[float]], float],
     x0: list[float],
-    bounds: list[tuple[float, float]],
+    bounds: list[tuple[float, float]] | None,
     config: Config,
 ) -> tuple[float, ...]:
 
@@ -866,18 +914,71 @@ def optimize_parameters(
         bounds=bounds,
         method="Nelder-Mead",
         args=(config,),
-        options=dict(maxiter=None, disp=True),
+        options=dict(
+            maxiter=10000,
+            maxfev=10000,
+            disp=True,
+        ),
     )  # type: ignore
 
     return tuple(float(x) for x in res.x)
 
 
+def create_log_m_func(
+    limit_multipliers: dict[float, float],
+) -> typing.Callable[[float], float]:
+
+    # TODO: Check if this is needed?
+    mlist_sorted = sorted(
+        ((k, v) for k, v in limit_multipliers.items()), key=lambda x: x[0]
+    )
+
+    score_ratios, multipliers = map(np.array, zip(*mlist_sorted))
+    log_m = np.log(multipliers)
+
+    spline = PchipInterpolator(score_ratios, log_m, extrapolate=False)
+
+    def get_log_m(r):
+
+        if r <= score_ratios[0]:
+            return log_m[0]
+        elif r >= score_ratios[-1]:
+            return log_m[-1]
+        return spline(r)
+
+    return get_log_m
+
+
+def get_limit_funcs(
+    limit_multipliers: dict[float, float],
+) -> tuple[
+    typing.Callable[[np.ndarray], np.ndarray], typing.Callable[[np.ndarray], np.ndarray]
+]:
+    """Creates functions that return the lower and upper limits for a given score ratio
+    The functions accept an array of score ratios (r) as input and return the limits.
+    To calculate residual limits, subtract "r" from the calculated limits."""
+
+    get_log_m = create_log_m_func(limit_multipliers)
+
+    def get_lower_limit(r: np.ndarray) -> np.ndarray:
+        log_m = np.array([get_log_m(ri) for ri in r])
+        m = np.exp(log_m)
+        return r / m
+
+    def get_upper_limit(r: np.ndarray) -> np.ndarray:
+        log_m = np.array([get_log_m(ri) for ri in r])
+        m = np.exp(log_m)
+        return r * m
+
+    return get_lower_limit, get_upper_limit
+
+
 if __name__ == "__main__":
     from granite_tools.scorer.bigram_scores import load_bigram_and_unigram_scores
 
-    bigram_and_unigram_scores = load_bigram_and_unigram_scores(sys.argv[1])
+    bigram_and_unigram_scores = load_bigram_and_unigram_scores(sys.argv[2], sys.argv[3])
 
-    config = read_config(sys.argv[2])
+    config = read_config(sys.argv[1])
     params = TrigramModelParameters.from_config(config)
     hands = get_hands_data(config)
     while True:

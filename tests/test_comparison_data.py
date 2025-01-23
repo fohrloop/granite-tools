@@ -1,23 +1,8 @@
 from granite_tools.comparison_data import (
     get_bigram_pairs,
-    get_bigram_unigram_pairs,
     get_ordered_unigrams_and_repeats,
     get_used_key_indices,
 )
-
-
-class TestGetBigramUnigramPairs:
-
-    def test_simple(self):
-
-        pairs = [
-            ((1, 2), (3,)),
-            ((1,), (3, 4)),
-            ((1, 2), (3, 4)),
-            ((1,), (3,)),
-        ]
-        result = get_bigram_unigram_pairs(pairs)
-        assert result == [((1, 2), (3,)), ((1,), (3, 4))]
 
 
 class TestGetBigramPairs:

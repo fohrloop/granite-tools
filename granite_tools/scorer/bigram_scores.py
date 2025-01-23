@@ -11,6 +11,12 @@ import numpy as np
 import yaml
 from scipy.optimize import minimize
 
+from granite_tools.scorer.modelparams import SPLINE_KWARGS
+from granite_tools.scorer.smooth_scores import (
+    create_monotone_bspline,
+    read_raw_anchor_scores_json,
+    scores_to_training_data,
+)
 from granite_tools.utils import get_linear_scaling_function
 
 if typing.TYPE_CHECKING:
@@ -25,9 +31,29 @@ if typing.TYPE_CHECKING:
     T = TypeVar("T")
 
 
-def load_bigram_and_unigram_scores(file: str | Path) -> dict[KeySeq, float]:
-    ngram_rankings = load_ranking(file)
-    return rankings_to_initial_scores(ngram_rankings)
+def load_bigram_and_unigram_scores(
+    bigram_ranking_file: str | Path, raw_anchor_scores_file: str | Path
+) -> dict[KeySeq, float]:
+    """Load bigram (and unigram) scores.
+
+    Parameters
+    ----------
+    bigram_ranking_file:
+        The file with key sequences on each row. Top of file: easiest, end of file:
+        most difficult. The key sequences are ints (e.g 10) or pairs of ints (e.g. 6,7)
+    raw_anchor_scores_file:
+        The json file containing the raw anchor scores. These are the absolute scores
+        for certain anchor bigrams (and unigrams). Example key-value pair:
+        "(12, 6)": 1.8170985207530244
+    """
+    ngrams_ordered = load_ranking(bigram_ranking_file)
+    scores = read_raw_anchor_scores_json(raw_anchor_scores_file)
+    y_all, ranks = get_spline_scores(ngrams_ordered, scores)
+    scores = dict()
+    for x, y in zip(ranks, y_all):
+        ngram = ngrams_ordered[int(x - 1)]
+        scores[ngram] = float(y)
+    return scores
 
 
 def load_ranking(file) -> list[KeySeq]:
@@ -35,23 +61,10 @@ def load_ranking(file) -> list[KeySeq]:
         return [tuple(map(int, line.strip().split(","))) for line in f]
 
 
-def rankings_to_initial_scores(rankings: list[KeySeq]) -> dict[KeySeq, float]:
-    """Convert a list of rankings to initial scores (scaled from 1.0 to 5.0)."""
-    scores = dict()
-
-    get_score = get_linear_scaling_function(
-        oldmin=1, oldmax=len(rankings), newmin=1, newmax=5
-    )
-    for rank, keyseq in enumerate(rankings, start=1):
-        scores[keyseq] = get_score(rank)
-
-    return scores
-
-
-def fit_ngram_scores(
+def fit_anchor_ngram_scores(
     score_ratios: Sequence[ScoreRatioEntry], ranks: Sequence[KeySeq]
 ) -> dict[KeySeq, float]:
-    """Fits ngram scores based on score rations. The ranks must be a sequence sorted
+    """Fits ngram scores based on score ratioss. The ranks must be a sequence sorted
     from least to most effort key sequence."""
 
     ngrams = _get_ngrams_present_in_score_ratios(score_ratios, ranks)
@@ -67,16 +80,16 @@ def _fit_selected_ngram_scores(
     ngrams_need_score: Sequence[KeySeq],
     score_ratios: Sequence[ScoreRatioEntry],
 ) -> dict[KeySeq, float]:
-    def err_func(x: Sequence[float]) -> float:
+    def err_func(x: Sequence[float] | np.ndarray) -> float:
         s = {
             first_ngram: 1.0,
             **{ngram: x[i] for i, ngram in enumerate(ngrams_need_score)},
         }
         total_error = 0.0
-        for ngram1, ngram2, score_ratio in score_ratios:
+        for ngram1, ngram2, score_ratio_expected in score_ratios:
 
-            calculated = s[ngram1] / s[ngram2]
-            err = np.log2(calculated / score_ratio) ** 2
+            score_ratio_calc = s[ngram1] / s[ngram2]
+            err = np.log2(score_ratio_calc / score_ratio_expected) ** 2
             total_error += err
         return total_error / len(score_ratios)
 
@@ -183,3 +196,17 @@ def make_score_ratio_entries(
             out.append((tuple(ngram_keyseq), tuple(ref_keyseq), item["score_ratio"]))
 
     return out
+
+
+def get_spline_scores(
+    ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
+) -> tuple[np.ndarray, list[int]]:
+    x_train, y_train, ranks = scores_to_training_data(ngrams_ordered, scores)
+    bspline = create_monotone_bspline(
+        x_train,
+        y_train,
+        **SPLINE_KWARGS,
+    )
+
+    bspline_scores = bspline(ranks)
+    return np.array(bspline_scores), ranks

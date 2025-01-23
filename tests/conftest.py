@@ -58,9 +58,7 @@ TEST_CONFIG = {
     ],
 }
 
-TEST_CONFIG_MINIMAL_TXT = (
-    examples_folder / "keyseq_effort_numbers_mini.yml"
-).read_text()
+TEST_CONFIG_MINIMAL_TXT = (examples_folder / "config_numbers_mini.yml").read_text()
 
 
 @pytest.fixture
@@ -70,12 +68,12 @@ def config() -> Config:
 
 @pytest.fixture
 def config_minimal() -> Config:
-    return read_config(examples_folder / "keyseq_effort_numbers_mini.yml")
+    return read_config(examples_folder / "config_numbers_mini.yml")
 
 
 @pytest.fixture
 def config_full() -> Config:
-    return read_config(examples_folder / "keyseq_effort.yml")
+    return read_config(examples_folder / "config.yml")
 
 
 @pytest.fixture

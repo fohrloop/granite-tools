@@ -1,0 +1,165 @@
+# Arbitrary indices for each key. Used to
+# * Give each key on each side an index number
+# * Pair left side keys to right side keys
+# * Define the order in which the key sequences to be sorted are presented to the user
+key_indices:
+  - [       13,  10,  7,  4,  1,     1,  4,  7,  10,  13,      ]
+  - [   16, 14,  11,  8,  5,  2,     2,  5,  8,  11,  14,  16  ]
+  - [       15,  12,  9,  6,  3,     3,  6,  9,  12,  15,      ]
+  - [                       18, 17, 17, 18                     ]
+
+# The symbols to use for each key (when comparing key sequences by location, instead
+# of showing key_indices)
+symbols_visualization:
+  - [       Q,  W,  E,  R,  T,     Y,  U,  I,  O,  P       ]
+  - [   1,  A,  S,  D,  F,  G,     H,  J,  K,  L,  ;,  2   ]
+  - [       Z,  X,  C,  V,  B,     N,  M, ",", .,  /       ]
+  - [                 "+", "_", "@", "^"                   ]
+
+# The symbols to use in scoring
+symbols_scoring:
+  - [        Q,  W,  E,  R,  T,     Y,  U,  I,  O,  P          ]
+  - [   "1", A,  S,  D,  F,  G,     H,  J,  K,  L,  ;,  "2"    ]
+  - [        Z,  X,  C,  V,  B,     N,  M, ",", .,  /          ]
+  - [                   null, " ", null, null                  ]
+
+## Used for calculating row differences and redirects
+# * format: [column, row]
+# * Columns should grow from left to right, rows from top to bottom.
+# * thumbs keys should be innermost (between left and right hand index fingers) and at
+#   the bottom (below all keys)
+matrix_positions:
+  - [       [1,0], [2,0], [3,0], [4,0], [5,0],                  [10,0], [11,0], [12,0], [13,0], [14,0]        ]
+  - [[0,1], [1,1], [2,1], [3,1], [4,1], [5,1],                  [10,1], [11,1], [12,1], [13,1], [14,1], [15,1]]
+  - [       [1,2], [2,2], [3,2], [4,2], [5,2],                  [10,2], [11,2], [12,2], [13,2], [14,2]        ]
+  - [                                     [6,3], [7,3],   [8,3], [9,3]                                        ]
+
+
+# Hand used to press each key
+hands:
+  - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
+  - [Left, Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right, Right]
+  - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
+  -           [                     Left, Left, Right, Right,                                   ]
+
+# For calculating if something is SFB
+finger_matrix:
+  - [       p,  r,  m,  i,  i,      i,  i,  m,  r,  p       ]
+  - [   p,  p,  r,  m,  i,  i,      i,  i,  m,  r,  p,  p   ]
+  - [       p,  r,  m,  i,  i,      i,  i,  m,  r,  p       ]
+  - [                      t, t, t, t,                      ]
+
+# Visualization. Any (single) symbols you want.
+# Used only in the table visualization (granite-bigram-ranking-view)
+key_category_matrix:
+  - [       P,  r,  m,  i,  I,      I,  i,  m,  r,  P       ]
+  - [   p,  p,  r,  m,  i,  I,      I,  i,  m,  r,  p,  p   ]
+  - [       p,  r,  m,  i,  I,      I,  i,  m,  r,  p       ]
+  - [                       t, t, t, t                      ]
+
+# Colors:
+# See the`color_mapping` for the meanings of the symbols.
+# Used only in the table visualization (granite-bigram-ranking-view)
+color_matrix:
+  - [       Q,  t,  t,  t,  C,      C,  t,  t,  t,  Q       ]
+  - [   p,  h,  h,  h,  h,  c,      c,  h,  h,  h,  h,  p   ]
+  - [       b,  b,  b,  b,  C,      C,  b,  b,  b,  b       ]
+  - [                      c, c, c, c                       ]
+
+# Mapping between color index in `color_matrix` and the actual color
+# Any colors supported by rich. See: https://rich.readthedocs.io/en/stable/appendix/colors.html
+# Used only in the table visualization (granite-bigram-ranking-view)
+color_mapping:
+  h: chartreuse1
+  c: chartreuse2
+  C: salmon1
+  b: yellow1
+  t: royal_blue1
+  p: salmon1
+  Q: deep_pink1
+
+
+## SCORING
+easy_rolling_trigrams:
+  hammer:
+  - "..33"
+  - "1233"
+  - "..33"
+  shield:
+  - "..3."
+  - ".233"
+  - "1.33"
+  - "..3."
+  snow-scoop:
+  - "1.."
+  - ".23"
+
+vert2u_penalties:
+  # All bigrams that are a part of a onehand trigram, with 2 unit vertical distance
+  # between the keys will have a vert2u penalty. If there are two transitions, the
+  # penalty is double. Bigrams with thumb keys will NOT have penalty.
+
+  exceptions:
+    # Exceptions. These are the indices (from `key_indices`)
+    # Format: [[bottom_index], [top_indices]].
+    # These transitions will NOT cause vertical 2u penalties
+    - [15, [7, 4]] # p bottom <-> m or i top
+    - [12, [7, 4]] # r bottom <-> m or i top
+    - [6, [7, 10]] # i bottom <-> m or r top
+
+# BASELINE
+# vert2u_coeff: 1.208
+# dirchange_coeff: 1.202
+# balanced_b_coeff: 0.705
+# unigram_coeff: -0.142
+# skipgram_b_coeff: 0.804
+# easy_rolling_coeff: 0.446
+
+# Trial1
+# vert2u_coeff: 1.071
+# dirchange_coeff: 1.011
+# balanced_b_coeff: 0.936
+# unigram_coeff: -0.049
+# skipgram_b_coeff: 1.018
+# easy_rolling_coeff: 0.643
+
+# weighted, not squared
+# vert2u_coeff: 1.099
+# dirchange_coeff: 1.078
+# balanced_b_coeff: 1.108
+# unigram_coeff: -0.280
+# skipgram_b_coeff: 1.163
+# easy_rolling_coeff: 0.567
+
+# weighted, squared
+# vert2u_coeff: 1.152
+# dirchange_coeff: 1.157
+# balanced_b_coeff: 1.124
+# unigram_coeff: -0.387
+# skipgram_b_coeff: 1.193
+# easy_rolling_coeff: 0.511
+
+# Fitted without redirs
+vert2u_coeff: 1.262
+dirchange_coeff: 2.654
+balanced_b_coeff: 1.029
+unigram_coeff: 0.173
+skipgram_b_coeff: 1.109
+easy_rolling_coeff: 0.766
+
+sfb_in_onehand_coeff: 1.03
+sft_coeff: 2.0
+
+
+# This is used for trigram model fitting process (ADVANCED SETTING)
+# With this you tell the uncertainty of the trigram score ratios in the trigram score ratio file
+#  key: score ratio (r) where the limit should be applied
+#  value: multiplier to the limit, meaning that the limits will be
+#         r/multiplier (below),  r * multiplier (above)
+# Example: 1: 2 would mean that limit is from 0.5 to 2 for score ratio 1.0.
+limit_multipliers:
+  0.15: 3
+  0.6: 1.416
+  1: 1.1
+  2.5: 1.35
+  3.0: 1.4

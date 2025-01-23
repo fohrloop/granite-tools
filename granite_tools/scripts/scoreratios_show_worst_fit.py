@@ -6,9 +6,10 @@ Usage:
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_show_worst_fit.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/granite.scores-raw.json
+    uv run granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/bigram-anchor-scores-raw.json
 """
 
+# mypy: ignore-errors
 from __future__ import annotations
 
 import ast
@@ -68,10 +69,10 @@ def get_worst_score_ratios(
         data["score_ref"].append(ref_score)
         data["score_ngram"].append(ngram_score)
         data["log2err"].append(log2err)
-        data["relative_err"].append(signed_rel_err)
+        data["score_ratio_resid"].append(signed_rel_err)
     df = (
         pd.DataFrame(data)
-        .sort_values(by="relative_err", key=abs)
+        .sort_values(by="score_ratio_resid", key=abs)
         .set_index("ratio_name")
     )
 

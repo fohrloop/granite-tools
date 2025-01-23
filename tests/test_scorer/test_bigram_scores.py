@@ -4,7 +4,7 @@ from granite_tools.app_types import KeySeq
 from granite_tools.scorer.bigram_scores import (
     _fit_selected_ngram_scores,
     _get_ngrams_present_in_score_ratios,
-    fit_ngram_scores,
+    fit_anchor_ngram_scores,
     get_group_sizes,
     select_every_nth_item,
 )
@@ -66,23 +66,6 @@ class TestFitSelectedNgramScores:
         # 1.70 / 1.48 = 1.148 (closer to 1.2 than 1.65/1.54, which would be 1.07)
         assert pytest.approx(scores[(4,)], rel=1e-2) == 1.48
         assert pytest.approx(scores[(5,)], rel=1e-2) == 1.70
-
-
-@pytest.mark.skip(reason="This test is not implemented.")
-class TestFitNgramScores:
-
-    def test_simple(self, score_ratios: list[ScoreRatioEntry], ranks: list[KeySeq]):
-
-        scores = fit_ngram_scores(score_ratios, ranks)
-
-        # See explanations from the TestFitSelectedNgramScores test.
-        assert scores[(1,)] == 1.0
-        assert pytest.approx(scores[(2,)], rel=1e-3) == 1.1
-        assert pytest.approx(scores[(4,)], rel=1e-2) == 1.48
-        assert pytest.approx(scores[(5,)], rel=1e-2) == 1.70
-
-        # The score for x3 is between x2 and x4.
-        assert pytest.approx(scores[(3,)], rel=1e-2) == (1.1 + 1.48) / 2
 
 
 class TestGetGroupSizes:

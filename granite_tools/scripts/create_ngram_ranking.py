@@ -1,5 +1,5 @@
 """Used to create estimate for ngram ranking scores using .compare.pickle file from the
-granite-scorer-compare application.
+granite-bigram-compare application.
 
 
 Usage: python granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
@@ -13,8 +13,8 @@ import sys
 from enum import Enum
 from pathlib import Path
 
-from granite_tools.compare.fitting import get_scores
-from granite_tools.compare.scorer import is_bigram, is_repeat, is_unigram
+from granite_tools.bigram_compare.fitting import get_scores
+from granite_tools.bigram_compare.scorer import is_bigram, is_repeat, is_unigram
 from granite_tools.comparison_data import (
     get_bigram_pairs,
     get_ordered_keys,

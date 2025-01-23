@@ -1,0 +1,291 @@
+[
+  {
+    "config": {
+      "defaultAggregated": false,
+      "geoms": ["auto"],
+      "coordSystem": "generic",
+      "limit": -1
+    },
+    "encodings": {
+      "dimensions": [
+        {
+          "fid": "trigram",
+          "name": "trigram",
+          "basename": "trigram",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "has_thumb",
+          "name": "has_thumb",
+          "basename": "has_thumb",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "trigram_type",
+          "name": "trigram_type",
+          "basename": "trigram_type",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "trigram_family_name",
+          "name": "trigram_family_name",
+          "basename": "trigram_family_name",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "reference_trigram",
+          "name": "reference_trigram",
+          "basename": "reference_trigram",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "ref_trigram",
+          "name": "ref_trigram",
+          "basename": "ref_trigram",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "ref_trigram_type",
+          "name": "ref_trigram_type",
+          "basename": "ref_trigram_type",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        },
+        {
+          "fid": "gw_mea_key_fid",
+          "name": "Measure names",
+          "analyticType": "dimension",
+          "semanticType": "nominal"
+        }
+      ],
+      "measures": [
+        {
+          "fid": "ngram1",
+          "name": "ngram1",
+          "basename": "ngram1",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "ngram2",
+          "name": "ngram2",
+          "basename": "ngram2",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "ngram_sum",
+          "name": "ngram_sum",
+          "basename": "ngram_sum",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "base_score",
+          "name": "base_score",
+          "basename": "base_score",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "vert2u",
+          "name": "vert2u",
+          "basename": "vert2u",
+          "analyticType": "measure",
+          "semanticType": "nominal",
+          "aggName": "sum"
+        },
+        {
+          "fid": "dirchange",
+          "name": "dirchange",
+          "basename": "dirchange",
+          "analyticType": "measure",
+          "semanticType": "nominal",
+          "aggName": "sum"
+        },
+        {
+          "fid": "score_ratio_resid",
+          "name": "score_ratio_resid",
+          "basename": "score_ratio_resid",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "score_ratio_scaled_resid_pred",
+          "name": "score_ratio_scaled_resid_pred",
+          "basename": "score_ratio_scaled_resid_pred",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "score_ratio_scaled_resid_actual",
+          "name": "score_ratio_scaled_resid_actual",
+          "basename": "score_ratio_scaled_resid_actual",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "score_ratio_actual",
+          "name": "score_ratio_actual",
+          "basename": "score_ratio_actual",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "score_ratio_pred",
+          "name": "score_ratio_pred",
+          "basename": "score_ratio_pred",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "estimated_score",
+          "name": "estimated_score",
+          "basename": "estimated_score",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "score_ratio_relative_resid",
+          "name": "score_ratio_relative_resid",
+          "basename": "score_ratio_relative_resid",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "ref_trigram_score",
+          "name": "ref_trigram_score",
+          "basename": "ref_trigram_score",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "ref_vert2u",
+          "name": "ref_vert2u",
+          "basename": "ref_vert2u",
+          "analyticType": "measure",
+          "semanticType": "nominal",
+          "aggName": "sum"
+        },
+        {
+          "fid": "ref_bigram_sum",
+          "name": "ref_bigram_sum",
+          "basename": "ref_bigram_sum",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "min_ngram",
+          "name": "min_ngram",
+          "basename": "min_ngram",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        },
+        {
+          "fid": "gw_count_fid",
+          "name": "Row count",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum",
+          "computed": true,
+          "expression": { "op": "one", "params": [], "as": "gw_count_fid" }
+        },
+        {
+          "fid": "gw_mea_val_fid",
+          "name": "Measure values",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        }
+      ],
+      "rows": [
+        {
+          "fid": "score_ratio_scaled_resid_pred",
+          "name": "score_ratio_scaled_resid_pred",
+          "basename": "score_ratio_scaled_resid_pred",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        }
+      ],
+      "columns": [
+        {
+          "fid": "score_ratio_pred",
+          "name": "score_ratio_pred",
+          "basename": "score_ratio_pred",
+          "analyticType": "measure",
+          "semanticType": "quantitative",
+          "aggName": "sum"
+        }
+      ],
+      "color": [
+        {
+          "fid": "trigram_type",
+          "name": "trigram_type",
+          "basename": "trigram_type",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        }
+      ],
+      "opacity": [],
+      "size": [],
+      "shape": [
+        {
+          "fid": "ref_trigram_type",
+          "name": "ref_trigram_type",
+          "basename": "ref_trigram_type",
+          "semanticType": "nominal",
+          "analyticType": "dimension"
+        }
+      ],
+      "radius": [],
+      "theta": [],
+      "longitude": [],
+      "latitude": [],
+      "geoId": [],
+      "details": [],
+      "filters": [],
+      "text": []
+    },
+    "layout": {
+      "showActions": false,
+      "showTableSummary": false,
+      "stack": "stack",
+      "interactiveScale": false,
+      "zeroScale": true,
+      "size": { "mode": "fixed", "width": 740, "height": 593 },
+      "format": {},
+      "geoKey": "name",
+      "resolve": {
+        "x": false,
+        "y": false,
+        "color": false,
+        "opacity": false,
+        "shape": false,
+        "size": false
+      }
+    },
+    "visId": "gw_Vmd7",
+    "name": "Chart 1"
+  }
+]

@@ -1,3 +1,5 @@
+"""Provides functions, classes and variables for the ngrams.cli module"""
+
 from __future__ import annotations
 
 import io

@@ -12,33 +12,33 @@ The [granite-tools](https://github.com/fohrloop/granite-tools) provides a toolki
 The full process is:
 
 1. **Granite config file (yaml)**: Create a keyboard configuration yaml file.
-2. **Initial order**: Create initial order with `granite-scorer-baseline`.
-3. **View the initial order** (optional): Use the `granite-scorer-view` view or fine tune the initial order. 
-4. **Create comparison file**. Use the `granite-scorer-compare`  to create comparisons of different key sequences. 
+2. **Initial bigram ranking**: Create initial ranking/ordering with `granite-bigram-ranking-initial`.
+3. **View the initial order** (optional): Use the `granite-bigram-ranking-view` view or fine tune the initial order. 
+4. **Create comparison file**. Use the `granite-bigram-compare`  to create comparisons of different key sequences. 
 5. **Create bigram (and unigram) ranking file** using `python create_ngram_ranking.py <some.compare.pickle>`. The output file will be called `some.compare.ranking`.
-6. **Create bigram (and unigram) score ratio file** using `granite-ngram-score-ratio-template` and filling up the template.
+6. **Create bigram (and unigram) score ratio file** using `granite-bigram-score-ratio-template` and filling up the template.
 7. **Create bigram (and unigram) scores** based on score ratios
 8. **Create trigram scoring file**: Hint: use `granite-trigram-score-template` for creating the trigram scoring template.
 9. **Fit the trigram coefficients**: Use `granite-trigram-score-fit` to fit the trigram coefficients.
 
 
 > [!TIP]
-> You can actually use the `granite-scorer-view`  at _any point_ to make adjustments to a ngram ranking file if you wish.
+> You can actually use the `granite-bigram-ranking-view`  at _any point_ to make adjustments to a ngram ranking file if you wish.
 
 ### (1) Granite config file (yaml)
 
-Create a keyboard configuration yaml file. Copy the `examples/keyseq_effort.yml` and use it as a base.
+Create a keyboard configuration yaml file. Copy the `examples/config.yml` and use it as a base.
 
-### (2) Initial order
+### (2) Initial bigram ranking
 
-Create initial order with `granite-scorer-baseline`. This takes approximately 4.5 hours (16 keys per side). 
+Create initial ordering for the bigrams (and unigrams) with `granite-bigram-ranking-initial`. This takes approximately 4.5 hours (16 keys per side). 
 
-Tip: It's possible to use the `granite-scorer-view` also with partial initial order file (e.g. if you find something that's a bit off while working with `granite-scorer-baseline`).
+Tip: It's possible to use the `granite-bigram-ranking-view` also with partial initial order file (e.g. if you find something that's a bit off while working with `granite-bigram-ranking-initial`).
 
 **Usage**:
 
 ```
-❯ granite-scorer-baseline <ngram-ranking-file> <config-file-yml>
+❯ granite-bigram-ranking-initial <ngram-ranking-file> <config-file-yml>
 ```
 
 where `<ngram-ranking-file>` is the path to the output file (created by the app) and `<config-file-yml>` is path to the granite configuration file created in step 1.
@@ -46,54 +46,54 @@ where `<ngram-ranking-file>` is the path to the output file (created by the app)
 **Example**:
 
 ```
-❯ granite-scorer-baseline myfile examples/keyseq_effort.yml
+❯ granite-bigram-ranking-initial myfile examples/config.yml
 ```
 
 
-### Screenshots from granite-scorer-baseline
+### Screenshots from granite-bigram-ranking-initial
 
-![Creating the initial order with granite-scorer-baseline](img/granite-scorer-baseline1.png)
+![Creating the initial order with granite-bigram-ranking-initial](img/granite-bigram-ranking-initial1.png)
 
-![Creating the initial order with granite-scorer-baseline](img/granite-scorer-baseline2.png)
+![Creating the initial order with granite-bigram-ranking-initial](img/granite-bigram-ranking-initial2.png)
 
 ### (3) View the initial order (optional)
 
-Use the `granite-scorer-view` to see the initial order. You may also do some fine tuning to the order.
+Use the `granite-bigram-ranking-view` to see the initial order. You may also do some fine tuning to the order.
 
 Example:
 
 ```
-❯ granite-scorer-view tmp/granite.ranking examples/keyseq_effort.yml
+❯ granite-bigram-ranking-view tmp/granite.ranking examples/config.yml
 ```
 
 ### (4) Create comparison file
 
-Use the `granite-scorer-compare` with the initial order to create comparisons of different key sequences.  This takes approximately 12 hours (16 keys per side). This produces a `.compare.pickle` file.
+Use the `granite-bigram-compare` with the initial order to create comparisons of different key sequences.  This takes approximately 12 hours (16 keys per side). This produces a `.compare.pickle` file.
 
 
 **Usage**:
 
 ```
-❯ granite-scorer-compare <ngram-ranking-file|saved-pickle-file> <config-file-yml>
+❯ granite-bigram-compare <ngram-ranking-file|saved-pickle-file> <config-file-yml>
 ```
 
 where
 
--  `<ngram-ranking-file>` is a key sequence ranking file one created with `granite-scorer-baseline` or saved with `granite-scorer-view`. (in case you start creating a new comparison file)
-- `<saved-pickle-file>` is a `*.compare.pickle` file saved with `granite-scorer-compare` (in case you want to continue ngram comparison progress)
+-  `<ngram-ranking-file>` is a key sequence ranking file one created with `granite-bigram-ranking-initial` or saved with `granite-bigram-ranking-view`. (in case you start creating a new comparison file)
+- `<saved-pickle-file>` is a `*.compare.pickle` file saved with `granite-bigram-compare` (in case you want to continue ngram comparison progress)
 - `<config-file-yml>` is your granite config YAML file.
 
 **Example**:
 
 ```
-❯ granite-scorer-compare myfile examples/keyseq_effort.yml
+❯ granite-bigram-compare myfile examples/config.yml
 ```
 
 - In this application, you will score each key sequence (ngram) 10 times against a random key sequence (normally distributed around the left pair). The order is updated after every round (10 comparisons).
-- You typically first time load from the file created with `granite-scorer-baseline` and subsequent times you'll load from the saved `.compare.pickle` file (See also: [.compare.pickle format](compare-pickle-format.md))
+- You typically first time load from the file created with `granite-bigram-ranking-initial` and subsequent times you'll load from the saved `.compare.pickle` file (See also: [.compare.pickle format](compare-pickle-format.md))
 
-##### Screenshots from granite-scorer-compare
-![](img/granite-scorer-compare.png)
+##### Screenshots from granite-bigram-compare
+![](img/granite-bigram-compare.png)
 
 
 ### (5) Create bigram (and unigram) ranking file
@@ -101,13 +101,13 @@ where
 Exract the bigram ranking file from the `.compare.pickle` file using:
 
 ```
-python granite_tools/scripts/granite_tools/scripts/create_ngram_ranking.py.py <some.compare.pickle>
+python granite_tools/scripts/granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
 ```
 
 The output file will be called `some.compare.ranking`, which contains all the unigrams and bigrams in rank order (easiest on the top of the file, most difficult at the bottom).
 
 > [!TIP]
-> You can use the `granite-scorer-view`  at _any point_ to make adjustments to the ngram ranking file if you wish.
+> You can use the `granite-bigram-ranking-view`  at _any point_ to make adjustments to the ngram ranking file if you wish.
 
 
 ### (6) Create bigram (and unigram) score ratio file
@@ -115,19 +115,19 @@ The output file will be called `some.compare.ranking`, which contains all the un
 Before continuing, it's a good idea to do the last check for the ordering of the ngrams in your ngram ranking file. For example:
 
 ```
-❯ granite-scorer-view tmp/granite.ranking examples/keyseq_effort.yml
+❯ granite-bigram-ranking-view tmp/granite.ranking examples/config.yml
 ```
 
 After you're confident that the ordering is what you'd like, run:
 
 ```
-❯ granite-ngram-score-ratio-template <ngram-ranking-file|saved-pickle-file> <config-file-yml> <template-file-out-yaml>
+❯ granite-bigram-score-ratio-template <ngram-ranking-file> <config-file-yml> <scoreratio-template-file-out-yml>
 ```
 
 Example:
 
 ```
-❯ granite-ngram-score-ratio-template tmp/some.compare.ranking examples/keyseq_effort.yml tmp/some.scoreratios.yml
+❯ granite-bigram-score-ratio-template tmp/some.compare.ranking examples/config.yml tmp/some.scoreratios.yml
 ```
 
 to create a template and fill in the details. Example:
@@ -167,19 +167,20 @@ This part can be a bit iterative and requires some level of patience. Any outlie
 
 ### Fit the model
 
-First, fit the model. This creates raw scores (JSON) file for the scores of the anchor ngrams (anchor ngrams are the ngrams included in the score ratios of the scoreratio file). The command is:
+First, fit the model. This creates raw anchor nrgram scores (JSON) file for the scores of the anchor ngrams (anchor ngrams are the ngrams included in the score ratios of the scoreratio file). The command is:
 
 ```
-[python | uv run] granite_tools/scripts/scoreratios_fit.py [config_file] [bigram_ranking_file] [scoreratio_file] [scores_raw_out_file]
+[python | uv run] granite_tools/scripts/scoreratios_fit.py [config_file] [bigram_ranking_file] [bigram_scoreratio_file] [bigram_raw_anchor_scores_json]
 ```
 
+where the `bigram_raw_anchor_scores_json` defines the output file.
 **Example**:
 
 ```
-uv run granite_tools/scripts/scoreratios_fit.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios.yml tmp/granite.scores-raw.json
+uv run granite_tools/scripts/scoreratios_fit.py examples/config.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw.json
 ```
 
-**Note**: This step may run 2-7 minutes depending on the data and power of the CPU in use.
+**Note**: This step may run 5-10 minutes depending on the data and power of the CPU in use.
 
 The output will be a JSON file like this:
 
@@ -191,11 +192,11 @@ The output will be a JSON file like this:
 
 You may plot the bigram (and unigram) scores with:
 
-    python granite_tools/scripts/scoreratios_plot.py [config_file] [bigram_ranking_file] [scoreratio_file] [scores_raw_out_file]
+    python granite_tools/scripts/scoreratios_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_scores_json]
 
 Example:
 
-    python granite_tools/scripts/scoreratios_plot.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/granite.scores-raw.json
+    python granite_tools/scripts/scoreratios_plot.py examples/config.yml tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
 
 Example output:
 
@@ -204,14 +205,20 @@ Example output:
 The example above looks good. The "raw" data points (for anchor ngrams) are quite close to the smoothed spline curve. If they are not, you may either:
 
 - Check worst fit score ratios and fix the associated score ratios (see below)
-- Use `granite-scorer-view` to move ngrams in rank order (left or right in the figure), if you think all the score ratios are correct.
+- Use `granite-bigram-ranking-view` to move ngrams in rank order (left or right in the figure), if you think all the score ratios are correct.
 - Remove some anchor ngram if you think all the associated score ratios are wrong (for example, "Q". Note that you should not remove the highest or lowest ranked ngram)
+
+**TIP**: In addition, you may use
+
+    python granite_tools/scripts/plot_bigram_scores.py examples/config.yml tmp/granite.ranking  tmp/bigram-anchor-scores-raw.json bigramscores.svg
+
+To show more detailed view of the final fit (saved to bigramscores.svg).
 
 #### Checking worst fit score ratios
 The `scoreratios_show_worst_fit` can be used to check for the score ratios with worst fit. For example:
 
 ```
-python granite_tools/scripts/scoreratios_show_worst_fit.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios.yml tmp/granite.scores-raw
+python granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw
 .json
 ```
 
@@ -221,7 +228,7 @@ It's a good idea to fix large negative `log2err` (the score ratios you estimated
 If the "Q" unigram was selected to be one of the anchor ngrams (included in the score ratio file), you might want to remove it with `scoreratios_modify.py`. For example:
 
 ```
-python granite_tools/scripts/scoreratios_modify.py examples/keyseq_effort.yml tmp/granite.scoreratios-fixed.yml --remove Q
+python granite_tools/scripts/scoreratios_modify.py examples/config.yml tmp/granite.scoreratios-fixed.yml --remove Q
 ```
 
 #### When to continue to the next step?
@@ -278,7 +285,7 @@ You can use `granite-trigram-score-template` for creating the trigram scoring te
 
 For example:
 
-    granite-trigram-score-template examples/keyseq_effort.yml tmp/trigram.relative.toml 250
+    granite-trigram-score-template examples/config.yml tmp/trigram.relative.toml 250
 
 Running `granite-trigram-score-template` with same `OUTFILE` as argument will _append_ more trigram sets (that are NOT already in the file). That's a handy way for adding more data to the file afterwards.
 
@@ -289,22 +296,22 @@ Use `granite-trigram-score-fit` to fit the trigram coefficients.
 **Example**:
 
 ```
-granite-trigram-score-fit examples/keyseq_effort.yml tmp/efforts.ranking tmp/trigram.relative.toml
+granite-trigram-score-fit examples/config.yml tmp/efforts.ranking tmp/trigram.relative.toml
 ```
 
 
-## granite-scorer-view
+## granite-bigram-ranking-view
 
 Application for viewing and reordering an ordered ngram table (ngram ranking file). Launch:
 
 ```
-❯ granite-scorer-view <ngram-ranking-file> <config-file-yml>
+❯ granite-bigram-ranking-view <ngram-ranking-file> <config-file-yml>
 ```
 
 for example:
 
 ```
-❯ granite-scorer-view myfile examples/keyseq_effort.yml
+❯ granite-bigram-ranking-view myfile examples/config.yml
 ```
 
 > [!TIP]
@@ -315,7 +322,7 @@ for example:
 > Do not open the file in two processes at the same time; that will most likely lead to data loss!
 
 
-### Screenshots from granite-scorer-view
+### Screenshots from granite-bigram-ranking-view
 
-![Example of the table shown by granite-scorer-view](img/granite-scorer-view.png)
+![Example of the table shown by granite-bigram-ranking-view](img/granite-bigram-ranking-view.png)
 

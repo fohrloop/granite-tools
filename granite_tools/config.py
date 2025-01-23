@@ -1,3 +1,5 @@
+"""Python model for the granite configuration (ngram scoring model)"""
+
 from __future__ import annotations
 
 import functools
@@ -6,12 +8,21 @@ from typing import Literal
 
 import numpy as np
 import yaml
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 if typing.TYPE_CHECKING:
     from pathlib import Path
 
 HandType = Literal["Left", "Right"]
+
+
+DEFAULT_LIMIT_MULTIPLIERS = {
+    0.15: 3,
+    0.6: 1.416,
+    1: 1.1,
+    2.5: 1.35,
+    3.0: 1.4,
+}
 
 
 class Config(BaseModel):
@@ -34,15 +45,15 @@ class Config(BaseModel):
 
     easy_rolling_coeff: float | None = None
 
-    bigram_raw_range_max: float | None = None
-    bigram_scaling_exponent: float | None = None
-
     # Part 2: not optimized with a minimizer (manually set)
     sfb_in_onehand_coeff: float | None = None
     sft_coeff: float | None = None
 
     # list of trigrams that are considered easy to type
     easy_rolling_trigrams: dict[str, np.ndarray] | None = None
+
+    # Trigram model optimization
+    limit_multipliers: dict[float, float] = Field(default=DEFAULT_LIMIT_MULTIPLIERS)
 
     @field_validator("easy_rolling_trigrams", mode="before")
     def convert_to_numpy_arrays(cls, value: dict[str, list[list[str]]] | None):

@@ -29,17 +29,17 @@ python -m pip install git+https://github.com/fohrloop/granite-tools.git
 # Examples / Screenshots
 
 ## Scoring
-### Screenshots from granite-scorer-baseline
+### Screenshots from granite-bigram-ranking-initial
 
-![Creating the initial order with granite-scorer-baseline](docs/img/granite-scorer-baseline1.png)
+![Creating the initial order with granite-bigram-ranking-initial](docs/img/granite-bigram-ranking-initial1.png)
 
-![Creating the initial order with granite-scorer-baseline](docs/img/granite-scorer-baseline2.png)
-### Screenshots from granite-scorer-view
+![Creating the initial order with granite-bigram-ranking-initial](docs/img/granite-bigram-ranking-initial2.png)
+### Screenshots from granite-bigram-ranking-view
 
-![Example of the table shown by granite-scorer-view](docs/img/granite-scorer-view.png)
+![Example of the table shown by granite-bigram-ranking-view](docs/img/granite-bigram-ranking-view.png)
 
-### Screenshots from granite-scorer-compare
-![](docs/img/granite-scorer-compare.png)
+### Screenshots from granite-bigram-compare
+![](docs/img/granite-bigram-compare.png)
 
 ## Ngram frequency analysis
 

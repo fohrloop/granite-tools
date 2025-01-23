@@ -6,12 +6,15 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "choix==0.3.5",
+    "denseweight==0.1.2",
     "matplotlib==3.9.2",
     "pandas==2.2.3",
+    "panel-graphic-walker==0.5.3",
     "plotext==5.3.2",
     "pydantic==2.9.2",
     "pyyaml==6.0.2",
     "scikit-learn==1.5.2",
+    "scipy==1.14.1",
     "seaborn==0.13.2",
     "textual==0.86.1",
     "typer==0.12.5",
@@ -25,10 +28,11 @@ Homepage = "https://github.com/fohrloop/granite-tools"
 [project.scripts]
 ngram_show = "granite_tools.ngrams.cli:cli_show_ngrams"
 ngram_compare = "granite_tools.ngrams.cli:cli_compare_ngrams"
-granite-scorer-baseline = "granite_tools.sort_app.sort_app:main"
-granite-scorer-view = "granite_tools.viewer.viewer_app:main"
-granite-scorer-compare = "granite_tools.compare.compare_app:main"
-granite-ngram-score-ratio-template = "granite_tools.scorer.cli:create_ngram_score_ratio_template"
+granite-bigram-ranking-initial = "granite_tools.bigram_ranking_initial.bigram_ranking_initial:main"
+granite-bigram-ranking-view = "granite_tools.viewer.viewer_app:main"
+granite-bigram-compare = "granite_tools.bigram_compare.compare_app:main"
+granite-bigram-compare-merge = "granite_tools.bigram_compare.merge_data:main"
+granite-bigram-score-ratio-template = "granite_tools.scorer.cli:create_bigram_score_ratio_template"
 granite-trigram-score-template = "granite_tools.scorer.cli:create_score_template_cli"
 granite-trigram-score-fit = "granite_tools.scorer.cli:fit_parameters_cli"
 granite-trigram-score-fit-check = "granite_tools.scorer.cli:fit_check_cli"

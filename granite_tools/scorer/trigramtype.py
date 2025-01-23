@@ -26,7 +26,7 @@ def get_trigram_type(
     """Get a trigram type. The trigram mapping can be provided as an argument which
     makes the trigram type checking much faster."""
     trigramtype: TrigramType
-    indices, keytypes = hands.where(trigram)
+    _, keytypes = hands.where(trigram)
     try:
         trigram_main_type = hands.get_trigram_type(keytypes)
     except Exception:

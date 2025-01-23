@@ -1,3 +1,5 @@
+"""Provides the ngram_show and ngram_compare CLI tools"""
+
 from __future__ import annotations
 
 import re
