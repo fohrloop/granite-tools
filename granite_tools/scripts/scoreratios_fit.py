@@ -6,7 +6,7 @@ Usage:
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_fit.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/granite.scores-raw.json
+    uv run granite_tools/scripts/scoreratios_fit.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/bigram-anchor-scores-raw.json
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import typing
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.scorer.bigram_scores import (
-    fit_ngram_scores,
+    fit_anchor_ngram_scores,
     load_ranking,
     make_score_ratio_entries,
 )
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     score_ratio_entries = make_score_ratio_entries(scoreratio_file, hands)
 
     t0 = time.time()
-    scores = fit_ngram_scores(score_ratio_entries, ngrams_ordered)
+    scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
     print(f"Fitting scores took {time.time() - t0:.2f}s")
 
     print(scores)

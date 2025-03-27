@@ -2,8 +2,8 @@
 
 When reference trigram is:
 
-- **inwards rolling**  (rolling-other), scaled_err is increased as reference trigram scores are too low. (Thumb as last makes trigram worse)
-- **outwards rolling** (rolling-out), scaled_err is decreased as reference trigram scores are too high (Thumb as first makes trigram easier)
+- **inwards rolling**  (rolling-other), score ratio residual (scaled_err) is increased as reference trigram scores are too low. (Thumb as last makes trigram worse)
+- **outwards rolling** (rolling-out), score ratio residual is decreased as reference trigram scores are too high (Thumb as first makes trigram easier)
 ![alt text](img/ithumbs-scatter.png)
 
 Here are the errors colored by the trigram type:
@@ -85,7 +85,7 @@ The procedure will be
 Using
 
 ```
-uv run granite_tools/scripts/cross_validate_model.py examples/keyseq_effort.yml tmp/granite.ranking tmp/trigram.relative.toml 
+uv run granite_tools/scripts/cross_validate_model.py examples/config.yml tmp/granite.ranking tmp/trigram.relative.toml 
 ```
 
 ## old model

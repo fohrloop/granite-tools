@@ -176,7 +176,7 @@ class Hand(BaseModel):
             return None
         return FingerType.from_str(f)
 
-    def get_matrix_positions(self, indices: list[int]) -> list[tuple[int, int]]:
+    def get_matrix_positions(self, indices: Sequence[int]) -> list[tuple[int, int]]:
         return [self.matrix_positions[idx] for idx in indices]
 
     def get_fingers(self, key_idxs: Sequence[int]) -> list[FingerType | None]:
@@ -379,7 +379,9 @@ class Hands(BaseModel):
                 keytypes.append("Untypable")
         return tuple(indices), tuple(keytypes)
 
-    def get_fingers(self, text: str) -> tuple[list[FingerType | None], list[HandOrKey]]:
+    def get_fingers(
+        self, text: str
+    ) -> tuple[list[FingerType | None], tuple[HandOrKey, ...]]:
         indices, handtypes = self.where(text)
 
         fingers = []
@@ -392,7 +394,7 @@ class Hands(BaseModel):
                 fingers.append(None)
         return fingers, handtypes
 
-    def get_trigram_type(self, handtypes: list[HandOrKey]) -> TrigramMainType:
+    def get_trigram_type(self, handtypes: Sequence[HandOrKey]) -> TrigramMainType:
 
         if len(handtypes) != 3:
             raise ValueError(f"Not a trigram! {handtypes}")

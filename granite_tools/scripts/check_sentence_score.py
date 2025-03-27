@@ -51,8 +51,11 @@ def get_score_df(text: str) -> pd.DataFrame:
 if __name__ == "__main__":
     config_file = sys.argv[1]
     bigram_ranking_file = sys.argv[2]
+    raw_anchor_ngram_scores_file = sys.argv[3]
 
-    bigram_and_unigram_scores = load_bigram_and_unigram_scores(bigram_ranking_file)
+    bigram_and_unigram_scores = load_bigram_and_unigram_scores(
+        bigram_ranking_file, raw_anchor_ngram_scores_file
+    )
 
     config = read_config(config_file)
     params = TrigramModelParameters.from_config(config)

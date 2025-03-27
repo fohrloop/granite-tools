@@ -2,26 +2,14 @@ from __future__ import annotations
 
 import typing
 
-from granite_tools.compare.scorer import is_bigram, is_unigram
+from granite_tools.bigram_compare.scorer import is_bigram
 
 if typing.TYPE_CHECKING:
     KeySeq = tuple[int, ...]
 
 
-def get_bigram_unigram_pairs(
-    comparisons_all: list[tuple[KeySeq, KeySeq]]
-) -> list[tuple[KeySeq, KeySeq]]:
-    pairs = []
-    for pair in comparisons_all:
-        if is_bigram(pair[0]) and is_unigram(pair[1]):
-            pairs.append(pair)
-        elif is_unigram(pair[0]) and is_bigram(pair[1]):
-            pairs.append(pair)
-    return pairs
-
-
 def get_bigram_pairs(
-    comparisons_all: list[tuple[KeySeq, KeySeq]]
+    comparisons_all: list[tuple[KeySeq, KeySeq]],
 ) -> list[tuple[KeySeq, KeySeq]]:
     return [x for x in comparisons_all if is_bigram(x[0]) and is_bigram(x[1])]
 

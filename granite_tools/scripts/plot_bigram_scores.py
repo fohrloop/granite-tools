@@ -2,11 +2,20 @@
 
 Usage:
 
-    python granite_tools/scripts/plot_ngram_scores.py CONFIG_FILE BIGRAM_RANKING_FILE SCORERATIO_FILE SCORES_RAW_OUT_FILE OUTFILE_FIGURE
+    python granite_tools/scripts/plot_ngram_scores.py CONFIG_FILE BIGRAM_RANKING_FILE ANCHOR_SCORES_RAW_FILE OUTFILE_FIGURE
 
 Example:
-    python granite_tools/scripts/plot_ngram_scores.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios.yml tmp/granite.scores-raw.json tmp/granite.scores-plot.svg
+    python granite_tools/scripts/plot_ngram_scores.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw.json tmp/granite.scores-plot.svg
+
+where
+
+    CONFIG_FILE is the path to the granite configuration YAML file.
+    BIGRAM_RANKING_FILE is the path to the bigram (+unigram) ranking file (e.g., granite.ranking).
+    ANCHOR_SCORES_RAW_FILE is the path to the anchor scores raw file (e.g., bigram-anchor-scores-raw.json).
+    OUTFILE_FIGURE is the path to save the plot figure (e.g., granite.scores-plot.svg).
 """
+
+# mypy: ignore-errors
 
 from __future__ import annotations
 
@@ -21,12 +30,8 @@ from rich.color import Color
 
 from granite_tools.config import read_config
 from granite_tools.hands import Hands, get_hands_data
-from granite_tools.scorer.bigram_scores import load_ranking
-from granite_tools.scorer.smooth_scores import (
-    create_monotone_bspline,
-    read_raw_scores_json,
-    scores_to_training_data,
-)
+from granite_tools.scorer.bigram_scores import get_spline_scores, load_ranking
+from granite_tools.scorer.smooth_scores import read_raw_anchor_scores_json
 from granite_tools.utils import get_linear_scaling_function
 
 if typing.TYPE_CHECKING:
@@ -197,9 +202,8 @@ if __name__ == "__main__":
     try:
         config_file = sys.argv[1]
         bigram_ranking_file = sys.argv[2]
-        scoreratio_file = sys.argv[3]
-        scores_raw_out_file = sys.argv[4]
-        outfile_figure = sys.argv[5]
+        scores_raw_out_file = sys.argv[3]
+        outfile_figure = sys.argv[4]
     except IndexError:
         print(__doc__)
         sys.exit(1)
@@ -207,19 +211,9 @@ if __name__ == "__main__":
     config = read_config(config_file)
     hands = get_hands_data(config)
     ngrams_ordered = load_ranking(bigram_ranking_file)
-    scores = read_raw_scores_json(scores_raw_out_file)
-    x_train, y_train, x_all = scores_to_training_data(ngrams_ordered, scores)
-    bspline = create_monotone_bspline(
-        x_train,
-        y_train,
-        bspline_degree=2,
-        knot_segments=35,
-        lambda_smoothing=1,
-        kappa_penalty=1e6,
-    )
+    scores = read_raw_anchor_scores_json(scores_raw_out_file)
 
-    y_all = bspline(x_all)
-
+    y_all, x_all = get_spline_scores(ngrams_ordered, scores)
     data = defaultdict(list)
     data["y"] = list(y_all)
     data["x"] = list(x_all)
@@ -231,4 +225,4 @@ if __name__ == "__main__":
         data["rowdiff"].append(str(hands.get_rowdiff_text(keyseq)))
 
     print(LEGEND_INFO)
-    plot_trigram_scores(data, outfile_figure)
+    plot_trigram_scores(data, Path(outfile_figure))

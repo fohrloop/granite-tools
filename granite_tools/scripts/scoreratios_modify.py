@@ -13,6 +13,7 @@ Example:
  """
 
 import argparse
+import typing
 
 import yaml
 
@@ -51,7 +52,11 @@ if __name__ == "__main__":
         out = []
         ngrams_to_remove = set()
         for hand in ("Left", "Right"):
-            ngrams_to_remove.add(hands.get_symbols_visualization(hand, keyseq))
+            ngrams_to_remove.add(
+                hands.get_symbols_visualization(
+                    typing.cast(typing.Literal["Left", "Right"], hand), keyseq
+                )
+            )
 
         for x in d:
             if x["ngram"] in ngrams_to_remove or x["ref"] in ngrams_to_remove:

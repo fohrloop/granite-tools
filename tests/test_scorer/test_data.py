@@ -1,5 +1,4 @@
 from textwrap import dedent
-from typing import Sequence
 from unittest.mock import mock_open, patch
 
 from granite_tools.config import Config
@@ -8,7 +7,7 @@ from granite_tools.scorer.data import get_trigram_data
 from granite_tools.scorer.scorer import (
     TrigramModelParameters,
     get_score,
-    load_trigram_scores,
+    load_trigram_relative_scores,
 )
 
 
@@ -44,10 +43,10 @@ class TestGetTrigramData:
             ref_score = get_score(ref_trigram, hands, params, bigram_scores)["score"]
             score = get_score(trigram, hands, params, bigram_scores)
             scaled_score = score["score"] / ref_score
-            assert df.loc[trigram].scaled_estimated_score == scaled_score
+            assert df.loc[trigram].score_ratio_pred == scaled_score
 
             target_score = trigram_scores[ref_trigram][trigram]
-            assert df.loc[trigram].scaled_target_score == target_score
+            assert df.loc[trigram].score_ratio_actual == target_score
 
         for trigram in ("SFE",):
             ref_trigram = "SEF"
@@ -57,10 +56,10 @@ class TestGetTrigramData:
             ref_score = get_score(ref_trigram, hands, params, bigram_scores)["score"]
             score = get_score(trigram, hands, params, bigram_scores)
             scaled_score = score["score"] / ref_score
-            assert df.loc[trigram].scaled_estimated_score == scaled_score
+            assert df.loc[trigram].score_ratio_pred == scaled_score
 
             target_score = trigram_scores[ref_trigram][trigram]
-            assert df.loc[trigram].scaled_target_score == target_score
+            assert df.loc[trigram].score_ratio_actual == target_score
         for trigram in ("XCM", "XV,"):
             ref_trigram = "XCV"
             assert df.loc[trigram].reference_trigram == ref_trigram
@@ -69,10 +68,10 @@ class TestGetTrigramData:
             ref_score = get_score(ref_trigram, hands, params, bigram_scores)["score"]
             score = get_score(trigram, hands, params, bigram_scores)
             scaled_score = score["score"] / ref_score
-            assert df.loc[trigram].scaled_estimated_score == scaled_score
+            assert df.loc[trigram].score_ratio_pred == scaled_score
 
             target_score = trigram_scores[ref_trigram][trigram]
-            assert df.loc[trigram].scaled_target_score == target_score
+            assert df.loc[trigram].score_ratio_actual == target_score
 
     def create_fake_bigram_scores(
         self, trigram_scoredct: dict[str, dict[str, float]], hands: Hands
@@ -101,6 +100,6 @@ class TestGetTrigramData:
         with patch(
             "builtins.open", mock_open(read_data=trigram_scoredata.encode("utf-8"))
         ):
-            trigram_scores = load_trigram_scores("____fooooo____")
+            trigram_scores = load_trigram_relative_scores("____fooooo____")
 
         return trigram_scores

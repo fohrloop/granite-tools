@@ -8,6 +8,9 @@ import numpy as np
 from scipy.interpolate import BSpline
 
 if typing.TYPE_CHECKING:
+    from pathlib import Path
+    from typing import Sequence
+
     from granite_tools.app_types import KeySeq
 
 
@@ -133,16 +136,18 @@ def fit_iter_pspline_smooth(
     return alphas, knots
 
 
-def read_raw_scores_json(scores_raw_out_file: str) -> dict[KeySeq, float]:
-    with open(scores_raw_out_file) as f:
+def read_raw_anchor_scores_json(
+    raw_anchor_scores_file: str | Path,
+) -> dict[KeySeq, float]:
+    with open(raw_anchor_scores_file) as f:
         scores_json = json.load(f)
         scores = {ast.literal_eval(k): v for k, v in scores_json.items()}
     return scores
 
 
 def scores_to_training_data(
-    ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
-) -> tuple[list[float], list[float]]:
+    ngrams_ordered: Sequence[KeySeq], scores: dict[KeySeq, float]
+) -> tuple[list[int], list[float], list[int]]:
     x_train, y_train = [], []
     for i, keyseq in enumerate(ngrams_ordered, start=1):
         if keyseq in scores:

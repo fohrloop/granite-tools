@@ -1,3 +1,5 @@
+"""Functions for estimating unigram scores from bigram scores"""
+
 from __future__ import annotations
 
 import typing

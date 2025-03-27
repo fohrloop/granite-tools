@@ -72,14 +72,14 @@ def plot_trigram_scores(
             marker = "o" if row_is_odd else "s"
 
             ax.scatter(
-                d["scaled_target_score"],
+                d["score_ratio_actual"],
                 y,
                 color="cornflowerblue" if row_is_odd else "tab:blue",
                 label="Target (manual)" if n_items == 1 else None,
                 marker=marker,
             )
             ax.scatter(
-                d["scaled_estimated_score"],
+                d["score_ratio_pred"],
                 y,
                 color="tomato" if row_is_odd else "tab:red",
                 label="Model" if n_items == 1 else None,
@@ -87,7 +87,7 @@ def plot_trigram_scores(
             )
 
             ax.plot(
-                (d["scaled_target_score"], d["scaled_estimated_score"]),
+                (d["score_ratio_actual"], d["score_ratio_pred"]),
                 (y, y),
                 color=linecolor,
                 lw=1.0,

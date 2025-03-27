@@ -2,11 +2,11 @@
 
 Usage:
 
-    uv run granite_tools/scripts/scoreratios_plot.py [config_file] [bigram_ranking_file] [scoreratio_file] [scores_raw_out_file]
+    uv run granite_tools/scripts/scoreratios_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_json]
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_plot.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/granite.scores-raw.json
+    uv run granite_tools/scripts/scoreratios_plot.py examples/keyseq_effort.yml tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
 """
 
 from __future__ import annotations
@@ -19,9 +19,10 @@ from matplotlib import pyplot as plt
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.scorer.bigram_scores import load_ranking
+from granite_tools.scorer.modelparams import SPLINE_KWARGS
 from granite_tools.scorer.smooth_scores import (
     create_monotone_bspline,
-    read_raw_scores_json,
+    read_raw_anchor_scores_json,
     scores_to_training_data,
 )
 
@@ -48,8 +49,7 @@ if __name__ == "__main__":
     try:
         config_file = sys.argv[1]
         bigram_ranking_file = sys.argv[2]
-        scoreratio_file = sys.argv[3]
-        scores_raw_out_file = sys.argv[4]
+        anchor_scores_raw_json_file = sys.argv[3]
     except IndexError:
         print(__doc__)
         sys.exit(1)
@@ -57,17 +57,10 @@ if __name__ == "__main__":
     config = read_config(config_file)
     hands = get_hands_data(config)
     ngrams_ordered = load_ranking(bigram_ranking_file)
-    scores = read_raw_scores_json(scores_raw_out_file)
+    scores = read_raw_anchor_scores_json(anchor_scores_raw_json_file)
     x_train, y_train, x_all = scores_to_training_data(ngrams_ordered, scores)
 
-    bspline = create_monotone_bspline(
-        x_train,
-        y_train,
-        bspline_degree=2,
-        knot_segments=35,
-        lambda_smoothing=1,
-        kappa_penalty=1e6,
-    )
+    bspline = create_monotone_bspline(x_train, y_train, **SPLINE_KWARGS)
 
     plt.plot(x_train, y_train, marker="*", ls="", markersize=8, label="raw", alpha=0.4)
     plt.plot(
