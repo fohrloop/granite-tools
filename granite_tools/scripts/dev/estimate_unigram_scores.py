@@ -15,8 +15,9 @@ from __future__ import annotations
 
 import sys
 
-from granite_tools.scorer.bigram_scores import get_spline_scores, load_ranking
-from granite_tools.scorer.smooth_scores import read_raw_anchor_scores_json
+from granite_tools.bigram_scores.anchor_scores import read_raw_anchor_scores_json
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
+from granite_tools.bigram_scores.spline_smoothing import get_spline_scores
 from granite_tools.unigram_scores import calculate_unigram_scores, print_results
 from granite_tools.utils import get_linear_scaling_function
 
@@ -26,9 +27,9 @@ if __name__ == "__main__":
         bigram_ranking_file = sys.argv[1]
         scores_raw_out_file = sys.argv[2]
         config_file = sys.argv[3]
-        ngrams_ordered = load_ranking(bigram_ranking_file)
+        ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
         scores = read_raw_anchor_scores_json(scores_raw_out_file)
-    except:
+    except Exception:
         print(__doc__)
         sys.exit(1)
 
@@ -36,8 +37,8 @@ if __name__ == "__main__":
     s = get_linear_scaling_function(
         oldmin=min(y_all), oldmax=max(y_all), newmin=1, newmax=5
     )
-    scores = s(y_all)
-    bigram_scores = dict(zip(ngrams_ordered, (float(x) for x in scores)))
+    scores_arr = s(y_all)
+    bigram_scores = dict(zip(ngrams_ordered, (float(x) for x in scores_arr)))
     bigram_scores = {k: v for k, v in bigram_scores.items() if len(k) == 2}
     used_key_indices = list(set(ks for pair in ngrams_ordered for ks in pair))
     unigram_scores = calculate_unigram_scores(bigram_scores, used_key_indices)

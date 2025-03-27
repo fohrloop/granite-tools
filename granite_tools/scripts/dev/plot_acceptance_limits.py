@@ -4,7 +4,7 @@ import typing
 from pathlib import Path
 
 import numpy as np
-import seaborn as sns
+import seaborn as sns  # type: ignore
 import typer
 from matplotlib import pyplot as plt
 
@@ -87,7 +87,20 @@ def main(
     else:
         limit_multipliers = DEFAULT_LIMIT_MULTIPLIERS
 
-    if only_limits:
+    plotter: BasePlotter
+
+    if (
+        config_file is None
+        or bigram_ranking_file is None
+        or trigram_scoring_file is None
+        or ngram_anchor_scores_file is None
+    ):
+        if not only_limits:
+            raise typer.BadParameter(
+                "All arguments are required, except for --only-limits. "
+                "Please provide all arguments.",
+            )
+
         plotter = AcceptanceLimitPlotter(limit_multipliers)
         plotter.run()
         plt.tight_layout()

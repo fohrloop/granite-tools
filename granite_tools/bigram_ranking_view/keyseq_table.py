@@ -14,8 +14,8 @@ from textual.screen import ModalScreen
 from textual.widgets import DataTable, Input, Static
 from textual.widgets.data_table import CellDoesNotExist
 
-from granite_tools.bigram_ranking_file import load_bigram_rankings
 from granite_tools.bigram_ranking_view.twowaydict import change_twowaydct_value_for_key
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
 
 if typing.TYPE_CHECKING:
     from typing import ClassVar, Iterable

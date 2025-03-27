@@ -4,10 +4,10 @@ from textwrap import dedent
 
 import pytest
 
-from granite_tools.bigram_ranking_file import DuplicateValuesError
 from granite_tools.bigram_ranking_initial.bigram_ranking_initial import (
     KeySequenceSortApp,
 )
+from granite_tools.bigram_scores.rankings import DuplicateValuesError
 from granite_tools.config import Config
 
 test_folder = Path(__file__).parent.parent

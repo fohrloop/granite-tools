@@ -5,9 +5,10 @@ import tomllib
 import typing
 from collections import defaultdict
 from pathlib import Path
+from typing import Iterable
 
 import numpy as np
-from denseweight import DenseWeight
+from denseweight import DenseWeight  # type: ignore
 from numpy.linalg import norm
 from pydantic import BaseModel, ConfigDict
 from scipy.interpolate import PchipInterpolator
@@ -816,8 +817,8 @@ def create_optimization_target_function(
             limit_func = get_lower_limit if err < 0 else get_upper_limit
             err_limit = limit_func((r,))[0] - r
             scaled_err = err / err_limit
-            if use_dense_weight:
-                density_based_weight = dw([r])[0]
+            # if use_dense_weight:
+            # density_based_weight = dw([r])[0]
             # TODO: Add back or remove completely?
             # sum_ += (density_based_weight * err) ** 2
             sum_ += scaled_err**2
@@ -952,7 +953,8 @@ def create_log_m_func(
 def get_limit_funcs(
     limit_multipliers: dict[float, float],
 ) -> tuple[
-    typing.Callable[[np.ndarray], np.ndarray], typing.Callable[[np.ndarray], np.ndarray]
+    typing.Callable[[Iterable[float]], np.ndarray],
+    typing.Callable[[Iterable[float]], np.ndarray],
 ]:
     """Creates functions that return the lower and upper limits for a given score ratio
     The functions accept an array of score ratios (r) as input and return the limits.
@@ -960,12 +962,12 @@ def get_limit_funcs(
 
     get_log_m = create_log_m_func(limit_multipliers)
 
-    def get_lower_limit(r: np.ndarray) -> np.ndarray:
+    def get_lower_limit(r: Iterable[float]) -> np.ndarray:
         log_m = np.array([get_log_m(ri) for ri in r])
         m = np.exp(log_m)
         return r / m
 
-    def get_upper_limit(r: np.ndarray) -> np.ndarray:
+    def get_upper_limit(r: Iterable[float]) -> np.ndarray:
         log_m = np.array([get_log_m(ri) for ri in r])
         m = np.exp(log_m)
         return r * m
@@ -974,7 +976,7 @@ def get_limit_funcs(
 
 
 if __name__ == "__main__":
-    from granite_tools.scorer.bigram_scores import load_bigram_and_unigram_scores
+    from granite_tools.bigram_scores import load_bigram_and_unigram_scores
 
     bigram_and_unigram_scores = load_bigram_and_unigram_scores(sys.argv[2], sys.argv[3])
 

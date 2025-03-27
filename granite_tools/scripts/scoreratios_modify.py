@@ -10,16 +10,16 @@ Example:
 
     python granite_tools/scripts/scoreratios_modify.py examples/keyseq_effort.yml tmp/granite.scoreratios-fixed.yml --remove Q SD
 
- """
+"""
 
 import argparse
 import typing
 
 import yaml
 
+from granite_tools.bigram_scores.score_ratio_template import save_score_ratios
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.bigram_scores import save_score_ratios
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

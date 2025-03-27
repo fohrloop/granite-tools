@@ -28,9 +28,10 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from rich.color import Color
 
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
+from granite_tools.bigram_scores.score_ratio_template import get_spline_scores
 from granite_tools.config import read_config
 from granite_tools.hands import Hands, get_hands_data
-from granite_tools.scorer.bigram_scores import get_spline_scores, load_ranking
 from granite_tools.scorer.smooth_scores import read_raw_anchor_scores_json
 from granite_tools.utils import get_linear_scaling_function
 
@@ -210,7 +211,7 @@ if __name__ == "__main__":
 
     config = read_config(config_file)
     hands = get_hands_data(config)
-    ngrams_ordered = load_ranking(bigram_ranking_file)
+    ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     scores = read_raw_anchor_scores_json(scores_raw_out_file)
 
     y_all, x_all = get_spline_scores(ngrams_ordered, scores)

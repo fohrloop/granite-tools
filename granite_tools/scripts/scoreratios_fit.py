@@ -16,13 +16,11 @@ import sys
 import time
 import typing
 
+from granite_tools.bigram_scores.anchor_scores import fit_anchor_ngram_scores
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
+from granite_tools.bigram_scores.score_ratio_template import make_score_ratio_entries
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.bigram_scores import (
-    fit_anchor_ngram_scores,
-    load_ranking,
-    make_score_ratio_entries,
-)
 
 if typing.TYPE_CHECKING:
 
@@ -45,7 +43,7 @@ if __name__ == "__main__":
     config = read_config(config_file)
     hands = get_hands_data(config)
 
-    ngrams_ordered = load_ranking(bigram_ranking_file)
+    ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     score_ratio_entries = make_score_ratio_entries(scoreratio_file, hands)
 
     t0 = time.time()

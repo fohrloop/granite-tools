@@ -26,9 +26,9 @@ from textual.binding import Binding
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Footer, Label, Log
 
-from granite_tools.bigram_ranking_file import load_bigram_rankings
 from granite_tools.bigram_ranking_initial.placement_manager import NgramPlacementManager
 from granite_tools.bigram_ranking_initial.positionbar import PositionBar
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.config import Config, read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.permutations import create_permutations
