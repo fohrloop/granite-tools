@@ -18,11 +18,11 @@ import typing
 import numpy as np
 from matplotlib import pyplot as plt
 
-from granite_tools.scorer.bigram_scores import load_ranking
-from granite_tools.scorer.modelparams import SPLINE_KWARGS
-from granite_tools.scorer.smooth_scores import (
+from granite_tools.bigram_scores.anchor_scores import read_raw_anchor_scores_json
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
+from granite_tools.bigram_scores.spline_smoothing import (
+    SPLINE_KWARGS,
     create_monotone_bspline,
-    read_raw_anchor_scores_json,
     scores_to_training_data,
 )
 from granite_tools.utils import get_linear_scaling_function
@@ -41,7 +41,7 @@ except IndexError:
 
 def get_spline_data(bigram_ranking_file: str, scores_raw_out_file: str):
 
-    ngrams_ordered = load_ranking(bigram_ranking_file)
+    ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     scores = read_raw_anchor_scores_json(scores_raw_out_file)
     x_train, y_train, x_all = scores_to_training_data(ngrams_ordered, scores)
     bspline = create_monotone_bspline(

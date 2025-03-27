@@ -1,15 +1,21 @@
+from __future__ import annotations
+
+import typing
 from collections import Counter
 from pathlib import Path
+
+if typing.TYPE_CHECKING:
+    from granite_tools.app_types import KeySeq
 
 
 class DuplicateValuesError(RuntimeError): ...
 
 
-def load_bigram_rankings(file: str | Path) -> list[tuple[int, ...]]:
+def load_bigram_rankings(file: str | Path) -> list[KeySeq]:
     with open(file, "r") as f:
         lines = f.readlines()
 
-    key_seqs = []
+    key_seqs: list[KeySeq] = []
 
     for line in lines:
         line = line.strip()

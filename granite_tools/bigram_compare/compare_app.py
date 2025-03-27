@@ -32,7 +32,7 @@ from textual.containers import Center, Container, Horizontal, Vertical
 from textual.widgets import Footer, Label, Log
 
 from granite_tools.bigram_compare.scorer import ComparisonBasedScorer
-from granite_tools.bigram_ranking_file import load_bigram_rankings
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.config import Config, read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.textual_widgets.exit_modal import ExitModal

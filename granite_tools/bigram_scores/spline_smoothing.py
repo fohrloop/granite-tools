@@ -1,17 +1,44 @@
+"""Smoothing of bigram scores"""
+
 from __future__ import annotations
 
-import ast
-import json
 import typing
 
 import numpy as np
 from scipy.interpolate import BSpline
 
 if typing.TYPE_CHECKING:
-    from pathlib import Path
     from typing import Sequence
 
     from granite_tools.app_types import KeySeq
+
+
+SPLINE_BSPLINE_DEGREE = 3
+SPLINE_KNOT_SEGMENTS = 35
+SPLINE_LAMBDA_SMOOTHING = 1
+SPLINE_KAPPA_PENALTY = 1e6
+
+"""For fitting the cubic spline model (bigram/unigram scores smoothing and interpolation)"""
+SPLINE_KWARGS = {
+    "bspline_degree": SPLINE_BSPLINE_DEGREE,
+    "knot_segments": SPLINE_KNOT_SEGMENTS,
+    "lambda_smoothing": SPLINE_LAMBDA_SMOOTHING,
+    "kappa_penalty": SPLINE_KAPPA_PENALTY,
+}
+
+
+def get_spline_scores(
+    ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
+) -> tuple[np.ndarray, list[int]]:
+    x_train, y_train, ranks = scores_to_training_data(ngrams_ordered, scores)
+    bspline = create_monotone_bspline(
+        x_train,
+        y_train,
+        **SPLINE_KWARGS,
+    )
+
+    bspline_scores = bspline(ranks)
+    return np.array(bspline_scores), ranks
 
 
 def create_monotone_bspline(
@@ -78,7 +105,7 @@ def fit_iter_pspline_smooth(
 
     B = BSpline.design_matrix(x=x_train, t=knots, k=bspline_degree).toarray()
     n_base_funcs = B.shape[1]
-    I = np.eye(n_base_funcs)
+    I = np.eye(n_base_funcs)  # noqa: E741
     D3 = np.diff(I, n=3, axis=0)
     D1 = np.diff(I, n=1, axis=0)
 
@@ -134,15 +161,6 @@ def fit_iter_pspline_smooth(
         print("Max iteration reached")
 
     return alphas, knots
-
-
-def read_raw_anchor_scores_json(
-    raw_anchor_scores_file: str | Path,
-) -> dict[KeySeq, float]:
-    with open(raw_anchor_scores_file) as f:
-        scores_json = json.load(f)
-        scores = {ast.literal_eval(k): v for k, v in scores_json.items()}
-    return scores
 
 
 def scores_to_training_data(

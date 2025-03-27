@@ -13,9 +13,9 @@ import random
 
 import numpy as np
 
+from granite_tools.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.scorer.scorer import (
     TrigramModelParameters,
     TrigramScoreSets,
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     folds = int(args.folds)
 
     hands = get_hands_data(config)
+    bounds: list[tuple[float, float]] | None
     x0, bounds = get_initial_params_and_bounds()
     bounds = None
     print("Started at:", dt.datetime.now())

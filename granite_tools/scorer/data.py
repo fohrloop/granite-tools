@@ -8,9 +8,9 @@ import numpy as np
 import pandas as pd
 
 from granite_tools.app_types import FingerType
+from granite_tools.bigram_scores.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.scorer.scorer import (
     TrigramModelParameters,
     TrigramScoreSets,
@@ -74,12 +74,12 @@ def get_trigram_data(
     get_lower_limit, get_upper_limit = get_limit_funcs(config.limit_multipliers)
     data: dict[str, list[object]] = defaultdict(list)
     for _, scoredicts in groups.items():
-        for d in reversed(scoredicts):
-
+        for d_ in reversed(scoredicts):
+            d = typing.cast(dict, d_)
             fingers, _ = hands.get_fingers(d["trigram"])
             has_thumb = FingerType.T in fingers
             data["has_thumb"].append(has_thumb)
-            meta = d.pop("estimated_score_details")  # type: ignore
+            meta = d.pop("estimated_score_details")
             data["trigram_type"].append(meta["trigramtype"])
             data["ngram1"].append(meta["ngram1_score"])
             data["ngram2"].append(meta["ngram2_score"])
@@ -105,8 +105,8 @@ def get_trigram_data(
                     score_ratio_scaled_resid
                 )
 
-            for key, val in d.items():
-                data[key].append(val)
+            for k, val in d.items():
+                data[k].append(val)
     df = pd.DataFrame(data)
     df["score_ratio_relative_resid"] = (
         df["score_ratio_resid"] / df["score_ratio_actual"]

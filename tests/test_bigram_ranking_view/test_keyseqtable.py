@@ -5,8 +5,8 @@ from unittest.mock import mock_open, patch
 import pytest
 from textual.app import App
 
-from granite_tools.bigram_ranking_file import DuplicateValuesError
 from granite_tools.bigram_ranking_view.keyseq_table import KeySequenceTable
+from granite_tools.bigram_scores.rankings import DuplicateValuesError
 from granite_tools.hands import Hands
 
 test_folder = Path(__file__).parent.parent

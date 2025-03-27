@@ -17,7 +17,7 @@ from granite_tools.bigram_compare.scorer import (
     save_compare_pickle,
     verify_data,
 )
-from granite_tools.bigram_ranking_file import load_bigram_rankings
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
 
 
 def main() -> None:

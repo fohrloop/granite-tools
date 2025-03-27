@@ -21,9 +21,10 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 
+from granite_tools.bigram_scores.rankings import load_bigram_rankings
+from granite_tools.bigram_scores.score_ratio_template import make_score_ratio_entries
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.bigram_scores import load_ranking, make_score_ratio_entries
 
 if typing.TYPE_CHECKING:
     from typing import Sequence
@@ -92,7 +93,7 @@ if __name__ == "__main__":
     config = read_config(config_file)
     hands = get_hands_data(config)
 
-    ngrams_ordered = load_ranking(bigram_ranking_file)
+    ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     score_ratio_entries = make_score_ratio_entries(scoreratio_file, hands)
 
     with open(scores_raw_out_file) as f:

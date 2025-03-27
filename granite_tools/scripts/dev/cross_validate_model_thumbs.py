@@ -9,10 +9,10 @@ import seaborn as sns  # type: ignore
 from matplotlib import pyplot as plt
 
 from granite_tools.app_types import FingerType
+from granite_tools.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.scorer import get_trigram_data
-from granite_tools.scorer.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.scorer.scorer import (
     TrigramModelParameters,
     TrigramScoreSets,
