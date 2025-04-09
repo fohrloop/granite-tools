@@ -296,9 +296,14 @@ Use `granite-trigram-model-fit` to fit the trigram coefficients.
 **Example**:
 
 ```
-granite-trigram-model-fit examples/config.yml tmp/efforts.ranking tmp/trigram.relative.toml
+granite-trigram-model-fit examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json tmp/granite.trigram.scoreratios.yml
 ```
 
+the results can be checked with:
+
+```
+granite-trigram-model-fit-check examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json tmp/granite.trigram.scoreratios.yml
+```
 
 ## granite-bigram-ranking-view
 

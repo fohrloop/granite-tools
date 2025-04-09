@@ -141,7 +141,7 @@ ARG_N_TRIGRAM_SETS = Annotated[
     ),
 ]
 
-ARG_TRIGRAM_SCORING_INPUT_FILE = Annotated[
+ARG_TRIGRAM_SCORE_RATIO_INPUT_FILE = Annotated[
     Path,
     typer.Argument(
         help="The path to the trigram scoring (input) file.",
@@ -150,46 +150,28 @@ ARG_TRIGRAM_SCORING_INPUT_FILE = Annotated[
 ]
 
 
-class TrigramType(str, Enum):
-    all = "all"
-    onehand = "onehand"
-    balanced = "balanced"
-    redir = "redir"
-    alternating = "alternating"
-
-
-ARG_TRIGRAM_TYPE = Annotated[
-    TrigramType,
-    typer.Argument(
-        help="""The type for the trigrams to plot. 'all' plots all. Note that only the
-        non-reference trigrams are plotted since the reference trigrams are always
-        scores 1.0 without any error. The reference trigrams are the FIRST trigrams of
-        each trigram family in the trigram scoring file.""",
-        show_default=False,
-    ),
-]
-
-
 def fit_check(
     config_file: ARG_CONFIG,
     bigram_ranking_file: ARG_BIGRAM_RANKING_FILE,
-    trigram_score_file: ARG_TRIGRAM_SCORING_INPUT_FILE,
-    raw_anchor_ngram_scores_file: ARG_ANCHOR_SCORES_FILE,
-    trigram_type: ARG_TRIGRAM_TYPE = TrigramType.all,
+    bigram_anchor_scores_file: ARG_ANCHOR_SCORES_FILE,
+    trigram_score_ratio_file: ARG_TRIGRAM_SCORE_RATIO_INPUT_FILE,
 ):
     config = read_config(config_file)
     hands = get_hands_data(config)
-    scoresets = TrigramScoreSets.from_file(trigram_score_file, hands)
     bigram_scores = load_bigram_and_unigram_scores(
-        bigram_ranking_file, raw_anchor_ngram_scores_file
+        bigram_ranking_file, bigram_anchor_scores_file
     )
 
     params = TrigramModelParameters.from_config(config)
-    trigram_scores_iter = get_trigram_scores(params, scoresets, hands, bigram_scores)
-    groups = group_trigram_scores(trigram_scores_iter, group_sort_by=max_abs_error)
+    trigram_score_ratios = load_score_ratio_entries(trigram_score_ratio_file, hands)
+
+    trigram_scores = get_trigram_scores(
+        params, trigram_score_ratios, hands, bigram_scores
+    )
+
     plot_trigram_scores(
-        groups,
+        trigram_scores,
         hands,
-        outfile=trigram_score_file.parent / (trigram_score_file.name + ".svg"),
-        trigram_type=trigram_type,
+        outfile=trigram_score_ratio_file.parent
+        / (trigram_score_ratio_file.name + ".svg"),
     )

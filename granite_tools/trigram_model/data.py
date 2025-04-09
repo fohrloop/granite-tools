@@ -75,7 +75,7 @@ def get_trigram_data(
             fingers, _ = hands.get_fingers(d["trigram"])
             has_thumb = FingerType.T in fingers
             data["has_thumb"].append(has_thumb)
-            meta = d.pop("estimated_score_details")
+            meta = d.pop("trigram_score_details")
             data["trigram_type"].append(meta["trigramtype"])
             data["ngram1"].append(meta["ngram1_score"])
             data["ngram2"].append(meta["ngram2_score"])
