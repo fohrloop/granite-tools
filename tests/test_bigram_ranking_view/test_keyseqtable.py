@@ -44,6 +44,7 @@ class TestKeySequenceTable:
             assert table.get_right() == ["a", "c", "e", "g", "i", "j", "h", "f", "d", "b"]
             # fmt: on
 
+    @pytest.mark.slow
     async def test_moving_with_page_up_and_down(self):
         app = self.DataTableApp()
         async with app.run_test() as pilot:

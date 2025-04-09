@@ -100,6 +100,7 @@ class TestComparisonBasedScorer:
         with pytest.raises(RoundFinishedError):
             scorer.handle_select_right()
 
+    @pytest.mark.slow
     def test_fitting(self):
         random.seed(42)
         np.random.seed(42)
@@ -141,6 +142,7 @@ class TestComparisonBasedScorer:
         yield str(file)
         file.unlink()
 
+    @pytest.mark.slow
     def test_saving_and_loading(self, tempfile: str):
         scorer = ComparisonBasedScorer(self.ordered_data)
 
@@ -177,6 +179,7 @@ class TestComparisonBasedScorer:
 
         assert scorer.to_dict() == scorer2.to_dict()
 
+    @pytest.mark.slow
     def test_loading_and_continuing_works(self, tempfile: str):
         # There was a problem when loading from file and continuing the work. Test that
         # case here.

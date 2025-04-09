@@ -12,6 +12,7 @@ examples_folder = test_folder.parent / "examples"
 @pytest.mark.asyncio
 class TestKeySeqApp:
 
+    @pytest.mark.slow
     async def test_permutations(self, config: Config):
 
         N = 10  # from config (10 keys per side)
@@ -22,6 +23,7 @@ class TestKeySeqApp:
             assert app.permutations[:21] == [(0,), (1,), (2,), (3,), (4,), (5,), (6,), (7,), (8,), (9,), (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9), (1, 0)]
             # fmt: on
 
+    @pytest.mark.slow
     async def test_loading_file_skips_correct_key_sequences(
         self, test_file1: str, config: Config
     ):

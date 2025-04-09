@@ -8,7 +8,9 @@ from typing import Literal
 
 import numpy as np
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+from granite_tools.app_types import Vert2uPenaltyConfig
 
 if typing.TYPE_CHECKING:
     from pathlib import Path
@@ -29,31 +31,42 @@ class Config(BaseModel):
     key_indices: list[list[int]]
     hands: list[list[HandType]]
     symbols_visualization: list[list[str]]
+    symbols_scoring: list[list[str | None]] = Field(
+        default_factory=list
+    )  # defaults to symbols_visualization
     finger_matrix: list[list[str]] | None = None
     key_category_matrix: list[list[str]] | None = None
     color_matrix: list[list[str]] | None = None
     color_mapping: dict[str, str] | None = None
     matrix_positions: list[list[tuple[int, int]]] | None = None
 
-    # Scoring
-    # Part 1: optimized
-    balanced_b_coeff: float | None = None
-    unigram_coeff: float | None = None
-    skipgram_b_coeff: float | None = None
-    vert2u_coeff: float | None = None
-    dirchange_coeff: float | None = None
+    vert2u_penalties: Vert2uPenaltyConfig = Field(default_factory=dict)
 
+    # Scoring / Trigram Model Parameters
+    w_ac_one: float | None = None
+    u_weight_balanced: float | None = None
+    u_weight_alternating: float | None = None
     easy_rolling_coeff: float | None = None
-
-    # Part 2: not optimized with a minimizer (manually set)
+    balanced_coeff: float | None = None
+    alternating_coeff: float | None = None
+    redir_coeff: float | None = None
+    vert2u_coeff: float | None = None
     sfb_in_onehand_coeff: float | None = None
     sft_coeff: float | None = None
+    sftb_coeff: float | None = None
+    sfs_coeff: float | None = None
+    sfsb_coeff: float | None = None
 
     # list of trigrams that are considered easy to type
     easy_rolling_trigrams: dict[str, np.ndarray] | None = None
 
     # Trigram model optimization
     limit_multipliers: dict[float, float] = Field(default=DEFAULT_LIMIT_MULTIPLIERS)
+
+    @model_validator(mode="after")
+    def set_default_symbols_scoring(self):
+        self.symbols_scoring = self.symbols_scoring or self.symbols_visualization
+        return self
 
     @field_validator("easy_rolling_trigrams", mode="before")
     def convert_to_numpy_arrays(cls, value: dict[str, list[list[str]]] | None):

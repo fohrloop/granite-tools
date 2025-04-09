@@ -14,10 +14,8 @@ if typing.TYPE_CHECKING:
     from typing import Sequence, TypeVar
 
     from granite_tools.app_types import KeySeq
+    from granite_tools.score_ratios import ScoreRatioEntry
 
-    # ScoreRatioEntry: (ngram, ref_ngram, scoreratio)
-    # score(ngram)/score(ref_ngram) = scoreratio
-    ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
     T = TypeVar("T")
 
 
@@ -55,9 +53,14 @@ def _fit_selected_ngram_scores(
             **{ngram: x[i] for i, ngram in enumerate(ngrams_need_score)},
         }
         total_error = 0.0
-        for ngram1, ngram2, score_ratio_expected in score_ratios:
+        for entry in score_ratios:
+            ngram_keyseq, ref_keyseq, score_ratio_expected = (
+                entry["ngram_keyseq"],
+                entry["ref_keyseq"],
+                entry["score_ratio"],
+            )
 
-            score_ratio_calc = s[ngram1] / s[ngram2]
+            score_ratio_calc = s[ngram_keyseq] / s[ref_keyseq]
             err = np.log2(score_ratio_calc / score_ratio_expected) ** 2
             total_error += err
         return total_error / len(score_ratios)
@@ -84,7 +87,10 @@ def _get_ngrams_present_in_score_ratios(
     ngrams_set = set()
 
     for score_ratio_entry in score_ratios:
-        ngram1, ngram2, _ = score_ratio_entry
+        ngram1, ngram2 = (
+            score_ratio_entry["ref_keyseq"],
+            score_ratio_entry["ngram_keyseq"],
+        )
 
         if ngram1 not in ranks:
             raise ValueError(f"ngram1 {ngram1} not in ranks")
@@ -95,6 +101,8 @@ def _get_ngrams_present_in_score_ratios(
         ngrams_set.add(ngram2)
 
     if ranks[0] not in ngrams_set:
-        raise ValueError(f"Ngram ranked first ({ranks[0]}) not in score_ratios!")
+        raise ValueError(
+            f"Ngram ranked first ({ranks[0]}) not used in any of the score ratios! Check that the score ratio file contains at least one entry with ngram corresponding to those key_sequence indices (defined in the used granite config file)."
+        )
 
     return sorted(ngrams_set, key=lambda ngram: ranks.index(ngram))

@@ -2,11 +2,11 @@
 
 Usage:
 
-    uv run granite_tools/scripts/scoreratios_show_worst_fit.py CONFIG_FILE BIGRAN_RANKING_FILE SCORERATIO_FILE SCORES_RAW_OUT_FILE [N_SHOW]
+    uv run granite_tools/scripts/scoreratios_show_worst_fit.py CONFIG_FILE BIGRAM_RANKING_FILE BIGRAM_SCORERATIO_FILE BIGRAM_ANCHOR_SCORES_JSON [N_SHOW]
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml tmp/granite.ranking tmp/granite.scoreratios-fixed.yml tmp/bigram-anchor-scores-raw.json
+    uv run granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml tmp/granite.bigram.ranking tmp/granite.bigram.scorerations.yml tmp/bigram-anchor-scores-raw.json
 """
 
 # mypy: ignore-errors
@@ -22,17 +22,15 @@ import numpy as np
 import pandas as pd
 
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
-from granite_tools.bigram_scores.score_ratio_template import make_score_ratio_entries
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
+from granite_tools.score_ratios import ScoreRatioEntry, load_score_ratio_entries
 
 if typing.TYPE_CHECKING:
     from typing import Sequence
 
     from granite_tools.app_types import KeySeq
     from granite_tools.hands import Hands
-
-    ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
 
 
 def get_worst_score_ratios(
@@ -43,16 +41,20 @@ def get_worst_score_ratios(
     data = defaultdict(list)
 
     for score_ratio_entry in score_ratio_entries:
-        ngram, ref, score_ratio = score_ratio_entry
-        ngram_score = scores[ngram]
-        ref_score = scores[ref]
+        ngram_keyseq, ref_keyseq, score_ratio = (
+            score_ratio_entry["ngram_keyseq"],
+            score_ratio_entry["ref_keyseq"],
+            score_ratio_entry["score_ratio"],
+        )
+        ngram_score = scores[ngram_keyseq]
+        ref_score = scores[ref_keyseq]
         score_ratio_calc = ngram_score / ref_score
         error = score_ratio_calc - score_ratio
 
-        symbols_ngram_left = hands.get_symbols_visualization("Left", ngram)
-        symbols_ref_left = hands.get_symbols_visualization("Left", ref)
-        symbols_ngram_right = hands.get_symbols_visualization("Right", ngram)
-        symbols_ref_right = hands.get_symbols_visualization("Right", ref)
+        symbols_ngram_left = hands.get_symbols_visualization("Left", ngram_keyseq)
+        symbols_ref_left = hands.get_symbols_visualization("Left", ref_keyseq)
+        symbols_ngram_right = hands.get_symbols_visualization("Right", ngram_keyseq)
+        symbols_ref_right = hands.get_symbols_visualization("Right", ref_keyseq)
 
         log2err = np.log2(score_ratio_calc / score_ratio)
 
@@ -94,7 +96,7 @@ if __name__ == "__main__":
     hands = get_hands_data(config)
 
     ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
-    score_ratio_entries = make_score_ratio_entries(scoreratio_file, hands)
+    score_ratio_entries = load_score_ratio_entries(scoreratio_file, hands)
 
     with open(scores_raw_out_file) as f:
         scores_json = json.load(f)

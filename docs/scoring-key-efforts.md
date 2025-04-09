@@ -19,7 +19,7 @@ The full process is:
 6. **Create bigram (and unigram) score ratio file** using `granite-bigram-score-ratio-template` and filling up the template.
 7. **Create bigram (and unigram) scores** based on score ratios
 8. **Create trigram scoring file**: Hint: use `granite-trigram-score-template` for creating the trigram scoring template.
-9. **Fit the trigram coefficients**: Use `granite-trigram-score-fit` to fit the trigram coefficients.
+9. **Fit the trigram coefficients**: Use `granite-trigram-model-fit` to fit the trigram coefficients.
 
 
 > [!TIP]
@@ -263,14 +263,14 @@ Each "section" is a *trigram family subset*. The "title" should generally be a o
 
 - redir trigram
 - balanced trigram
-- skipgram trigram
+- alternating trigram
 
 Each trigram family uses it's own separate *relative* score scale; The scores are relative to the *reference*. For example in the above toml file:
 
 - `["SEF"]` is a reference. (always implicitly means score 1.0)
 - `"ESF" = 2.0` means that "ESF" has 2.0 times the score of "SEF". The ESF is a redir.
 - `"EFL" = 0.8` means that "EFL" has 0.8 times the score of "SEF". The EFL is "balanced" (2 keys on one side, 1 key on other side)
-- `"ELF" = 1.5` means that "ELF` has 1.5 times the score of "SEF". The ELF is a "skipgram" type (1 key on one side, then 1 key on other side and 1 key on the original side)
+- `"ELF" = 1.5` means that "ELF` has 1.5 times the score of "SEF". The ELF is a "alternating" type (1 key on one side, then 1 key on other side and 1 key on the original side)
 
 This takes about 2 hours per 200 trigrams (50 trigram sets).
 
@@ -291,12 +291,12 @@ Running `granite-trigram-score-template` with same `OUTFILE` as argument will _a
 
 ### (9) Fit the trigram coefficients
 
-Use `granite-trigram-score-fit` to fit the trigram coefficients.
+Use `granite-trigram-model-fit` to fit the trigram coefficients.
 
 **Example**:
 
 ```
-granite-trigram-score-fit examples/config.yml tmp/efforts.ranking tmp/trigram.relative.toml
+granite-trigram-model-fit examples/config.yml tmp/efforts.ranking tmp/trigram.relative.toml
 ```
 
 

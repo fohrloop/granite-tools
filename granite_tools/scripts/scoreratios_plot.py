@@ -6,13 +6,12 @@ Usage:
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_plot.py examples/keyseq_effort.yml tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
+    uv run granite_tools/scripts/scoreratios_plot.py examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json
 """
 
 from __future__ import annotations
 
 import sys
-import typing
 
 from matplotlib import pyplot as plt
 
@@ -25,24 +24,6 @@ from granite_tools.bigram_scores.spline_smoothing import (
 )
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-
-if typing.TYPE_CHECKING:
-    from typing import Sequence
-
-    from granite_tools.app_types import KeySeq
-
-    ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
-
-
-def plot_score_ratios(score_ratio_entries: Sequence[ScoreRatioEntry]):
-    score_ratios = [x[2] for x in score_ratio_entries]
-    x = list(range(1, len(score_ratios) + 1))
-    plt.plot(x, score_ratios, marker="o", ls="", alpha=0.3)
-    plt.xlabel("entry (same order as in scoreratio file)")
-    plt.ylabel("score ratio")
-    plt.grid(ls="--", lw=0.5, color="lightgray")
-    plt.show()
-
 
 if __name__ == "__main__":
 

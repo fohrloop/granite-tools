@@ -5,24 +5,20 @@ from pathlib import Path
 
 from matplotlib import pyplot as plt
 
-from granite_tools.scorer.trigramtype import (
-    get_easy_rolling_type_mapping,
-    get_trigram_type,
-)
+from granite_tools.easy_rolling import get_easy_rolling_type_mapping
+from granite_tools.trigram_types import get_trigram_type
 
 if typing.TYPE_CHECKING:
     from granite_tools.hands import Hands
-    from granite_tools.scorer.scorer import TrigramScoreDict
+    from granite_tools.trigram_model.scorer import TrigramScoreDict
 
 DUMBBELL_PLOT_ONE_ROW_HEIGHT = 0.27
 
 TRIGRAM_TYPE_COLORS = {
     "balanced": "#008f5d",
-    "rolling-easy": "#de3d82",
-    "redir": "black",
-    "skipgram": "#cb5d00",
-    "rolling-out": "#de3d82",
-    "rolling-other": "#de3d82",
+    "easy-rolling": "#de3d82",
+    "onehand": "black",
+    "alternating": "#cb5d00",
 }
 
 
@@ -44,7 +40,7 @@ def plot_trigram_scores(
         Where to save the plot.
     trigram_type : str
         The trigram type to plot. Default is "all". Other options are
-        "balanced", "onehand", "redir", and "skipgram". Note that only the non-reference
+        "balanced", "onehand", "redir", and "alternating". Note that only the non-reference
         trigrams are plotted since the reference trigrams are always scores 1.0 without
         any error. The reference trigrams are the FIRST trigrams of each trigram family
         in the trigram scoring file.
@@ -55,12 +51,13 @@ def plot_trigram_scores(
 
     n_items = 0
     y_tick_labels: list[str] = []
+    # TODO: is the mapping needed anymore?
     mapping = get_easy_rolling_type_mapping(hands.config.easy_rolling_trigrams, hands)
     for i, (_, scoredicts) in enumerate(groups.items()):
         row_is_odd = i % 2 == 1
         for d in reversed(scoredicts):
 
-            type_of_trigram = get_trigram_type(d["trigram"], hands, mapping)
+            type_of_trigram = get_trigram_type(d["trigram"], hands)
             linecolor = TRIGRAM_TYPE_COLORS[type_of_trigram]
             if trigram_type != "all" and trigram_type != type_of_trigram:
                 continue

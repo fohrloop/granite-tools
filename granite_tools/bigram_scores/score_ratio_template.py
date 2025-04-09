@@ -1,5 +1,4 @@
-"""This module provides functions to load bigram and unigram scores from bigram
-(+unigram) ranking files"""
+"""This module provides functions for creating bigram score ratio template files"""
 
 from __future__ import annotations
 
@@ -7,17 +6,9 @@ import math
 import typing
 from pathlib import Path
 
-import yaml
-
 if typing.TYPE_CHECKING:
     from typing import Sequence, TypeVar
 
-    from granite_tools.app_types import KeySeq
-    from granite_tools.hands import Hands
-
-    # ScoreRatioEntry: (ngram, ref_ngram, scoreratio)
-    # score(ngram)/score(ref_ngram) = scoreratio
-    ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
     T = TypeVar("T")
 
 
@@ -70,19 +61,3 @@ def save_score_ratios(
                 ngram=ngram, ref=ref, score_ratio=score_ratio
             )
             f.write(txt)
-
-
-def make_score_ratio_entries(
-    scoreratio_file: str, hands: Hands
-) -> list[ScoreRatioEntry]:
-
-    out = []
-    with open(scoreratio_file) as f:
-        d = yaml.safe_load(f)
-
-        for item in d:
-            ref_keyseq, _ = hands.where(item["ref"])
-            ngram_keyseq, _ = hands.where(item["ngram"])
-            out.append((tuple(ngram_keyseq), tuple(ref_keyseq), item["score_ratio"]))
-
-    return out

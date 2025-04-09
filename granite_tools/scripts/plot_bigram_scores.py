@@ -5,17 +5,15 @@ Usage:
     python granite_tools/scripts/plot_ngram_scores.py CONFIG_FILE BIGRAM_RANKING_FILE ANCHOR_SCORES_RAW_FILE OUTFILE_FIGURE
 
 Example:
-    python granite_tools/scripts/plot_ngram_scores.py examples/keyseq_effort.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw.json tmp/granite.scores-plot.svg
+    python granite_tools/scripts/plot_ngram_scores.py examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json tmp/granite.scores-plot.svg
 
 where
 
     CONFIG_FILE is the path to the granite configuration YAML file.
-    BIGRAM_RANKING_FILE is the path to the bigram (+unigram) ranking file (e.g., granite.ranking).
+    BIGRAM_RANKING_FILE is the path to the bigram (+unigram) ranking file (e.g., granite.bigram.ranking).
     ANCHOR_SCORES_RAW_FILE is the path to the anchor scores raw file (e.g., bigram-anchor-scores-raw.json).
     OUTFILE_FIGURE is the path to save the plot figure (e.g., granite.scores-plot.svg).
 """
-
-# mypy: ignore-errors
 
 from __future__ import annotations
 
@@ -28,18 +26,14 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from rich.color import Color
 
+from granite_tools.bigram_scores.anchor_scores import read_raw_anchor_scores_json
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
-from granite_tools.bigram_scores.score_ratio_template import get_spline_scores
+from granite_tools.bigram_scores.spline_smoothing import get_spline_scores
 from granite_tools.config import read_config
 from granite_tools.hands import Hands, get_hands_data
-from granite_tools.scorer.smooth_scores import read_raw_anchor_scores_json
 from granite_tools.utils import get_linear_scaling_function
 
-if typing.TYPE_CHECKING:
-    from granite_tools.app_types import KeySeq
-
-    ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
-
+# mypy: ignore-errors
 DUMBBELL_PLOT_ONE_ROW_HEIGHT = 0.27
 
 LEGEND_INFO = """Legend:

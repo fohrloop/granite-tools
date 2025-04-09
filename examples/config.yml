@@ -107,49 +107,25 @@ vert2u_penalties:
     - [12, [7, 4]] # r bottom <-> m or i top
     - [6, [7, 10]] # i bottom <-> m or r top
 
-# BASELINE
-# vert2u_coeff: 1.208
-# dirchange_coeff: 1.202
-# balanced_b_coeff: 0.705
-# unigram_coeff: -0.142
-# skipgram_b_coeff: 0.804
-# easy_rolling_coeff: 0.446
+########################################
+# GRANITE TRIGRAM MODEL v4 PARAMETERS ##
+########################################
+# Fixed parameters:
+w_ac_one: 0.65
+u_weight_balanced: 0.1
+u_weight_alternating: 0.1
+vert2u_coeff: 0.115
 
-# Trial1
-# vert2u_coeff: 1.071
-# dirchange_coeff: 1.011
-# balanced_b_coeff: 0.936
-# unigram_coeff: -0.049
-# skipgram_b_coeff: 1.018
-# easy_rolling_coeff: 0.643
-
-# weighted, not squared
-# vert2u_coeff: 1.099
-# dirchange_coeff: 1.078
-# balanced_b_coeff: 1.108
-# unigram_coeff: -0.280
-# skipgram_b_coeff: 1.163
-# easy_rolling_coeff: 0.567
-
-# weighted, squared
-# vert2u_coeff: 1.152
-# dirchange_coeff: 1.157
-# balanced_b_coeff: 1.124
-# unigram_coeff: -0.387
-# skipgram_b_coeff: 1.193
-# easy_rolling_coeff: 0.511
-
-# Fitted without redirs
-vert2u_coeff: 1.262
-dirchange_coeff: 2.654
-balanced_b_coeff: 1.029
-unigram_coeff: 0.173
-skipgram_b_coeff: 1.109
-easy_rolling_coeff: 0.766
-
-sfb_in_onehand_coeff: 1.03
-sft_coeff: 2.0
-
+# Fitted parameters:
+easy_rolling_coeff: 0.605
+balanced_coeff: 0.930
+alternating_coeff: 1.227
+redir_coeff: 1.432
+sfb_in_onehand_coeff: 1.871
+sft_coeff: 1.951
+sftb_coeff: 2.115
+sfs_coeff: 1.364
+sfsb_coeff: 1.234
 
 # This is used for trigram model fitting process (ADVANCED SETTING)
 # With this you tell the uncertainty of the trigram score ratios in the trigram score ratio file

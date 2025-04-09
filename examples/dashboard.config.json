@@ -106,9 +106,9 @@
           "aggName": "sum"
         },
         {
-          "fid": "dirchange",
-          "name": "dirchange",
-          "basename": "dirchange",
+          "fid": "redir",
+          "name": "redir",
+          "basename": "redir",
           "analyticType": "measure",
           "semanticType": "nominal",
           "aggName": "sum"

@@ -283,20 +283,6 @@ wheels = [
 ]
 
 [[package]]
-name = "denseweight"
-version = "0.1.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "kdepy" },
-    { name = "numpy" },
-    { name = "scikit-learn" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/4a/54/11e7547fd4b63f36bc707ec3bd0ca97079a82621f13edff8962614104067/denseweight-0.1.2.tar.gz", hash = "sha256:281cf1fe4be364366363ee822b524620dcb629c5b9ff7852aa80f91a27c98b1e", size = 17242 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b2/7b/bdea1bf4ae7d6f2251f5ae14f701929dc6785d0c0a7a095e43bec28c75d5/denseweight-0.1.2-py3-none-any.whl", hash = "sha256:8d939ff5d34e31e001aa16b8f0731c33555712e0e54ca1d28eb29604d669ab2b", size = 16784 },
-]
-
-[[package]]
 name = "executing"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -375,7 +361,6 @@ version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "choix" },
-    { name = "denseweight" },
     { name = "matplotlib" },
     { name = "pandas" },
     { name = "panel-graphic-walker" },
@@ -407,7 +392,6 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "choix", specifier = "==0.3.5" },
-    { name = "denseweight", specifier = "==0.1.2" },
     { name = "matplotlib", specifier = "==3.9.2" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "panel-graphic-walker", specifier = "==0.5.3" },
@@ -514,30 +498,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/64/33/60135848598c076ce4b231e1b1895170f45fbcaeaa2c9d5e38b04db70c35/joblib-1.4.2.tar.gz", hash = "sha256:2382c5816b2636fbd20a09e0f4e9dad4736765fdfb7dca582943b9c1366b3f0e", size = 2116621 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/91/29/df4b9b42f2be0b623cbd5e2140cafcaa2bef0759a00b7b70104dcfe2fb51/joblib-1.4.2-py3-none-any.whl", hash = "sha256:06d478d5674cbc267e7496a410ee875abd68e4340feff4490bcb7afb88060ae6", size = 301817 },
-]
-
-[[package]]
-name = "kdepy"
-version = "1.1.11"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "numpy" },
-    { name = "scipy" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/13/a8/9206112add5d915338e744f4be378cfab72a6e4244feb3f0eef7827ea934/kdepy-1.1.11.tar.gz", hash = "sha256:603cc3cd1c80bb0a7a9b0b74ebae117d312e37cee8fc1c637b46888e48d91085", size = 168260 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/42/f1/c5d4bf4a1114f57ae4a6fdebcff28c3140785ad48bf17a8ce81e45bd0bed/KDEpy-1.1.11-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:6bc0e684c43b519fe9768c6bbd3a82e722234045ed7aed4343ab320d1769a98f", size = 267494 },
-    { url = "https://files.pythonhosted.org/packages/ba/ca/5112e3ca6de36a2cd0deb8c917f8f710d017b1b956d3e9527f34dd0cc0d1/KDEpy-1.1.11-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:58748907cb47804cfced6ad22fc9732b08995eb350555336bcd125497cde8fb1", size = 262544 },
-    { url = "https://files.pythonhosted.org/packages/b5/cd/7b88ce87d85adca3ed5b39f0d813af588164976f100aab62273d59bf8e2e/KDEpy-1.1.11-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:eead2ac7e61e006d39a8f5c7dc41169ffc41e5b97971bd577f3e310961f6988e", size = 675998 },
-    { url = "https://files.pythonhosted.org/packages/89/da/7082202e21b89adc5ea86156cebe8714cadde5a1cbc16032d11518e3411e/KDEpy-1.1.11-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:59d94166875d895eb18be03e09d2e62611f1c3f58de1a504c1b8d050a055c840", size = 682249 },
-    { url = "https://files.pythonhosted.org/packages/da/ba/bb2f22b3c62b0cd081ebe90b2f12baf40d57d0f2048974d92114c8c3e52e/KDEpy-1.1.11-cp312-cp312-win32.whl", hash = "sha256:c606ae984f4daf6315d17dacc070f19cb2e2dc1847ab774ab3365e7c73feb216", size = 246450 },
-    { url = "https://files.pythonhosted.org/packages/f9/5a/84068026817166cc3bacace0b2e271ada4ebfc1c495570cfdfa75740e9bc/KDEpy-1.1.11-cp312-cp312-win_amd64.whl", hash = "sha256:b38086530f26f91a55232c23ba89a3d9816cc4160fb5b15fe586b0d7c6532486", size = 258998 },
-    { url = "https://files.pythonhosted.org/packages/bc/67/848dd3391c07f18634c97962c2c071e3b6c0a19de52f2b94e9dbe4bf8dca/KDEpy-1.1.11-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:f87a71ab32f2c3472baf7e585b990cc93bc5e3e19f8054d4f900f86c2b422c20", size = 266464 },
-    { url = "https://files.pythonhosted.org/packages/48/34/4ff30dd74c837d6297b2cc8e1df61ed42a90299ab8392b18c99507893fce/KDEpy-1.1.11-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:6215e0519f9660372c44ef1945980d6c025f10bdceb0954ed8cd79c0492ef52f", size = 261500 },
-    { url = "https://files.pythonhosted.org/packages/d5/86/e5db09e4239bf038d1a137254f4446d6196a2e8b4d64f14b181eb5bd8a9d/KDEpy-1.1.11-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:16173784cc4bfd7c34b039931b62b73bbb2bfca77c456775b0ae7996cd4f7003", size = 670225 },
-    { url = "https://files.pythonhosted.org/packages/32/d6/b171f878ac899bf920d660930253afcb693298b55dbff027b7aacce11b28/KDEpy-1.1.11-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e8973ca83ba92f3a8e068ff810d299ffa5a6d9774c606ab03a319236f2bba24d", size = 675790 },
-    { url = "https://files.pythonhosted.org/packages/65/49/83840f1772a4b8df8d69427ef08f30017b46a9915a2a3cf4be2320af0474/KDEpy-1.1.11-cp313-cp313-win32.whl", hash = "sha256:1ae504070d555bf8477ae4f2765c63c1401862ee2be664888a6f5115dd2a4927", size = 246307 },
-    { url = "https://files.pythonhosted.org/packages/c0/32/837b161b0acffefff36f8802b0b79f45d588d68a4012386867371aa22664/KDEpy-1.1.11-cp313-cp313-win_amd64.whl", hash = "sha256:46548cad3742511dae94f3566b7f9a44b75b52f3081010143a85b7b857d45bc0", size = 258714 },
 ]
 
 [[package]]

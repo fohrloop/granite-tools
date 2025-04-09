@@ -10,21 +10,16 @@ import pandas as pd
 from granite_tools.app_types import FingerType
 from granite_tools.bigram_scores.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.config import read_config
+from granite_tools.easy_rolling import get_easy_rolling_type_mapping
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.scorer import (
-    TrigramModelParameters,
-    TrigramScoreSets,
-    get_limit_funcs,
-    get_score,
-    group_trigram_scores,
-    iter_trigrams_scores,
-    load_trigram_relative_scores,
+from granite_tools.trigram_model.optimizer import get_limit_funcs
+from granite_tools.trigram_model.params import TrigramModelParameters
+from granite_tools.trigram_model.scorer import (
+    get_trigram_score,
+    get_trigram_scores,
     max_abs_error,
 )
-from granite_tools.scorer.trigramtype import (
-    get_easy_rolling_type_mapping,
-    get_trigram_type,
-)
+from granite_tools.trigram_types import get_trigram_type
 
 if typing.TYPE_CHECKING:
     KeySeq = tuple[int, ...]
@@ -41,6 +36,7 @@ def get_trigram_data_from_files(
     bigram_scores = load_bigram_and_unigram_scores(
         bigram_ranking_file, raw_anchor_ngram_scores_file
     )
+    # TODO: fix this
     trigram_relative_scores = load_trigram_relative_scores(
         trigram_relative_scoring_file
     )
@@ -66,7 +62,7 @@ def get_trigram_data(
     )
     params = params or TrigramModelParameters.from_config(config)
     mapping = get_easy_rolling_type_mapping(hands.config.easy_rolling_trigrams, hands)
-    trigram_scores_iter = iter_trigrams_scores(
+    trigram_scores_iter = get_trigram_scores(
         params, scoresets, hands, bigram_scores, mapping=mapping
     )
     groups = group_trigram_scores(trigram_scores_iter, group_sort_by=max_abs_error)
@@ -86,7 +82,7 @@ def get_trigram_data(
             data["ngram_sum"].append(meta["ngram1_score"] + meta["ngram2_score"])
             data["base_score"].append(meta["base_score"])
             data["vert2u"].append(meta.get("vert2u", np.nan))
-            data["dirchange"].append(meta.get("dirchange", np.nan))
+            data["redir"].append(meta.get("redir", np.nan))
 
             score_ratio_resid = d["score_ratio_pred"] - d["score_ratio_actual"]
             data["score_ratio_resid"].append(score_ratio_resid)
@@ -113,7 +109,7 @@ def get_trigram_data(
     )
 
     def get_reference_trigram_data(row):
-        d = get_score(row["reference_trigram"], hands, params, bigram_scores)
+        d = get_trigram_score(row["reference_trigram"], hands, params, bigram_scores)
         trigram_type = get_trigram_type(row["reference_trigram"], hands, mapping)
         return (
             row["reference_trigram"],

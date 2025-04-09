@@ -26,6 +26,13 @@ examples_folder = test_folder.parent / "examples"
 
 class TestHand:
 
+    def test_initialize_without_symbols_scoring(self):
+        # initialization should be fine without symbols_scoring
+        d = {0: "1", 1: "2", 2: "3"}
+        hand = Hand(hand="Left", symbols_visualization=d)
+        assert hand.symbols_visualization == d
+        assert hand.symbols_visualization == hand.symbols_scoring
+
     def test_normal_config(self, config: Config):
         hands = get_hands_data(config)
         left, right = hands.left, hands.right
@@ -38,11 +45,24 @@ class TestHand:
         assert left.symbols_visualization == left_expected.symbols_visualization
         assert right.symbols_visualization == right_expected.symbols_visualization
 
-    def test_get_indices_from_symbols(self, config_full: Config):
+    def test_where(self, config_full: Config):
         hands = get_hands_data(config_full)
         indices, hand_types = hands.where("foo")
         assert indices == (5, 10, 10)
         assert hand_types == ("Left", "Right", "Right")
+
+    def test_where_with_special_char(self, config_full: Config):
+        hands = get_hands_data(config_full)
+
+        # Uses symbols_visualization by default
+        indices, hand_types = hands.where("w o")
+        assert indices == (10, 17, 10)
+        assert hand_types == ("Left", "Left", "Right")
+
+        # Force to use symbols_scoring.
+        indices, hand_types = hands.where("w o", visualization=True)
+        assert indices == (10, -999, 10)
+        assert hand_types == ("Left", "Untypable", "Right")
 
     def test_fingers_and_colors(self, config_minimal: Config):
         hands = get_hands_data(config_minimal)
@@ -177,28 +197,6 @@ class TestHand:
         # be detected, as only trigrams including usage of three different fingers are
         # supported.
         assert hand.is_redir((3, 11, 4)) is False
-
-
-class TestGetTrigramType:
-
-    def test_balanced(self, config_full: Config):
-        hands = get_hands_data(config_full)
-        assert hands.get_trigram_type(("Left", "Left", "Right")) == "balanced"
-        assert hands.get_trigram_type(("Right", "Left", "Left")) == "balanced"
-        assert hands.get_trigram_type(("Left", "Right", "Right")) == "balanced"
-        assert hands.get_trigram_type(("Right", "Right", "Left")) == "balanced"
-
-    def test_skipgram(self, config_full: Config):
-        hands = get_hands_data(config_full)
-        assert hands.get_trigram_type(("Left", "Right", "Left")) == "skipgram"
-        assert hands.get_trigram_type(("Right", "Left", "Right")) == "skipgram"
-
-    def test_onehand(self, config_full: Config):
-        hands = get_hands_data(config_full)
-        lefts = ("Left", "Left", "Left")
-        rights = ("Right", "Right", "Right")
-        assert hands.get_trigram_type(lefts) == "onehand"
-        assert hands.get_trigram_type(rights) == "onehand"
 
 
 class TestRowDiff:

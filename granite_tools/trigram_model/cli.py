@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import typing
 from enum import Enum
 from pathlib import Path
 
@@ -8,20 +9,17 @@ import typer
 from granite_tools.bigram_scores import load_bigram_and_unigram_scores
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.scorer.scorer import (
+from granite_tools.score_ratios import load_score_ratio_entries
+from granite_tools.trigram_model import (
     TrigramModelParameters,
-    TrigramScoreSets,
     create_optimization_target_function,
-    get_initial_params_and_bounds,
-    group_trigram_scores,
-    iter_trigrams_scores,
-    load_trigram_relative_scores,
+    get_initial_params,
+    get_trigram_scores,
     max_abs_error,
     optimize_parameters,
 )
 
 from .plotting import plot_trigram_scores
-from .trigram_creation import create_score_template_
 
 try:
     from typing import Annotated
@@ -30,9 +28,8 @@ except ImportError:
     from typing_extensions import Annotated  # type: ignore
 
 
-def create_score_template_cli():
-    typer.run(create_score_template)
-
+if typing.TYPE_CHECKING:
+    from granite_tools.score_ratios import ScoreRatioEntry
 
 ARG_CONFIG = Annotated[
     Path,
@@ -51,15 +48,6 @@ ARG_OUTFILE = Annotated[
 ]
 
 
-def create_score_template(
-    config_file: ARG_CONFIG,
-    outfile: ARG_OUTFILE,
-    n_trigram_sets: ARG_N_TRIGRAM_SETS = 50,
-):
-    config = read_config(config_file)
-    create_score_template_(n_trigram_sets, config, outfile)
-
-
 def fit_parameters_cli():
     typer.run(fit_parameters)
 
@@ -72,10 +60,18 @@ ARG_BIGRAM_RANKING_FILE = Annotated[
     ),
 ]
 
-ARG_TRIGRAM_SCORE_FILE = Annotated[
+TRIGRAM_SCORE_RATIO_HELP = (
+    "The path to the trigram score ratio (input) YAML file.\n"
+    "The file should contain a list of dictionaries with the following keys: "
+    "(1) ngram: The ngram to score. "
+    "(2) ref: The reference ngram. "
+    "(3) score_ratio: The score ratio (score_ngram/score_ref), which should be more than 1.0. "
+    " (if not, swap the ref and ngram)."
+)
+ARG_TRIGRAM_SCORE_RATIO_FILE = Annotated[
     Path,
     typer.Argument(
-        help="The path to the trigram scoring (input) file. You may create of template of such file with granite-trigram-score-template.",
+        help=TRIGRAM_SCORE_RATIO_HELP,
         show_default=False,
     ),
 ]
@@ -83,7 +79,7 @@ ARG_TRIGRAM_SCORE_FILE = Annotated[
 ARG_ANCHOR_SCORES_FILE = Annotated[
     Path,
     typer.Argument(
-        help="The path to the anchor scores file. Created with granite_tools/scripts/scoreratios_fit.py",
+        help="The path to the bigram anchor scores file. Created with granite_tools/scripts/bigram_anchor_scores_fit.py",
         show_default=False,
     ),
 ]
@@ -92,35 +88,42 @@ ARG_ANCHOR_SCORES_FILE = Annotated[
 def fit_parameters(
     config_file: ARG_CONFIG,
     bigram_ranking_file: ARG_BIGRAM_RANKING_FILE,
-    trigram_score_file: ARG_TRIGRAM_SCORE_FILE,
-    raw_anchor_ngram_scores_file: ARG_ANCHOR_SCORES_FILE,
+    bigram_anchor_scores_file: ARG_ANCHOR_SCORES_FILE,
+    trigram_score_ratio_file: ARG_TRIGRAM_SCORE_RATIO_FILE,
 ):
     config_base = read_config(str(config_file))
     hands = get_hands_data(config_base)
     bigram_scores = load_bigram_and_unigram_scores(
-        bigram_ranking_file, raw_anchor_ngram_scores_file
+        bigram_ranking_file, bigram_anchor_scores_file
     )
-    x0, bounds = get_initial_params_and_bounds()
-    trigram_scores = load_trigram_relative_scores(trigram_score_file)
 
-    scoresets = TrigramScoreSets.from_relative_trigram_scores(trigram_scores, hands)
-    scorefunc = create_optimization_target_function(scoresets, hands, bigram_scores)
+    x0 = get_initial_params(hands.config)
+    if len(x0) == 0:
+        print(f"No parameters to optimize (all parameters fixed in {config_file})")
+        return
 
-    print("Note: bounds not used.")
-    params = optimize_parameters(scorefunc, x0, None, hands.config)
+    trigram_score_ratios = load_score_ratio_entries(trigram_score_ratio_file, hands)
 
-    for name, value in zip(
-        (
-            "vert2u_coeff",
-            "dirchange_coeff",
-            "balanced_b_coeff",
-            "unigram_coeff",
-            "skipgram_b_coeff",
-            "easy_rolling_coeff",
-            "bigram_range_max",
-        ),
-        params,
-    ):
+    scorefunc = create_optimization_target_function(
+        trigram_score_ratios, hands, bigram_scores
+    )
+
+    params_tuple = optimize_parameters(scorefunc, x0, hands.config)
+    params = TrigramModelParameters.from_tuple(params_tuple, hands.config)
+    fitted_params = []
+    fixed_params = []
+    for name, value in params.iter_names_and_values():
+        if getattr(hands.config, name) is None:
+            fitted_params.append((name, value))
+        else:
+            fixed_params.append((name, value))
+
+    print("\nFixed parameters:")
+    for name, value in fixed_params:
+        print(f"{name}: {value:.3f}")
+
+    print("\nFitted parameters:")
+    for name, value in fitted_params:
         print(f"{name}: {value:.3f}")
 
 
@@ -152,7 +155,7 @@ class TrigramType(str, Enum):
     onehand = "onehand"
     balanced = "balanced"
     redir = "redir"
-    skipgram = "skipgram"
+    alternating = "alternating"
 
 
 ARG_TRIGRAM_TYPE = Annotated[
@@ -182,7 +185,7 @@ def fit_check(
     )
 
     params = TrigramModelParameters.from_config(config)
-    trigram_scores_iter = iter_trigrams_scores(params, scoresets, hands, bigram_scores)
+    trigram_scores_iter = get_trigram_scores(params, scoresets, hands, bigram_scores)
     groups = group_trigram_scores(trigram_scores_iter, group_sort_by=max_abs_error)
     plot_trigram_scores(
         groups,

@@ -17,6 +17,7 @@ examples_folder = test_folder.parent / "examples"
 @pytest.mark.asyncio
 class TestKeySeqApp:
 
+    @pytest.mark.slow
     async def test_move_left_one_step(self, config_minimal: Config):
 
         app = KeySequenceSortApp("__some_nonexisting_file__", config=config_minimal)
@@ -28,6 +29,7 @@ class TestKeySeqApp:
             pilot.app.action_place_ngram()
             assert pilot.app.ordered_ngrams == [(1,), (0,)]
 
+    @pytest.mark.slow
     async def test_move_right_one_step(self, config_minimal: Config):
 
         app = KeySequenceSortApp("__some_nonexisting_file__", config=config_minimal)
@@ -51,6 +53,7 @@ class TestKeySeqApp:
         )
     )
 
+    @pytest.mark.slow
     async def test_saving_and_loading(self, config_minimal: Config):
         filename = "__test_temp_file_remove_after_tests__"
         Path(filename).unlink(missing_ok=True)
@@ -111,6 +114,7 @@ class TestKeySeqApp:
         yield filename
         Path(filename).unlink()
 
+    @pytest.mark.slow
     async def test_loading_duplicates_raises_exception(
         self, config_minimal: Config, file_with_duplicate: str
     ):
