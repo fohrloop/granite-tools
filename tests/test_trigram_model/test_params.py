@@ -51,7 +51,7 @@ class TestTrigramModelParameters:
             else:
                 assert getattr(params, param) == getattr(config, param)
 
-    def test_from_tuple_simple(self):
+    def test_all_from_tuple(self):
 
         x = tuple(range(1, len(TrigramModelParameters.names) + 1))
         params = TrigramModelParameters.from_tuple(x)
@@ -66,7 +66,9 @@ class TestTrigramModelParameters:
             # Just two param values. All the rest missing.
             TrigramModelParameters.from_tuple((1, 2))
 
-    def test_from_tuple_missing_values(self, config_full_random_params: Config):
+    def test_from_tuple_some_values_from_config(
+        self, config_full_random_params: Config
+    ):
 
         # Situation, where only two values are given.
         # There should be two Nones (missing values) in the configuration
@@ -88,7 +90,9 @@ class TestTrigramModelParameters:
             if param not in ("w_ac_one", "balanced_coeff"):
                 assert getattr(params, param) == getattr(config, param)
 
-    def test_from_tuple_missing_values_case_2(self, config_full_random_params: Config):
+    def test_from_tuple_some_values_from_config2(
+        self, config_full_random_params: Config
+    ):
 
         # Same as test_from_tuple_missing_values but using different None values
         # in the config.
@@ -110,6 +114,26 @@ class TestTrigramModelParameters:
             if param not in ("sft_coeff", "redir_coeff"):
                 assert getattr(params, param) == getattr(config, param)
 
+    def test_from_tuple_all_values_from_config(self, config_full_random_params: Config):
+        config = config_full_random_params
+
+        params = TrigramModelParameters.from_tuple(tuple(), config)
+
+        for name in TrigramModelParameters.names:
+            assert getattr(params, name) == getattr(config, name)
+
+    def test_from_tuple_no_values_from_config(self, config_full_random_params: Config):
+        # Case: The parameters tuple contains all the parameters, but config is still
+        # given (but that's just not used)
+
+        config = config_full_random_params
+
+        x = tuple(range(1, len(TrigramModelParameters.names) + 1))
+        params = TrigramModelParameters.from_tuple(x, config)
+
+        for name, value in zip(TrigramModelParameters.names, x):
+            assert getattr(params, name) == value
+
     def test_from_tuple_too_long_tuple(self, config_full_random_params: Config):
 
         x = (44, 55, 66)
@@ -120,7 +144,8 @@ class TestTrigramModelParameters:
         config.redir_coeff = None
 
         with pytest.raises(
-            ValueError, match=r"Tuple must contain \d+ values, but got 3"
+            ValueError,
+            match=r"The given tuple has length of 3, but the config is missing 2 values. It is not possible to pair the missing values with tuple entries.",
         ):
             TrigramModelParameters.from_tuple(x, config)
 
@@ -134,7 +159,8 @@ class TestTrigramModelParameters:
         config.redir_coeff = None
 
         with pytest.raises(
-            ValueError, match=r"Tuple must contain \d+ values, but got 1"
+            ValueError,
+            match=r"The given tuple has length of 1, but the config is missing 2 values. It is not possible to pair the missing values with tuple entries.",
         ):
             TrigramModelParameters.from_tuple(x, config)
 
