@@ -6,6 +6,7 @@ from pathlib import Path
 from granite_tools.bigram_scores.anchor_scores import read_raw_anchor_scores_json
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.bigram_scores.spline_smoothing import get_spline_scores
+from granite_tools.utils import get_linear_scaling_function
 
 if typing.TYPE_CHECKING:
 
@@ -35,3 +36,20 @@ def load_bigram_and_unigram_scores(
         ngram = ngrams_ordered[int(x - 1)]
         scores[ngram] = float(y)
     return scores
+
+
+def get_scaled_bigram_scores(
+    bigram_scores: dict[KeySeq, float], newmax: float, newmin: float = 1
+) -> dict[KeySeq, float]:
+    """Creates scaled bigram scores based on non-scaled ones. Uses linear scaling."""
+
+    scaled_scores = dict()
+    s = get_linear_scaling_function(
+        oldmin=min(bigram_scores.values()),
+        oldmax=max(bigram_scores.values()),
+        newmin=newmin,
+        newmax=newmax,
+    )
+    for keyseq, score in bigram_scores.items():
+        scaled_scores[keyseq] = s(score)
+    return scaled_scores

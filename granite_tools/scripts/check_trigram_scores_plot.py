@@ -14,7 +14,7 @@ import pandas as pd
 import seaborn as sns  # type: ignore
 from matplotlib import pyplot as plt
 
-from granite_tools.scorer import get_trigram_data_from_files
+from granite_tools.trigram_model import get_trigram_data_from_files
 
 pd.set_option("display.max_rows", 1000)
 

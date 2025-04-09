@@ -31,6 +31,8 @@ def testfile(permutations_full: list[KeySeq]):
 
 @pytest.mark.asyncio
 class TestCompareApp:
+
+    @pytest.mark.slow
     async def test_save_and_load(self, testfile, config_full: Config):
 
         # There was a problem when loading from file and continuing the work. Test that

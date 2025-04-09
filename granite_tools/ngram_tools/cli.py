@@ -18,7 +18,7 @@ except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
 
-from granite_tools.ngrams.ngram import NgramList
+from granite_tools.ngram_tools.ngram import NgramList
 
 
 def get_printable_for_ngrams(

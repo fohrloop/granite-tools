@@ -6,7 +6,7 @@ Usage:
     python granite_tools/scripts/dev/compare_bigram_scoring_models.py BIGRAM_RANKING_FILE SCORES_RAW_OUT_FILE
 
 Example:
-    python granite_tools/scripts/dev/compare_bigram_scoring_models.py tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
+    python granite_tools/scripts/dev/compare_bigram_scoring_models.py tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json
 
 """
 
@@ -27,10 +27,6 @@ from granite_tools.bigram_scores.spline_smoothing import (
 )
 from granite_tools.utils import get_linear_scaling_function
 
-if typing.TYPE_CHECKING:
-    from granite_tools.app_types import KeySeq
-
-    ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
 try:
     bigram_ranking_file = sys.argv[1]
     scores_raw_out_file = sys.argv[2]

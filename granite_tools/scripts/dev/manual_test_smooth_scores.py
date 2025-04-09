@@ -4,7 +4,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from granite_tools.scorer.smooth_scores import create_monotone_bspline
+from granite_tools.trigram_model.smooth_scores import create_monotone_bspline
 
 if __name__ == "__main__":
     scores = np.array([0.7, 2.0, 2.5, 3.4, 3.0, 3.6, 3.33, 4.1])

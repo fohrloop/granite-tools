@@ -4,92 +4,18 @@ import typing
 
 import numpy as np
 
-from granite_tools.app_types import FingerType, TrigramMainType
+from granite_tools.app_types import FingerType
 
 if typing.TYPE_CHECKING:
     from typing import Iterable
 
-    from granite_tools.app_types import OnehandTrigramType, TrigramType
     from granite_tools.hands import Hand, Hands
 
     Coord = tuple[int, int]
     TrigramShapeCoords = tuple[Coord, Coord, Coord]
 
-
-Indices = tuple[int, int, int]
-EasyRollingTrigramsMap = dict[Indices, str]
-
-
-def get_trigram_type(
-    trigram: str, hands: Hands, mapping: EasyRollingTrigramsMap | None = None
-) -> TrigramType:
-    """Get a trigram type. The trigram mapping can be provided as an argument which
-    makes the trigram type checking much faster."""
-    trigramtype: TrigramType
-    _, keytypes = hands.where(trigram)
-    try:
-        trigram_main_type = hands.get_trigram_type(keytypes)
-    except Exception:
-        raise RuntimeError(f"Trigram type not recognized for '{trigram}'")
-    if trigram_main_type == TrigramMainType.BALANCED:
-        trigramtype = "balanced"
-    elif trigram_main_type == TrigramMainType.SKIPGRAM:
-        trigramtype = "skipgram"
-    elif trigram_main_type == TrigramMainType.ONEHAND:
-        if mapping is None and hands.config.easy_rolling_trigrams is not None:
-            mapping = get_easy_rolling_type_mapping(
-                hands.config.easy_rolling_trigrams, hands
-            )
-        onehand_type = get_onehand_trigram_type(trigram, mapping, hands)
-        if onehand_type:
-            trigramtype = onehand_type
-        else:
-            raise RuntimeError("Onehand trigram type not recognized: " + trigram)
-    elif trigram_main_type == TrigramMainType.UNTYPABLE:
-        return "untypable"
-    else:
-        raise RuntimeError("Trigram type not recognized: " + trigram)
-    return trigramtype
-
-
-def get_onehand_trigram_type(
-    trigram: str, mapping: EasyRollingTrigramsMap | None, hands: Hands
-) -> OnehandTrigramType | None:
-    indices, keytypes = hands.where(trigram)
-
-    if len(set(keytypes)) != 1:
-        # Not a onehand.
-        return None
-    if not len(indices) == 3:
-        return None
-
-    if mapping is not None:
-        easy_type = mapping.get(typing.cast(tuple[int, int, int], tuple(indices)))
-        if easy_type:
-            return "rolling-easy"
-
-    current_hand_type = keytypes[0]
-    hand = {"Left": hands.left, "Right": hands.right}[current_hand_type]
-    matrix_positions = hand.get_matrix_positions(indices)
-    column_diffs = (
-        matrix_positions[1][0] - matrix_positions[0][0],
-        matrix_positions[2][0] - matrix_positions[1][0],
-    )
-    if (current_hand_type == "Left" and all(x < 0 for x in column_diffs)) or (
-        current_hand_type == "Right" and all(x > 0 for x in column_diffs)
-    ):
-        return "rolling-out"
-    if (current_hand_type == "Left" and all(x > 0 for x in column_diffs)) or (
-        current_hand_type == "Right" and all(x < 0 for x in column_diffs)
-    ):
-        return "rolling-other"
-    if column_diffs[0] * column_diffs[1] < 0:
-        return "redir"
-    if any(x == 0 for x in column_diffs):
-        return "samecol"
-
-    # Should never happen, though.
-    raise RuntimeError("Trigram type not recognized: " + trigram)
+    Indices = tuple[int, int, int]
+    EasyRollingTrigramsMap = dict[Indices, str]
 
 
 def get_easy_rolling_type_mapping(
@@ -102,12 +28,12 @@ def get_easy_rolling_type_mapping(
 
     conf_left = easy_rolling_trigrams
 
-    shapes_left = get_easy_rolling_shapes(conf_left)
+    shapes_left = _get_easy_rolling_shapes(conf_left)
 
     # The configuration is created for left hand; need to vertically mirror for the
     # right hand to get the inward/outward directions correctly.
     conf_right = {k: np.flip(val, axis=1) for k, val in conf_left.items()}
-    shapes_right = get_easy_rolling_shapes(conf_right)
+    shapes_right = _get_easy_rolling_shapes(conf_right)
 
     out = dict()
     # left and right hand might in theory have slightly different index-to-matrix_positions
@@ -121,6 +47,7 @@ def get_easy_rolling_type_mapping(
 def _get_easy_rolling_indices_to_names_map(
     hand: Hand, shapes: dict[TrigramShapeCoords, str]
 ) -> dict[tuple[int, int, int], str]:
+    """Helper function for get_easy_rolling_type_mapping"""
     expected_fingers = [FingerType.R, FingerType.M, FingerType.I]
     mapping = {v: k for k, v in hand.matrix_positions.items()}
     out = dict()
@@ -139,6 +66,7 @@ def _get_indices(
     mpdiffs: TrigramShapeCoords,
     indices_mapping: dict[tuple[int, int], int],
 ) -> tuple[int, int, int] | None:
+    """Helper function for _get_indices"""
     typed_indices = []
     for mpdiff in mpdiffs:
         current_pos = (starting_pos[0] + mpdiff[0], starting_pos[1] + mpdiff[1])
@@ -151,11 +79,13 @@ def _get_indices(
     return typing.cast(tuple[int, int, int], tuple(typed_indices))
 
 
-def get_easy_rolling_shapes(
-    easy_rolling_trigrams: dict[str, np.ndarray]
+def _get_easy_rolling_shapes(
+    easy_rolling_trigrams: dict[str, np.ndarray],
 ) -> dict[TrigramShapeCoords, str]:
     """Get a dictionary where keys are trigram shapes as tuples of matrix positions
     relative to the first key (matrix position diffs), and values are the trigram names.
+
+    This is a helper function for get_easy_rolling_type_mapping
     """
     out = dict()
     for trigram_name, shapearr in easy_rolling_trigrams.items():

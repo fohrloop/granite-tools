@@ -6,8 +6,6 @@ from granite_tools.bigram_scores.score_ratio_template import (
     select_every_nth_item,
 )
 
-ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
-
 
 @pytest.fixture
 def ranks() -> list[KeySeq]:

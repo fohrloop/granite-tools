@@ -4,7 +4,7 @@ import typing
 from itertools import zip_longest
 from typing import ClassVar, Literal, Sequence, TypedDict, cast
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from rich.text import Text
 
 from granite_tools.app_types import (
@@ -17,7 +17,6 @@ from granite_tools.app_types import (
     RepeatType,
     Ring,
     RowDiffType,
-    TrigramMainType,
 )
 from granite_tools.config import Config
 
@@ -132,6 +131,10 @@ class Hand(BaseModel):
     symbols_visualization: dict[int, str]
     """Keys: key indices. Values: symbols on keyboard (for visualization purposes)."""
 
+    symbols_scoring: dict[int, str] = Field(default_factory=dict)
+    """Keys: key indices. Values: symbols on keyboard (for scoring purposes). If not
+    given, defaults to symbols_visualization"""
+
     fingers: dict[int, str] = Field(default_factory=dict)
     """For calculaing if somethign is SFB."""
 
@@ -148,6 +151,11 @@ class Hand(BaseModel):
     def sort_dict(cls, v):
         return dict(sorted(v.items(), key=lambda item: item[0]))
 
+    @model_validator(mode="after")
+    def set_default_symbols_scoring(self):
+        self.symbols_scoring = self.symbols_scoring or self.symbols_visualization
+        return self
+
     def get_symbols_visualization(
         self, key_seq: Sequence[int] | None, fallback=""
     ) -> str:
@@ -161,10 +169,16 @@ class Hand(BaseModel):
             symbols += self.symbols_visualization[key_idx]
         return symbols
 
-    def get_index(self, char: str) -> int | None:
+    def get_index(self, char: str, visualization: bool = False) -> int | None:
+        """Returns the index of a given character. If visualization is True, uses the
+        symbols_visualization dictionary. Otherwise, uses the symbols_scoring
+        dictionary from the configuration."""
+
+        dct = self.symbols_visualization if visualization else self.symbols_scoring
+
         # Cannot have a reverse mapping since a symbol could potentially be typed with
         # multiple keys..
-        for idx, symbol in self.symbols_visualization.items():
+        for idx, symbol in dct.items():
             if symbol == char.upper():
                 return idx
         return None
@@ -363,15 +377,26 @@ class Hands(BaseModel):
                 out.append(self.right.matrix_positions[idx])
             return out
 
-    def where(self, text: str) -> tuple[tuple[int, ...], tuple[HandOrKey, ...]]:
+    def where(
+        self, text: str, visualization: bool = False
+    ) -> tuple[tuple[int, ...], tuple[HandOrKey, ...]]:
+        """
+        Parameters
+        ----------
+        text : str
+            The text to get the indices and hands for.
+        visualization : bool
+            Whether to use the `symbols_scoring` (False, default) or the
+            `symbols_visualization` (True) from the configuration as the source of
+            truth. Has only effect on special symbols like space."""
         indices = []
         keytypes = []
         for char in text.upper():
-            if (idx := self.left.get_index(char)) is not None:
+            if (idx := self.left.get_index(char, visualization)) is not None:
                 indices.append(idx)
                 keytypes.append(self.left.hand)
                 continue
-            elif (idx := self.right.get_index(char)) is not None:
+            elif (idx := self.right.get_index(char, visualization)) is not None:
                 indices.append(idx)
                 keytypes.append(self.right.hand)
             else:
@@ -393,20 +418,6 @@ class Hands(BaseModel):
             else:
                 fingers.append(None)
         return fingers, handtypes
-
-    def get_trigram_type(self, handtypes: Sequence[HandOrKey]) -> TrigramMainType:
-
-        if len(handtypes) != 3:
-            raise ValueError(f"Not a trigram! {handtypes}")
-        elif handtypes[0] == handtypes[1] == handtypes[2]:
-            return TrigramMainType.ONEHAND
-        elif handtypes[0] == handtypes[1] or handtypes[1] == handtypes[2]:
-            return TrigramMainType.BALANCED
-        elif handtypes[0] == handtypes[2] and handtypes[0] != handtypes[1]:
-            return TrigramMainType.SKIPGRAM
-        elif "Untypable" in handtypes:
-            return TrigramMainType.UNTYPABLE
-        raise ValueError("Unknown trigram type")
 
     def get_symbols_text(
         self,
@@ -622,6 +633,7 @@ def get_hands_data(config: Config) -> Hands:
 
     class HandData(TypedDict):
         symbols_visualization: dict[int, str]
+        symbols_scoring: dict[int, str]
         fingers: dict[int, str]
         key_categories: dict[int, str]
         colors: dict[int, str]
@@ -634,6 +646,7 @@ def get_hands_data(config: Config) -> Hands:
     hands: HandsData = {
         "Left": {
             "symbols_visualization": {},
+            "symbols_scoring": {},
             "fingers": {},
             "key_categories": {},
             "colors": {},
@@ -641,6 +654,7 @@ def get_hands_data(config: Config) -> Hands:
         },
         "Right": {
             "symbols_visualization": {},
+            "symbols_scoring": {},
             "fingers": {},
             "key_categories": {},
             "colors": {},
@@ -659,6 +673,7 @@ def get_hands_data(config: Config) -> Hands:
     row_iterator = zip_longest(
         config.hands,
         config.symbols_visualization,
+        config.symbols_scoring,
         config.key_indices,
         finger_matrix,
         key_category_matrix,
@@ -678,9 +693,16 @@ def get_hands_data(config: Config) -> Hands:
                 raise ValueError(
                     "Invalid config! One row is longer or shorter than others"
                 )
-            hand, symbol, index, finger, key_category, colorname, matrix_position = (
-                cell_data
-            )
+            (
+                hand,
+                symbol_viz,
+                symbol_scoring,
+                index,
+                finger,
+                key_category,
+                colorname,
+                matrix_position,
+            ) = cell_data
             index_int: int = cast(int, int(index))  # type: ignore
             colorname_str: str = cast(str, str(colorname))  # type: ignore
 
@@ -695,7 +717,9 @@ def get_hands_data(config: Config) -> Hands:
 
             dct = hands[hand]  # type: ignore # (no idea why mypy still complains.)
 
-            dct["symbols_visualization"][index_int] = str(symbol)
+            dct["symbols_visualization"][index_int] = str(symbol_viz)
+            dct["symbols_scoring"][index_int] = str(symbol_scoring)
+
             if finger:
                 dct["fingers"][index_int] = str(finger)
             if color:
@@ -714,6 +738,7 @@ def get_hands_data(config: Config) -> Hands:
         left=Hand(
             hand="Left",
             symbols_visualization=hands["Left"]["symbols_visualization"],
+            symbols_scoring=hands["Left"]["symbols_scoring"],
             key_categories=hands["Left"]["key_categories"],
             fingers=hands["Left"]["fingers"],
             colors=hands["Left"]["colors"],
@@ -722,6 +747,7 @@ def get_hands_data(config: Config) -> Hands:
         right=Hand(
             hand="Right",
             symbols_visualization=hands["Right"]["symbols_visualization"],
+            symbols_scoring=hands["Right"]["symbols_scoring"],
             key_categories=hands["Right"]["key_categories"],
             fingers=hands["Right"]["fingers"],
             colors=hands["Right"]["colors"],

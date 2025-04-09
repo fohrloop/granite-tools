@@ -9,8 +9,11 @@ import typer
 from matplotlib import pyplot as plt
 
 from granite_tools.config import DEFAULT_LIMIT_MULTIPLIERS, read_config
-from granite_tools.scorer import get_trigram_data_from_files
-from granite_tools.scorer.scorer import create_log_m_func, get_limit_funcs
+from granite_tools.trigram_model import (
+    create_log_m_func,
+    get_limit_funcs,
+    get_trigram_data_from_files,
+)
 
 try:
     from typing import Annotated
@@ -49,7 +52,7 @@ ARG_BIGRAM_RANKING_FILE = Annotated[
 ARG_NGRAM_ANCHOR_SCORES_JSON = Annotated[
     Path | None,
     typer.Argument(
-        help="The path to the anchor scores (JSON) file. Created with granite_tools/scripts/scoreratios_fit.py",
+        help="The path to the anchor scores (JSON) file. Created with granite_tools/scripts/bigram_anchor_scores_fit.py",
         show_default=False,
     ),
 ]

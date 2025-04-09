@@ -1,12 +1,16 @@
+"""Reusable types for the granite-tools apps."""
+
 from __future__ import annotations
 
 import typing
-from enum import Enum, StrEnum, auto
-from typing import Literal
+from enum import Enum, auto
+from typing import Literal, TypedDict
 
 HandType = Literal["Left", "Right"]
 HandOrKey = Literal["Left", "Right", "Untypable"]
 """Hand or the key type."""
+
+HAND_TYPES = tuple(typing.get_args(HandType))
 
 KeySeq = tuple[int, ...]
 
@@ -142,27 +146,14 @@ class DirectionType(OrderedStrEnum):
     Redirect4 = 25
 
 
-class TrigramMainType(StrEnum):
-    """The higher level type of trigram"""
+TrigramMainType = Literal["balanced", "alternating", "easy-rolling", "onehand"]
 
-    BALANCED = auto()
-    """trigram with a bigram and a unigram or space"""
-
-    SKIPGRAM = auto()
-    """first and last character form a same hand bigram, but middle character is on a
-    different hand."""
-
-    ONEHAND = auto()
-    """Three symbols typed with one hand, but not redir"""
-
-    UNTYPABLE = auto()
+TRIGRAM_MAIN_TYPES = list(typing.get_args(TrigramMainType))
 
 
-OnehandRollingType = Literal["rolling-easy", "rolling-out", "rolling-other"]
-OnehandTrigramType = Literal[OnehandRollingType, "redir", "samecol"]
-TrigramType = Literal["balanced", "skipgram", OnehandTrigramType, "untypable"]
+Vert2uPenaltyException = tuple[int, list[int]]
 
 
-ONEHAND_ROLLING_TYPES = list(typing.get_args(OnehandRollingType))
-ONEHAND_TRIGRAM_TYPES = list(typing.get_args(OnehandTrigramType))
-TRIGRAM_TYPES = list(typing.get_args(TrigramType))
+# For configuration: vert2u_penalties
+class Vert2uPenaltyConfig(TypedDict):
+    exceptions: list[Vert2uPenaltyException]

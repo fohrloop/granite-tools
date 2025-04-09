@@ -1,21 +1,42 @@
+from __future__ import annotations
+
+import typing
+
 import pytest
 
-from granite_tools.app_types import KeySeq
 from granite_tools.bigram_scores.anchor_scores import (
     _fit_selected_ngram_scores,
     _get_ngrams_present_in_score_ratios,
 )
 
-ScoreRatioEntry = tuple[KeySeq, KeySeq, float]
+if typing.TYPE_CHECKING:
+    from granite_tools.score_ratios import ScoreRatioEntry
 
 
 @pytest.fixture
 def score_ratios() -> list[ScoreRatioEntry]:
+
     return [
-        ((2,), (1,), 1.1),  # x2/x1 = 1.1
-        ((4,), (2,), 1.4),  # x4/x2 = 1.4
-        ((5,), (2,), 1.5),  # x5/x2 = 1.5
-        ((5,), (4,), 1.2),  # x5/x4 = 1.2
+        {
+            "score_ratio": 1.1,  # x2/x1
+            "ref_keyseq": (1,),
+            "ngram_keyseq": (2,),
+        },
+        {
+            "score_ratio": 1.4,  # x4/x2
+            "ref_keyseq": (2,),
+            "ngram_keyseq": (4,),
+        },
+        {
+            "score_ratio": 1.5,  # x5/x2
+            "ref_keyseq": (2,),
+            "ngram_keyseq": (5,),
+        },
+        {
+            "score_ratio": 1.2,  # x5/x4
+            "ref_keyseq": (4,),
+            "ngram_keyseq": (5,),
+        },
     ]
 
 

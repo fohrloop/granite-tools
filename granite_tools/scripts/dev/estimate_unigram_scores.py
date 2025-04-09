@@ -7,7 +7,7 @@ Usage:
 
 where the
     - bigram_ranking_file is the file containing the bigram and unigram rankings (from create_ngram_ranking.py)
-    - raw_anchor_scores_file.json is created with scoreratios_fit.py
+    - raw_anchor_scores_file.json is created with bigram_anchor_scores_fit.py
     - config_file.yml is the Granite Config YAML file (optional)
 """
 
