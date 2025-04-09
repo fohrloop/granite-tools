@@ -101,8 +101,9 @@ class TrigramModelParameters(BaseModel):
         TrigramModelParameters.names
         """
 
-        if config is None:
-            # CASE: No config is given. The input tuple should contain all parameter values
+        if config is None or len(x) == len(cls.names):
+            # CASE: No config is given, or no config required. The input tuple should
+            # contain all parameter values
             dct = cls._create_class_dict_from_full_tuple(x)
         else:
             # CASE: Config is given. The input tuple should contain exactly the number
@@ -124,9 +125,18 @@ class TrigramModelParameters(BaseModel):
     def _create_class_dict_from_tuple_and_config(
         cls, x: tuple[float, ...], config: Config
     ) -> dict:
-
+        # Take values from the tuple but if something is missing, take from config
         dct = dict()
         x_iterator = iter(x)
+
+        n_values_in_tuple = len(x)
+        n_values_missing_in_config = len(
+            tuple(x for x in cls.names if getattr(config, x) is None)
+        )
+        if n_values_in_tuple != n_values_missing_in_config:
+            raise ValueError(
+                f"The given tuple has length of {n_values_in_tuple}, but the config is missing {n_values_missing_in_config} values. It is not possible to pair the missing values with tuple entries."
+            )
 
         for name in cls.names:
             if getattr(config, name) is None:
