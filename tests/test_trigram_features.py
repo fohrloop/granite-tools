@@ -95,7 +95,8 @@ class TestTrigramFeatures:
         [
             # fmt: off
             (("onehand", "SFB", "v1x", None, None), "SFB-v1x"),
-            (("onehand", "SFB", None, "redir", None), "redir-SFB"),
+            (("onehand", "SFB", None, "redir", None), "SFB-redir"),
+            (("onehand", "SFB", "v2x", "redir", None), "SFB-redir-v2x"),
             (("balanced", None, None, None, None), "balanced"),
             (("onehand", None, None, None, None), "onehand"),
             (("onehand", None, None, None, "easy-rolling"), "easy-rolling"),

@@ -99,8 +99,8 @@ class TrigramFeatures:
             pt
             for pt in (
                 self.easy_rolling,
-                self.redir,
                 self.single_finger_pattern,
+                self.redir,
                 self.vert2u,
             )
             if pt
