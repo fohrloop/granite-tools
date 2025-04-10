@@ -6,9 +6,7 @@ from pathlib import Path
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
-from granite_tools.easy_rolling import get_easy_rolling_type_mapping
 from granite_tools.trigram_features import TrigramFeatures
-from granite_tools.trigram_types import get_trigram_type
 
 if typing.TYPE_CHECKING:
     from granite_tools.hands import Hands
@@ -55,9 +53,7 @@ def plot_trigram_scores(
 
     for i, scoredct in enumerate(scores[::-1], start=1):
         trigram_score = scoredct["trigram_score_details"]["score"]
-        trigram_type = scoredct["trigram_score_details"]["trigramtype"]
         ref_score = scoredct["reference_score_details"]["score"]
-        ref_type = scoredct["reference_score_details"]["trigramtype"]
         score_ratio_act = scoredct["score_ratio_actual"]
         score_ratio_pred = scoredct["score_ratio_pred"]
         trigram = scoredct["trigram"]
