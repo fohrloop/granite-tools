@@ -13,7 +13,6 @@ Example:
 from __future__ import annotations
 
 import sys
-import typing
 
 import numpy as np
 from matplotlib import pyplot as plt

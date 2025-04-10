@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import typing
-from enum import Enum
 from pathlib import Path
 
 import typer
@@ -15,7 +13,6 @@ from granite_tools.trigram_model import (
     create_optimization_target_function,
     get_initial_params,
     get_trigram_scores,
-    max_abs_error,
     optimize_parameters,
 )
 
@@ -27,9 +24,6 @@ except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
 
-
-if typing.TYPE_CHECKING:
-    from granite_tools.score_ratios import ScoreRatioEntry
 
 ARG_CONFIG = Annotated[
     Path,

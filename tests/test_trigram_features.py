@@ -197,7 +197,6 @@ class TestIsSft:
     def test_multiple(self, trigram: str, expected: bool, hands_full: Hands) -> None:
 
         indices, keytypes = hands_full.where(trigram)
-        # TODO: simplify with hands_full.get_hand(indices) ?
         hand = hands_full.left if keytypes[0] == "Left" else hands_full.right
         fingers = [hand.get_finger(idx) for idx in indices]
 

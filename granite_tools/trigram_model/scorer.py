@@ -28,7 +28,7 @@ def get_trigram_score(
     """Gets a trigram score using the trigram model."""
 
     try:
-        # TODO: refactor and use indices and keytypes (call hands.where only once)
+        # LATER?: refactor and use indices and keytypes (call hands.where only once)
         features = TrigramFeatures.from_string(
             ngram, hands, mapping=mapping, use_visualization_symbols=True
         )
@@ -308,6 +308,7 @@ class TrigramScoreDict(typing.TypedDict):
     score_ratio_pred: float
     estimated_score: float
     trigram_score_details: dict
+    reference_score_details: dict
 
 
 def get_trigram_scores(
