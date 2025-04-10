@@ -105,7 +105,7 @@ class TrigramFeatures:
             )
             if pt
         )
-        return "-".join(parts)
+        return ".".join(parts)
 
 
 def get_single_finger_pattern(
