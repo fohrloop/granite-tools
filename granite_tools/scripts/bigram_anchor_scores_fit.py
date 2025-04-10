@@ -39,6 +39,7 @@ if __name__ == "__main__":
     score_ratio_entries = load_score_ratio_entries(scoreratio_file, hands)
 
     t0 = time.time()
+    print("Fitting anchor ngram scores.. (this might take a few minutes)")
     scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
     print(f"Fitting scores took {time.time() - t0:.2f}s")
 

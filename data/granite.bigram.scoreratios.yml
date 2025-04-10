@@ -1,0 +1,3612 @@
+- ref: "XV"
+  ngram: "G+"
+  score_ratio: 1.3
+
+- ref: "SD"
+  ngram: "QF"
+  score_ratio: 1.62
+
+- ref: "AG"
+  ngram: "TC"
+  score_ratio: 1.2
+
+- ref: ".M"
+  ngram: "H/"
+  score_ratio: 1.8
+
+- ref: "S+"
+  ngram: "C1"
+  score_ratio: 1.62
+
+- ref: ",J"
+  ngram: "N."
+  score_ratio: 1.37
+
+- ref: ",H"
+  ngram: ";,"
+  score_ratio: 2.12
+
+- ref: "G+"
+  ngram: "AC"
+  score_ratio: 1.25
+
+- ref: "W+"
+  ngram: "CB"
+  score_ratio: 1.19
+
+- ref: "H"
+  ngram: "MN"
+  score_ratio: 3.85
+
+- ref: "D+"
+  ngram: "SQ"
+  score_ratio: 3.75
+
+- ref: "/K"
+  ngram: "@P"
+  score_ratio: 1.55
+
+- ref: "2,"
+  ngram: "/O"
+  score_ratio: 3.23
+
+- ref: "2,"
+  ngram: "LP"
+  score_ratio: 2.95
+
+- ref: "SX"
+  ngram: "ZW"
+  score_ratio: 1.9
+
+- ref: "TC"
+  ngram: "C1"
+  score_ratio: 1.0
+
+- ref: "TD"
+  ngram: "EZ"
+  score_ratio: 1.28
+
+- ref: "N."
+  ngram: "LP"
+  score_ratio: 3.95
+
+- ref: "+"
+  ngram: "XZ"
+  score_ratio: 3.23
+
+- ref: "D+"
+  ngram: "C1"
+  score_ratio: 1.92
+
+- ref: "LK"
+  ngram: ".N"
+  score_ratio: 1.18
+
+- ref: "K^"
+  ngram: "YK"
+  score_ratio: 1.6
+
+- ref: "L^"
+  ngram: "YK"
+  score_ratio: 1.55
+
+- ref: "K@"
+  ngram: "PJ"
+  score_ratio: 2.26
+
+- ref: "SD"
+  ngram: "BT"
+  score_ratio: 2.5
+
+- ref: ",J"
+  ngram: "K/"
+  score_ratio: 1.8
+
+- ref: "_F"
+  ngram: "SQ"
+  score_ratio: 3.9
+
+- ref: "_R"
+  ngram: "TC"
+  score_ratio: 1.58
+
+- ref: "G"
+  ngram: "ZZ"
+  score_ratio: 3.35
+
+- ref: "_F"
+  ngram: "AC"
+  score_ratio: 1.4
+
+- ref: "EZ"
+  ngram: "T+"
+  score_ratio: 1.0
+
+- ref: "^K"
+  ngram: "LK"
+  score_ratio: 1.0
+
+- ref: "N."
+  ngram: "YK"
+  score_ratio: 1.04
+
+- ref: "SD"
+  ngram: "1C"
+  score_ratio: 1.64
+
+- ref: "I/"
+  ngram: ",2"
+  score_ratio: 1.0
+
+- ref: "K@"
+  ngram: "JJ"
+  score_ratio: 1.5
+
+- ref: "G+"
+  ngram: "C1"
+  score_ratio: 1.28
+
+- ref: "VB"
+  ngram: "ZW"
+  score_ratio: 1.25
+
+- ref: "XV"
+  ngram: "CF"
+  score_ratio: 0.96
+
+- ref: "CG"
+  ngram: "SX"
+  score_ratio: 2.6
+
+- ref: "__"
+  ngram: "ZQ"
+  score_ratio: 3.0
+
+- ref: "K@"
+  ngram: "@@"
+  score_ratio: 1.7
+
+- ref: "AC"
+  ngram: "EZ"
+  score_ratio: 1.55
+
+- ref: "TC"
+  ngram: "XZ"
+  score_ratio: 2.38
+
+- ref: "VB"
+  ngram: "Z1"
+  score_ratio: 2.25
+
+- ref: "_Q"
+  ngram: "XZ"
+  score_ratio: 2.0
+
+- ref: "K@"
+  ngram: "H^"
+  score_ratio: 1.3
+
+- ref: "H"
+  ngram: "^K"
+  score_ratio: 1.67
+
+- ref: "N."
+  ngram: "./"
+  score_ratio: 3.3
+
+- ref: "@J"
+  ngram: "@P"
+  score_ratio: 1.65
+
+- ref: "CG"
+  ngram: "_Q"
+  score_ratio: 1.75
+
+- ref: "PN"
+  ngram: "MN"
+  score_ratio: 1.14
+
+- ref: "G"
+  ngram: "1C"
+  score_ratio: 2.45
+
+- ref: "YK"
+  ngram: "2,"
+  score_ratio: 1.4
+
+- ref: "K^"
+  ngram: "MN"
+  score_ratio: 3
+
+- ref: "K"
+  ngram: "/K"
+  score_ratio: 2.35
+
+- ref: "XV"
+  ngram: "ZW"
+  score_ratio: 3.9
+
+- ref: ";H"
+  ngram: "//"
+  score_ratio: 1.95
+
+- ref: ".N"
+  ngram: "I/"
+  score_ratio: 1.65
+
+- ref: "GZ"
+  ngram: "AC"
+  score_ratio: 1.0
+
+- ref: "K@"
+  ngram: "@U"
+  score_ratio: 1.14
+
+- ref: "G"
+  ngram: "XV"
+  score_ratio: 2.0
+
+- ref: ",J"
+  ngram: "/O"
+  score_ratio: 3.85
+
+- ref: "@J"
+  ngram: "//"
+  score_ratio: 2.4
+
+- ref: "K@"
+  ngram: "Y^"
+  score_ratio: 1.4
+
+- ref: "CG"
+  ngram: "ZZ"
+  score_ratio: 2.3
+
+- ref: "G"
+  ngram: "T+"
+  score_ratio: 2.0
+
+- ref: "K"
+  ngram: "Y,"
+  score_ratio: 2.56
+
+- ref: "JJ"
+  ngram: "2,"
+  score_ratio: 1.35
+
+- ref: "H/"
+  ngram: "@U"
+  score_ratio: 1.08
+
+- ref: "+"
+  ngram: "S+"
+  score_ratio: 1.67
+
+- ref: "H^"
+  ngram: "K/"
+  score_ratio: 1.92
+
+- ref: "O^"
+  ngram: "/O"
+  score_ratio: 3.75
+
+- ref: "K^"
+  ngram: "JJ"
+  score_ratio: 1.6
+
+- ref: "QF"
+  ngram: "ZQ"
+  score_ratio: 3.6
+
+- ref: "BX"
+  ngram: "GZ"
+  score_ratio: 1.1
+
+- ref: "_R"
+  ngram: "ZZ"
+  score_ratio: 2.35
+
+- ref: "G"
+  ngram: "TC"
+  score_ratio: 2.4
+
+- ref: "/K"
+  ngram: "//"
+  score_ratio: 1.8
+
+- ref: "H^"
+  ngram: "N."
+  score_ratio: 1.0
+
+- ref: ",H"
+  ngram: "MN"
+  score_ratio: 2.4
+
+- ref: "TC"
+  ngram: "1C"
+  score_ratio: 1.0
+
+- ref: "GZ"
+  ngram: "ZW"
+  score_ratio: 3.8
+
+- ref: "K"
+  ngram: "@@"
+  score_ratio: 2.0
+
+- ref: "GZ"
+  ngram: "ZZ"
+  score_ratio: 2.2
+
+- ref: "@P"
+  ngram: ";,"
+  score_ratio: 1.05
+
+- ref: ",J"
+  ngram: "/K"
+  score_ratio: 1.66
+
+- ref: "_R"
+  ngram: "T+"
+  score_ratio: 1.25
+
+- ref: "K^"
+  ngram: "PN"
+  score_ratio: 2.18
+
+- ref: "CG"
+  ngram: "1C"
+  score_ratio: 1.77
+
+- ref: ".N"
+  ngram: "L."
+  score_ratio: 1.98
+
+- ref: "G+"
+  ngram: "GZ"
+  score_ratio: 1.33
+
+- ref: "GZ"
+  ngram: "DZ"
+  score_ratio: 1.07
+
+- ref: "_Q"
+  ngram: "VB"
+  score_ratio: 1.66
+
+- ref: "1C"
+  ngram: "T+"
+  score_ratio: 1.0
+
+- ref: "@U"
+  ngram: "L."
+  score_ratio: 1.6
+
+- ref: "_F"
+  ngram: "ZW"
+  score_ratio: 3.9
+
+- ref: "K"
+  ngram: "NY"
+  score_ratio: 2.67
+
+- ref: "+"
+  ngram: "Z1"
+  score_ratio: 4.4
+
+- ref: "+D"
+  ngram: "S+"
+  score_ratio: 1.19
+
+- ref: "XB"
+  ngram: "CB"
+  score_ratio: 1.17
+
+- ref: "_F"
+  ngram: "C1"
+  score_ratio: 1.9
+
+- ref: "LK"
+  ngram: ";H"
+  score_ratio: 1.5
+
+- ref: ".M"
+  ngram: "@@"
+  score_ratio: 2.03
+
+- ref: "^K"
+  ngram: "/K"
+  score_ratio: 1.73
+
+- ref: "H"
+  ngram: "L."
+  score_ratio: 3.1
+
+- ref: "@P"
+  ngram: "PJ"
+  score_ratio: 1.35
+
+- ref: "K^"
+  ngram: "/2"
+  score_ratio: 3.9
+
+- ref: ",J"
+  ngram: "H^"
+  score_ratio: 1.64
+
+- ref: ";H"
+  ngram: "@U"
+  score_ratio: 1.0
+
+- ref: "S+"
+  ngram: "__"
+  score_ratio: 1.9
+
+- ref: "XB"
+  ngram: "Z1"
+  score_ratio: 3.73
+
+- ref: ",N"
+  ngram: "/2"
+  score_ratio: 3.82
+
+- ref: "K"
+  ngram: "K@"
+  score_ratio: 1.7
+
+- ref: "H"
+  ngram: "/O"
+  score_ratio: 4.25
+
+- ref: "W+"
+  ngram: "_R"
+  score_ratio: 1.1
+
+- ref: "TC"
+  ngram: "BT"
+  score_ratio: 2.1
+
+- ref: "H^"
+  ngram: "YK"
+  score_ratio: 1.35
+
+- ref: "XV"
+  ngram: "VB"
+  score_ratio: 2.2
+
+- ref: "CB"
+  ngram: "QF"
+  score_ratio: 1.9
+
+- ref: "Y,"
+  ngram: "PN"
+  score_ratio: 1.0
+
+- ref: "D_"
+  ngram: "XZ"
+  score_ratio: 3.4
+
+- ref: "W+"
+  ngram: "QF"
+  score_ratio: 1.87
+
+- ref: ";,"
+  ngram: "MN"
+  score_ratio: 1.5
+
+- ref: "I/"
+  ngram: "Y,"
+  score_ratio: 1.44
+
+- ref: "+"
+  ngram: "_R"
+  score_ratio: 1.7
+
+- ref: "+"
+  ngram: "QF"
+  score_ratio: 2.7
+
+- ref: "CF"
+  ngram: "S+"
+  score_ratio: 1.2
+
+- ref: "K@"
+  ngram: "N."
+  score_ratio: 1.55
+
+- ref: "PJ"
+  ngram: "MN"
+  score_ratio: 1.46
+
+- ref: ",2"
+  ngram: "Y^"
+  score_ratio: 0.9
+
+- ref: ".M"
+  ngram: "I/"
+  score_ratio: 1.99
+
+- ref: "K"
+  ngram: "/O"
+  score_ratio: 4.5
+
+- ref: "_Q"
+  ngram: "EZ"
+  score_ratio: 1.5
+
+- ref: "Y^"
+  ngram: "/2"
+  score_ratio: 3.8
+
+- ref: "GZ"
+  ngram: "ZQ"
+  score_ratio: 3.9
+
+- ref: "XB"
+  ngram: "T+"
+  score_ratio: 0.91
+
+- ref: ".N"
+  ngram: "PN"
+  score_ratio: 1.78
+
+- ref: "K"
+  ngram: ".N"
+  score_ratio: 2
+
+- ref: ",J"
+  ngram: "/@"
+  score_ratio: 1.88
+
+- ref: "AG"
+  ngram: "Z_"
+  score_ratio: 1.05
+
+- ref: "O^"
+  ngram: "PN"
+  score_ratio: 1.72
+
+- ref: "CF"
+  ngram: "GZ"
+  score_ratio: 2.0
+
+- ref: "FF"
+  ngram: "ZW"
+  score_ratio: 3.9
+
+- ref: "./"
+  ngram: "LP"
+  score_ratio: 1.25
+
+- ref: "EZ"
+  ngram: "XZ"
+  score_ratio: 1.7
+
+- ref: "AC"
+  ngram: "XZ"
+  score_ratio: 3.0
+
+- ref: "H"
+  ngram: ";H"
+  score_ratio: 1.7
+
+- ref: "G+"
+  ngram: "VB"
+  score_ratio: 2.2
+
+- ref: "@J"
+  ngram: "O^"
+  score_ratio: 1.24
+
+- ref: "SX"
+  ngram: "SQ"
+  score_ratio: 2.4
+
+- ref: "O^"
+  ngram: ";H"
+  score_ratio: 1.35
+
+- ref: "TC"
+  ngram: "ZW"
+  score_ratio: 2.5
+
+- ref: "N."
+  ngram: "K/"
+  score_ratio: 1.7
+
+- ref: "L^"
+  ngram: "/O"
+  score_ratio: 4
+
+- ref: "D_"
+  ngram: "ZZ"
+  score_ratio: 2.3
+
+- ref: "FF"
+  ngram: "SX"
+  score_ratio: 2.3
+
+- ref: "QF"
+  ngram: "ZZ"
+  score_ratio: 1.85
+
+- ref: "/K"
+  ngram: "I/"
+  score_ratio: 1.75
+
+- ref: "O^"
+  ngram: "MN"
+  score_ratio: 2.6
+
+- ref: "G+"
+  ngram: "_R"
+  score_ratio: 1.4
+
+- ref: ",H"
+  ngram: ",N"
+  score_ratio: 0.95
+
+- ref: "L."
+  ngram: "/2"
+  score_ratio: 2.0
+
+- ref: "ZD"
+  ngram: "ZQ"
+  score_ratio: 3.4
+
+- ref: "^K"
+  ngram: "/P"
+  score_ratio: 3.6
+
+- ref: "VB"
+  ngram: "ZQ"
+  score_ratio: 2.3
+
+- ref: "SD"
+  ngram: "EZ"
+  score_ratio: 1.8
+
+- ref: "XZ"
+  ngram: "Z1"
+  score_ratio: 1.77
+
+- ref: "CF"
+  ngram: "QB"
+  score_ratio: 1.95
+
+- ref: ",H"
+  ngram: "H^"
+  score_ratio: 1.3
+
+- ref: ",N"
+  ngram: "Y^"
+  score_ratio: 1.6
+
+- ref: "__"
+  ngram: "SX"
+  score_ratio: 1.6
+
+- ref: ".M"
+  ngram: "//"
+  score_ratio: 2.7
+
+- ref: "TC"
+  ngram: "ZZ"
+  score_ratio: 2.4
+
+- ref: "K"
+  ngram: "//"
+  score_ratio: 3.4
+
+- ref: "S+"
+  ngram: "Z_"
+  score_ratio: 1.8
+
+- ref: "G"
+  ngram: "ZD"
+  score_ratio: 1.9
+
+- ref: ",H"
+  ngram: "Y^"
+  score_ratio: 1.6
+
+- ref: "LK"
+  ngram: "@@"
+  score_ratio: 1.87
+
+- ref: "EZ"
+  ngram: "SQ"
+  score_ratio: 3.1
+
+- ref: "QF"
+  ngram: "1C"
+  score_ratio: 1.03
+
+- ref: "G+"
+  ngram: "TC"
+  score_ratio: 1.36
+
+- ref: "@@"
+  ngram: "/@"
+  score_ratio: 0.9
+
+- ref: "K"
+  ngram: "2,"
+  score_ratio: 2.1
+
+- ref: "@P"
+  ngram: "Y^"
+  score_ratio: 1.0
+
+- ref: "H"
+  ngram: "L^"
+  score_ratio: 2
+
+- ref: "+D"
+  ngram: "BT"
+  score_ratio: 2.3
+
+- ref: "EZ"
+  ngram: "_R"
+  score_ratio: 1.0
+
+- ref: "H/"
+  ngram: "I/"
+  score_ratio: 1.3
+
+- ref: "//"
+  ngram: "/P"
+  score_ratio: 1.6
+
+- ref: "G+"
+  ngram: "AG"
+  score_ratio: 1.2
+
+- ref: "+"
+  ngram: "SX"
+  score_ratio: 3.3
+
+- ref: "XB"
+  ngram: "__"
+  score_ratio: 1.9
+
+- ref: "G"
+  ngram: "BX"
+  score_ratio: 2.3
+
+- ref: "O^"
+  ngram: "I/"
+  score_ratio: 1.7
+
+- ref: "LK"
+  ngram: "./"
+  score_ratio: 2.73
+
+- ref: "K"
+  ngram: "K/"
+  score_ratio: 2.2
+
+- ref: "/K"
+  ngram: "2,"
+  score_ratio: 1.56
+
+- ref: "XB"
+  ngram: "AG"
+  score_ratio: 1.22
+
+- ref: "/@"
+  ngram: "/2"
+  score_ratio: 4.05
+
+- ref: ";,"
+  ngram: "LP"
+  score_ratio: 2.9
+
+- ref: "W+"
+  ngram: "1C"
+  score_ratio: 1.4
+
+- ref: "+D"
+  ngram: "__"
+  score_ratio: 1.75
+
+- ref: "TC"
+  ngram: "T+"
+  score_ratio: 1.0
+
+- ref: "@@"
+  ngram: "PN"
+  score_ratio: 1.15
+
+- ref: "Z_"
+  ngram: "SX"
+  score_ratio: 1.9
+
+- ref: "H^"
+  ngram: "2,"
+  score_ratio: 1.85
+
+- ref: "G+"
+  ngram: "ZD"
+  score_ratio: 1.15
+
+- ref: "SD"
+  ngram: "S+"
+  score_ratio: 1.2
+
+- ref: "W+"
+  ngram: "ZZ"
+  score_ratio: 2.7
+
+- ref: "O^"
+  ngram: "/@"
+  score_ratio: 1.34
+
+- ref: "@@"
+  ngram: "/2"
+  score_ratio: 3.4
+
+- ref: "^K"
+  ngram: "K/"
+  score_ratio: 1.62
+
+- ref: "JJ"
+  ngram: "H/"
+  score_ratio: 1.45
+
+- ref: "/K"
+  ngram: "/2"
+  score_ratio: 3.85
+
+- ref: "__"
+  ngram: "GZ"
+  score_ratio: 0.95
+
+- ref: "BX"
+  ngram: "ZQ"
+  score_ratio: 3.8
+
+- ref: "/K"
+  ngram: "Y^"
+  score_ratio: 1.05
+
+- ref: ",J"
+  ngram: ";H"
+  score_ratio: 1.77
+
+- ref: "XV"
+  ngram: "D+"
+  score_ratio: 1.15
+
+- ref: "K"
+  ngram: "@J"
+  score_ratio: 1.7
+
+- ref: "CF"
+  ngram: "SQ"
+  score_ratio: 4.2
+
+- ref: "L^"
+  ngram: "LP"
+  score_ratio: 4.1
+
+- ref: "H^"
+  ngram: "PN"
+  score_ratio: 1.89
+
+- ref: "@P"
+  ngram: "Y,"
+  score_ratio: 1.0
+
+- ref: ",J"
+  ngram: "@@"
+  score_ratio: 1.7
+
+- ref: "JJ"
+  ngram: "/@"
+  score_ratio: 1.24
+
+- ref: "PN"
+  ngram: "NY"
+  score_ratio: 1.2
+
+- ref: "LK"
+  ngram: "/P"
+  score_ratio: 4.0
+
+- ref: "^K"
+  ngram: "I/"
+  score_ratio: 2.0
+
+- ref: "__"
+  ngram: "EZ"
+  score_ratio: 0.98
+
+- ref: ".M"
+  ngram: "K@"
+  score_ratio: 1.35
+
+- ref: "K^"
+  ngram: ";,"
+  score_ratio: 1.8
+
+- ref: "H/"
+  ngram: "PN"
+  score_ratio: 1.75
+
+- ref: "Z_"
+  ngram: "BT"
+  score_ratio: 1.9
+
+- ref: "I/"
+  ngram: "PJ"
+  score_ratio: 1.2
+
+- ref: "/@"
+  ngram: "/P"
+  score_ratio: 3.92
+
+- ref: "BX"
+  ngram: "ZW"
+  score_ratio: 3.6
+
+- ref: "//"
+  ngram: "./"
+  score_ratio: 1.6
+
+- ref: "CF"
+  ngram: "T+"
+  score_ratio: 1.9
+
+- ref: "@J"
+  ngram: "I/"
+  score_ratio: 2.25
+
+- ref: "O^"
+  ngram: "Y^"
+  score_ratio: 1.33
+
+- ref: ",N"
+  ngram: "2,"
+  score_ratio: 1.8
+
+- ref: "FF"
+  ngram: "BT"
+  score_ratio: 1.8
+
+- ref: "K^"
+  ngram: "@P"
+  score_ratio: 1.92
+
+- ref: "K@"
+  ngram: "/P"
+  score_ratio: 4.05
+
+- ref: ",N"
+  ngram: ";,"
+  score_ratio: 1.86
+
+- ref: "ZD"
+  ngram: "_R"
+  score_ratio: 1.0
+
+- ref: "G+"
+  ngram: "ZZ"
+  score_ratio: 2.9
+
+- ref: "S+"
+  ngram: "_R"
+  score_ratio: 1.35
+
+- ref: "K^"
+  ngram: "//"
+  score_ratio: 2.9
+
+- ref: "GZ"
+  ngram: "Z1"
+  score_ratio: 3.9
+
+- ref: "L^"
+  ngram: "JJ"
+  score_ratio: 1.05
+
+- ref: "G"
+  ngram: "_Q"
+  score_ratio: 2.7
+
+- ref: ",N"
+  ngram: "L."
+  score_ratio: 2.35
+
+- ref: "SD"
+  ngram: "Z_"
+  score_ratio: 1.9
+
+- ref: "_F"
+  ngram: "SX"
+  score_ratio: 1.9
+
+- ref: "D_"
+  ngram: "SX"
+  score_ratio: 1.85
+
+- ref: "T+"
+  ngram: "QB"
+  score_ratio: 1.6
+
+- ref: "I/"
+  ngram: "NY"
+  score_ratio: 1.47
+
+- ref: "+"
+  ngram: "VB"
+  score_ratio: 3.88
+
+- ref: "JJ"
+  ngram: "LP"
+  score_ratio: 3.8
+
+- ref: "XV"
+  ngram: "C1"
+  score_ratio: 1.9
+
+- ref: "BX"
+  ngram: "FF"
+  score_ratio: 1.4
+
+- ref: "GZ"
+  ngram: "T+"
+  score_ratio: 1.1
+
+- ref: "^K"
+  ngram: "K@"
+  score_ratio: 1.34
+
+- ref: "Z_"
+  ngram: "ZW"
+  score_ratio: 4.0
+
+- ref: ";,"
+  ngram: "K/"
+  score_ratio: 1.25
+
+- ref: "XB"
+  ngram: "BT"
+  score_ratio: 1.89
+
+- ref: "K@"
+  ngram: "YK"
+  score_ratio: 1.35
+
+- ref: ".M"
+  ngram: "LP"
+  score_ratio: 4.1
+
+- ref: "@U"
+  ngram: ",2"
+  score_ratio: 1.78
+
+- ref: "D+"
+  ngram: "AG"
+  score_ratio: 1.4
+
+- ref: "N."
+  ngram: "Y^"
+  score_ratio: 1.13
+
+- ref: "BX"
+  ngram: "C1"
+  score_ratio: 1.5
+
+- ref: "PN"
+  ngram: "LP"
+  score_ratio: 2.6
+
+- ref: ".M"
+  ngram: ";,"
+  score_ratio: 1.8
+
+- ref: "BX"
+  ngram: "VB"
+  score_ratio: 2.8
+
+- ref: ",N"
+  ngram: "H/"
+  score_ratio: 1.4
+
+- ref: "@@"
+  ngram: "//"
+  score_ratio: 1.7
+
+- ref: "I/"
+  ngram: "PN"
+  score_ratio: 1.5
+
+- ref: "PN"
+  ngram: "/2"
+  score_ratio: 2.3
+
+- ref: "L^"
+  ngram: "/P"
+  score_ratio: 3.8
+
+- ref: "TC"
+  ngram: "Z1"
+  score_ratio: 3.4
+
+- ref: "BX"
+  ngram: "QB"
+  score_ratio: 2.4
+
+- ref: "PN"
+  ngram: "L."
+  score_ratio: 1.23
+
+- ref: "2,"
+  ngram: "//"
+  score_ratio: 1.55
+
+- ref: "D+"
+  ngram: "DZ"
+  score_ratio: 1.9
+
+- ref: "SD"
+  ngram: "_Q"
+  score_ratio: 2.3
+
+- ref: "L^"
+  ngram: "2,"
+  score_ratio: 2.2
+
+- ref: "+"
+  ngram: "C1"
+  score_ratio: 2.5
+
+- ref: "CG"
+  ngram: "C1"
+  score_ratio: 1.66
+
+- ref: "/@"
+  ngram: "@P"
+  score_ratio: 1.5
+
+- ref: "G"
+  ngram: "__"
+  score_ratio: 2.6
+
+- ref: "FF"
+  ngram: "QB"
+  score_ratio: 1.6
+
+- ref: "Z_"
+  ngram: "1C"
+  score_ratio: 1.25
+
+- ref: "G"
+  ngram: "_F"
+  score_ratio: 1.9
+
+- ref: ".M"
+  ngram: "PJ"
+  score_ratio: 1.6
+
+- ref: "H^"
+  ngram: "Y^"
+  score_ratio: 1.05
+
+- ref: "S+"
+  ngram: "Z1"
+  score_ratio: 3.7
+
+- ref: "LK"
+  ngram: "/K"
+  score_ratio: 1.67
+
+- ref: "Y^"
+  ngram: "MN"
+  score_ratio: 2
+
+- ref: "N."
+  ngram: "2,"
+  score_ratio: 1.7
+
+- ref: "I/"
+  ngram: "2,"
+  score_ratio: 0.96
+
+- ref: "G"
+  ngram: "Z1"
+  score_ratio: 3.9
+
+- ref: "K"
+  ngram: "LK"
+  score_ratio: 1.55
+
+- ref: "/K"
+  ngram: ";,"
+  score_ratio: 1.5
+
+- ref: "FF"
+  ngram: "T+"
+  score_ratio: 1.45
+
+- ref: "QB"
+  ngram: "ZQ"
+  score_ratio: 2.3
+
+- ref: "I/"
+  ngram: "K/"
+  score_ratio: 0.95
+
+- ref: "H"
+  ngram: "K^"
+  score_ratio: 1.5
+
+- ref: "LK"
+  ngram: "PN"
+  score_ratio: 1.9
+
+- ref: "W+"
+  ngram: "DZ"
+  score_ratio: 1.55
+
+- ref: ",J"
+  ngram: ",H"
+  score_ratio: 1.18
+
+- ref: "XB"
+  ngram: "QF"
+  score_ratio: 1.44
+
+- ref: "G"
+  ngram: "FF"
+  score_ratio: 1.4
+
+- ref: "2,"
+  ngram: "PN"
+  score_ratio: 1.67
+
+- ref: "ZD"
+  ngram: "TD"
+  score_ratio: 1.2
+
+- ref: "XV"
+  ngram: "S+"
+  score_ratio: 1.0
+
+- ref: "FF"
+  ngram: "EZ"
+  score_ratio: 1.3
+
+- ref: ";,"
+  ngram: "/2"
+  score_ratio: 3.4
+
+- ref: "@P"
+  ngram: ",2"
+  score_ratio: 1.0
+
+- ref: "JJ"
+  ngram: "/P"
+  score_ratio: 3.5
+
+- ref: "_Q"
+  ngram: "SQ"
+  score_ratio: 2.4
+
+- ref: "D_"
+  ngram: "1C"
+  score_ratio: 1.6
+
+- ref: ".M"
+  ngram: "/P"
+  score_ratio: 3.5
+
+- ref: "W+"
+  ngram: "G+"
+  score_ratio: 1.05
+
+- ref: "G+"
+  ngram: "CB"
+  score_ratio: 1.15
+
+- ref: "W+"
+  ngram: "BX"
+  score_ratio: 1.3
+
+- ref: "TD"
+  ngram: "_R"
+  score_ratio: 1.15
+
+- ref: "^K"
+  ngram: ",J"
+  score_ratio: 0.95
+
+- ref: "LK"
+  ngram: "O^"
+  score_ratio: 1.15
+
+- ref: "SD"
+  ngram: "D_"
+  score_ratio: 1.1
+
+- ref: "@P"
+  ngram: "/2"
+  score_ratio: 2.8
+
+- ref: "+D"
+  ngram: "XV"
+  score_ratio: 1.0
+
+- ref: ".M"
+  ngram: "./"
+  score_ratio: 2.3
+
+- ref: "@P"
+  ngram: "K/"
+  score_ratio: 0.94
+
+- ref: "2,"
+  ngram: "NY"
+  score_ratio: 1.36
+
+- ref: ",J"
+  ngram: "L."
+  score_ratio: 1.7
+
+- ref: "+D"
+  ngram: "G+"
+  score_ratio: 1.22
+
+- ref: "XB"
+  ngram: "FF"
+  score_ratio: 1.0
+
+- ref: ",H"
+  ngram: "K/"
+  score_ratio: 2.0
+
+- ref: "S+"
+  ngram: "GZ"
+  score_ratio: 1.2
+
+- ref: "SQ"
+  ngram: "ZQ"
+  score_ratio: 1.5
+
+- ref: "G+"
+  ngram: "ZQ"
+  score_ratio: 3.75
+
+- ref: "AG"
+  ngram: "Z1"
+  score_ratio: 3.45
+
+- ref: "BX"
+  ngram: "BT"
+  score_ratio: 1.9
+
+- ref: ";H"
+  ngram: "NY"
+  score_ratio: 1.8
+
+- ref: "L^"
+  ngram: ",H"
+  score_ratio: 1.0
+
+- ref: ",2"
+  ngram: "L."
+  score_ratio: 1.15
+
+- ref: "S+"
+  ngram: "SX"
+  score_ratio: 1.8
+
+- ref: "//"
+  ngram: "/2"
+  score_ratio: 2.2
+
+- ref: "TD"
+  ngram: "T+"
+  score_ratio: 1.1
+
+- ref: "__"
+  ngram: "DZ"
+  score_ratio: 0.9
+
+- ref: "+D"
+  ngram: "XB"
+  score_ratio: 1.15
+
+- ref: "TC"
+  ngram: "ZQ"
+  score_ratio: 2.8
+
+- ref: ".M"
+  ngram: "@U"
+  score_ratio: 1.5
+
+- ref: "XV"
+  ngram: "T+"
+  score_ratio: 1.5
+
+- ref: "1C"
+  ngram: "VB"
+  score_ratio: 1.8
+
+- ref: "K"
+  ngram: "O^"
+  score_ratio: 1.65
+
+- ref: "L^"
+  ngram: "NY"
+  score_ratio: 2.1
+
+- ref: "G"
+  ngram: "Z_"
+  score_ratio: 2
+
+- ref: "G"
+  ngram: "_R"
+  score_ratio: 2.1
+
+- ref: ",2"
+  ngram: "PN"
+  score_ratio: 1.65
+
+- ref: "ZD"
+  ngram: "Z_"
+  score_ratio: 1.0
+
+- ref: ";H"
+  ngram: "2,"
+  score_ratio: 1.25
+
+- ref: "Z_"
+  ngram: "ZZ"
+  score_ratio: 1.8
+
+- ref: "I/"
+  ngram: "L."
+  score_ratio: 1.45
+
+- ref: ",H"
+  ngram: "JJ"
+  score_ratio: 1.25
+
+- ref: "C1"
+  ngram: "ZW"
+  score_ratio: 2.5
+
+- ref: "H"
+  ngram: "PN"
+  score_ratio: 3.1
+
+- ref: "_F"
+  ngram: "GZ"
+  score_ratio: 1.68
+
+- ref: "D_"
+  ngram: "_Q"
+  score_ratio: 1.5
+
+- ref: "D+"
+  ngram: "__"
+  score_ratio: 2
+
+- ref: "@P"
+  ngram: "PN"
+  score_ratio: 1.4
+
+- ref: "CF"
+  ngram: "ZQ"
+  score_ratio: 3.65
+
+- ref: "BT"
+  ngram: "Z1"
+  score_ratio: 2.2
+
+- ref: "S+"
+  ngram: "VB"
+  score_ratio: 2.4
+
+- ref: "K/"
+  ngram: ",2"
+  score_ratio: 1.5
+
+- ref: "__"
+  ngram: "QF"
+  score_ratio: 1.0
+
+- ref: "LK"
+  ngram: "/O"
+  score_ratio: 3.45
+
+- ref: "BX"
+  ngram: "Z1"
+  score_ratio: 3.4
+
+- ref: "LK"
+  ngram: "LP"
+  score_ratio: 2.6
+
+- ref: "Z_"
+  ngram: "C1"
+  score_ratio: 1.5
+
+- ref: "^K"
+  ngram: "PN"
+  score_ratio: 1.6
+
+- ref: "BX"
+  ngram: "TC"
+  score_ratio: 1.5
+
+- ref: "AC"
+  ngram: "1C"
+  score_ratio: 1.35
+
+- ref: ",H"
+  ngram: "/K"
+  score_ratio: 1.8
+
+- ref: "D_"
+  ngram: "S+"
+  score_ratio: 1.1
+
+- ref: ",N"
+  ngram: "MN"
+  score_ratio: 1.9
+
+- ref: "YK"
+  ngram: "//"
+  score_ratio: 2
+
+- ref: "JJ"
+  ngram: "./"
+  score_ratio: 2.9
+
+- ref: ",N"
+  ngram: "Y,"
+  score_ratio: 1.6
+
+- ref: "_F"
+  ngram: "G+"
+  score_ratio: 1.34
+
+- ref: "SD"
+  ngram: "CB"
+  score_ratio: 1.33
+
+- ref: "+D"
+  ngram: "GZ"
+  score_ratio: 1.6
+
+- ref: "+D"
+  ngram: "CB"
+  score_ratio: 1.2
+
+- ref: "^K"
+  ngram: ",2"
+  score_ratio: 1.6
+
+- ref: "H/"
+  ngram: "./"
+  score_ratio: 2.6
+
+- ref: "S+"
+  ngram: "XZ"
+  score_ratio: 2.89
+
+- ref: "^K"
+  ngram: "MN"
+  score_ratio: 2
+
+- ref: "D_"
+  ngram: "BT"
+  score_ratio: 2
+
+- ref: ".N"
+  ngram: ",H"
+  score_ratio: 1.2
+
+- ref: "CB"
+  ngram: "_R"
+  score_ratio: 1.1
+
+- ref: "1C"
+  ngram: "C1"
+  score_ratio: 1.25
+
+- ref: ",H"
+  ngram: "./"
+  score_ratio: 2.9
+
+- ref: "LK"
+  ngram: "@U"
+  score_ratio: 1.3
+
+- ref: ";H"
+  ngram: "Y^"
+  score_ratio: 1.0
+
+- ref: "+D"
+  ngram: "1C"
+  score_ratio: 1.8
+
+- ref: "G"
+  ngram: "W+"
+  score_ratio: 1.8
+
+- ref: "VB"
+  ngram: "SQ"
+  score_ratio: 2.1
+
+- ref: "H/"
+  ngram: "NY"
+  score_ratio: 1.7
+
+- ref: "^K"
+  ngram: "/O"
+  score_ratio: 3.9
+
+- ref: "N."
+  ngram: "/K"
+  score_ratio: 1.4
+
+- ref: ",N"
+  ngram: ",2"
+  score_ratio: 1.9
+
+- ref: "XV"
+  ngram: "CB"
+  score_ratio: 1.25
+
+- ref: "@@"
+  ngram: ";,"
+  score_ratio: 0.8
+
+- ref: "S+"
+  ngram: "CB"
+  score_ratio: 1.1
+
+- ref: "D_"
+  ngram: "DZ"
+  score_ratio: 1.66
+
+- ref: "XB"
+  ngram: "VB"
+  score_ratio: 1.8
+
+- ref: "K^"
+  ngram: "I/"
+  score_ratio: 1.92
+
+- ref: "K/"
+  ngram: "//"
+  score_ratio: 1.8
+
+- ref: "K^"
+  ngram: "N."
+  score_ratio: 1.2
+
+- ref: "SD"
+  ngram: "BX"
+  score_ratio: 1.15
+
+- ref: "W+"
+  ngram: "__"
+  score_ratio: 2
+
+- ref: "+D"
+  ngram: "FF"
+  score_ratio: 1.55
+
+- ref: "TD"
+  ngram: "SX"
+  score_ratio: 2
+
+- ref: "CF"
+  ngram: "_Q"
+  score_ratio: 1.6
+
+- ref: "XB"
+  ngram: "SQ"
+  score_ratio: 2.2
+
+- ref: "GZ"
+  ngram: "VB"
+  score_ratio: 1.8
+
+- ref: "W+"
+  ngram: "SQ"
+  score_ratio: 2.8
+
+- ref: "K@"
+  ngram: ".N"
+  score_ratio: 1.25
+
+- ref: "JJ"
+  ngram: "Y,"
+  score_ratio: 1.1
+
+- ref: ";,"
+  ngram: "PJ"
+  score_ratio: 1.75
+
+- ref: "TD"
+  ngram: "TC"
+  score_ratio: 1.65
+
+- ref: ",J"
+  ngram: ",N"
+  score_ratio: 1.5
+
+- ref: "ZW"
+  ngram: "SQ"
+  score_ratio: 1.1
+
+- ref: "YK"
+  ngram: "./"
+  score_ratio: 2.9
+
+- ref: "D_"
+  ngram: "VB"
+  score_ratio: 1.9
+
+- ref: ".N"
+  ngram: "/P"
+  score_ratio: 3.2
+
+- ref: "S+"
+  ngram: "ZZ"
+  score_ratio: 2.4
+
+- ref: "G"
+  ngram: "GZ"
+  score_ratio: 1.57
+
+- ref: "+"
+  ngram: "SQ"
+  score_ratio: 4.2
+
+- ref: "XB"
+  ngram: "GZ"
+  score_ratio: 1.33
+
+- ref: "G"
+  ngram: "CF"
+  score_ratio: 1.5
+
+- ref: "K"
+  ngram: "H/"
+  score_ratio: 1.8
+
+- ref: ",J"
+  ngram: ";,"
+  score_ratio: 1.8
+
+- ref: "XV"
+  ngram: "SD"
+  score_ratio: 1.05
+
+- ref: "ZD"
+  ngram: "GZ"
+  score_ratio: 1.2
+
+- ref: "K@"
+  ngram: "Y,"
+  score_ratio: 1.55
+
+- ref: "H/"
+  ngram: "LP"
+  score_ratio: 2.65
+
+- ref: "_F"
+  ngram: "XZ"
+  score_ratio: 2.3
+
+- ref: ".N"
+  ngram: "YK"
+  score_ratio: 1.18
+
+- ref: "./"
+  ngram: "/P"
+  score_ratio: 1.65
+
+- ref: "ZW"
+  ngram: "Z1"
+  score_ratio: 1.35
+
+- ref: "CB"
+  ngram: "ZD"
+  score_ratio: 1.5
+
+- ref: "^K"
+  ngram: "@P"
+  score_ratio: 1.6
+
+- ref: "K^"
+  ngram: "@U"
+  score_ratio: 1.6
+
+- ref: "DZ"
+  ngram: "BT"
+  score_ratio: 1.56
+
+- ref: "D+"
+  ngram: "W+"
+  score_ratio: 1.08
+
+- ref: ".N"
+  ngram: "//"
+  score_ratio: 2.1
+
+- ref: "+"
+  ngram: "G+"
+  score_ratio: 1.5
+
+- ref: "__"
+  ngram: "BT"
+  score_ratio: 1.1
+
+- ref: "FF"
+  ngram: "ZZ"
+  score_ratio: 2.1
+
+- ref: "PJ"
+  ngram: "/2"
+  score_ratio: 2.8
+
+- ref: "_F"
+  ngram: "__"
+  score_ratio: 2
+
+- ref: ".M"
+  ngram: "Y,"
+  score_ratio: 1.74
+
+- ref: "@J"
+  ngram: "YK"
+  score_ratio: 1.45
+
+- ref: "XV"
+  ngram: "BT"
+  score_ratio: 1.89
+
+- ref: "_F"
+  ngram: "CG"
+  score_ratio: 1.0
+
+- ref: "__"
+  ngram: "TC"
+  score_ratio: 0.9
+
+- ref: "H^"
+  ngram: "PJ"
+  score_ratio: 1.9
+
+- ref: "AG"
+  ngram: "SQ"
+  score_ratio: 2.5
+
+- ref: "TD"
+  ngram: "ZQ"
+  score_ratio: 3.5
+
+- ref: "CB"
+  ngram: "ZW"
+  score_ratio: 3.7
+
+- ref: "@@"
+  ngram: "YK"
+  score_ratio: 0.95
+
+- ref: "QF"
+  ngram: "DZ"
+  score_ratio: 1.3
+
+- ref: "CF"
+  ngram: "VB"
+  score_ratio: 2
+
+- ref: "G"
+  ngram: "C1"
+  score_ratio: 2
+
+- ref: "@P"
+  ngram: "NY"
+  score_ratio: 1.23
+
+- ref: ".N"
+  ngram: "H^"
+  score_ratio: 1.0
+
+- ref: "C1"
+  ngram: "BT"
+  score_ratio: 1.5
+
+- ref: "+"
+  ngram: "AG"
+  score_ratio: 1.7
+
+- ref: "AG"
+  ngram: "ZQ"
+  score_ratio: 3.0
+
+- ref: "QF"
+  ngram: "SQ"
+  score_ratio: 2.2
+
+- ref: "EZ"
+  ngram: "ZZ"
+  score_ratio: 1.6
+
+- ref: "D+"
+  ngram: "SX"
+  score_ratio: 2.6
+
+- ref: "^K"
+  ngram: "PJ"
+  score_ratio: 1.8
+
+- ref: "W+"
+  ngram: "C1"
+  score_ratio: 1.6
+
+- ref: "JJ"
+  ngram: "PJ"
+  score_ratio: 1.36
+
+- ref: "S+"
+  ngram: "T+"
+  score_ratio: 1.15
+
+- ref: "_Q"
+  ngram: "ZQ"
+  score_ratio: 3.2
+
+- ref: "AG"
+  ngram: "DZ"
+  score_ratio: 1.55
+
+- ref: "K/"
+  ngram: "L."
+  score_ratio: 1.6
+
+- ref: "/K"
+  ngram: "PN"
+  score_ratio: 1.5
+
+- ref: "AC"
+  ngram: "BT"
+  score_ratio: 1.8
+
+- ref: "+"
+  ngram: "FF"
+  score_ratio: 1.7
+
+- ref: "G+"
+  ngram: "SQ"
+  score_ratio: 3.82
+
+- ref: "S+"
+  ngram: "AG"
+  score_ratio: 1.24
+
+- ref: "H/"
+  ngram: "/@"
+  score_ratio: 1.0
+
+- ref: "AC"
+  ngram: "ZQ"
+  score_ratio: 3.4
+
+- ref: ".N"
+  ngram: "Y,"
+  score_ratio: 1.1
+
+- ref: "CF"
+  ngram: "SD"
+  score_ratio: 1.3
+
+- ref: "O^"
+  ngram: "@P"
+  score_ratio: 1.4
+
+- ref: "XV"
+  ngram: "Z_"
+  score_ratio: 1.5
+
+- ref: "BT"
+  ngram: "SQ"
+  score_ratio: 2.3
+
+- ref: "G+"
+  ngram: "XZ"
+  score_ratio: 2.7
+
+- ref: "@J"
+  ngram: "MN"
+  score_ratio: 2.3
+
+- ref: "BT"
+  ngram: "ZQ"
+  score_ratio: 2.5
+
+- ref: "H/"
+  ngram: ",2"
+  score_ratio: 1.6
+
+- ref: "_R"
+  ngram: "XZ"
+  score_ratio: 2.9
+
+- ref: "_Q"
+  ngram: "1C"
+  score_ratio: 1.2
+
+- ref: "K^"
+  ngram: "/@"
+  score_ratio: 1.4
+
+- ref: "_F"
+  ngram: "ZQ"
+  score_ratio: 3.95
+
+- ref: "/@"
+  ngram: "YK"
+  score_ratio: 1.2
+
+- ref: "L."
+  ngram: "//"
+  score_ratio: 1.15
+
+- ref: "TD"
+  ngram: "BT"
+  score_ratio: 1.65
+
+- ref: "D+"
+  ngram: "G+"
+  score_ratio: 1.04
+
+- ref: "K^"
+  ngram: ",H"
+  score_ratio: 1.01
+
+- ref: ".N"
+  ngram: "N."
+  score_ratio: 1.22
+
+- ref: ";H"
+  ngram: "YK"
+  score_ratio: 1.2
+
+- ref: ",N"
+  ngram: "/@"
+  score_ratio: 1.3
+
+- ref: ".M"
+  ngram: "K/"
+  score_ratio: 1.9
+
+- ref: "+D"
+  ngram: "AC"
+  score_ratio: 1.6
+
+- ref: "H"
+  ngram: ".N"
+  score_ratio: 2.05
+
+- ref: "SD"
+  ngram: "Z1"
+  score_ratio: 3.7
+
+- ref: "Y,"
+  ngram: "L."
+  score_ratio: 1.77
+
+- ref: "_F"
+  ngram: "TC"
+  score_ratio: 1.5
+
+- ref: "DZ"
+  ngram: "ZQ"
+  score_ratio: 3.1
+
+- ref: "L^"
+  ngram: ".N"
+  score_ratio: 1.26
+
+- ref: "AG"
+  ngram: "XZ"
+  score_ratio: 2.15
+
+- ref: "_R"
+  ngram: "1C"
+  score_ratio: 1.44
+
+- ref: "FF"
+  ngram: "_Q"
+  score_ratio: 1.4
+
+- ref: "BX"
+  ngram: "EZ"
+  score_ratio: 1.45
+
+- ref: "H"
+  ngram: "YK"
+  score_ratio: 1.82
+
+- ref: "@J"
+  ngram: "NY"
+  score_ratio: 2.1
+
+- ref: "XB"
+  ngram: "AC"
+  score_ratio: 1.6
+
+- ref: "H"
+  ngram: "./"
+  score_ratio: 4.7
+
+- ref: "__"
+  ngram: "_R"
+  score_ratio: 0.85
+
+- ref: ".M"
+  ngram: "@J"
+  score_ratio: 1.2
+
+- ref: "PJ"
+  ngram: "./"
+  score_ratio: 2.3
+
+- ref: "H/"
+  ngram: "@P"
+  score_ratio: 1.35
+
+- ref: "2,"
+  ngram: "L."
+  score_ratio: 1.0
+
+- ref: "GZ"
+  ngram: "QF"
+  score_ratio: 1.17
+
+- ref: "I/"
+  ngram: "/P"
+  score_ratio: 2.45
+
+- ref: "ZZ"
+  ngram: "SQ"
+  score_ratio: 1.8
+
+- ref: "/K"
+  ngram: "Y,"
+  score_ratio: 1.26
+
+- ref: "+D"
+  ngram: "Z_"
+  score_ratio: 1.11
+
+- ref: "D_"
+  ngram: "ZD"
+  score_ratio: 1.45
+
+- ref: "__"
+  ngram: "BX"
+  score_ratio: 0.78
+
+- ref: "K@"
+  ngram: ",H"
+  score_ratio: 1.0
+
+- ref: "LK"
+  ngram: "MN"
+  score_ratio: 1.8
+
+- ref: "^K"
+  ngram: "@J"
+  score_ratio: 1.0
+
+- ref: "K^"
+  ngram: "/P"
+  score_ratio: 3.8
+
+- ref: "D+"
+  ngram: "1C"
+  score_ratio: 1.5
+
+- ref: "C1"
+  ngram: "SQ"
+  score_ratio: 2.65
+
+- ref: "./"
+  ngram: "NY"
+  score_ratio: 0.8
+
+- ref: "YK"
+  ngram: "LP"
+  score_ratio: 2.9
+
+- ref: "@J"
+  ngram: "Y^"
+  score_ratio: 1.4
+
+- ref: "K"
+  ngram: "N."
+  score_ratio: 1.9
+
+- ref: ";H"
+  ngram: ",2"
+  score_ratio: 1.25
+
+- ref: "K@"
+  ngram: "H/"
+  score_ratio: 1.6
+
+- ref: "CB"
+  ngram: "BX"
+  score_ratio: 1.45
+
+- ref: ".N"
+  ngram: ",2"
+  score_ratio: 2.22
+
+- ref: "D+"
+  ngram: "XZ"
+  score_ratio: 2.5
+
+- ref: "K^"
+  ngram: "LK"
+  score_ratio: 1.14
+
+- ref: "/K"
+  ngram: "L."
+  score_ratio: 1.4
+
+- ref: ",J"
+  ngram: ".N"
+  score_ratio: 1.45
+
+- ref: "G"
+  ngram: "BT"
+  score_ratio: 2.9
+
+- ref: "+D"
+  ngram: "SX"
+  score_ratio: 2.5
+
+- ref: "D+"
+  ngram: "BT"
+  score_ratio: 2.1
+
+- ref: "L^"
+  ngram: "K/"
+  score_ratio: 2.0
+
+- ref: "G"
+  ngram: "CG"
+  score_ratio: 1.63
+
+- ref: "D_"
+  ngram: "QB"
+  score_ratio: 2.6
+
+- ref: "XV"
+  ngram: "_Q"
+  score_ratio: 2.1
+
+- ref: "T+"
+  ngram: "ZZ"
+  score_ratio: 2.45
+
+- ref: "S+"
+  ngram: "TC"
+  score_ratio: 2.1
+
+- ref: "K@"
+  ngram: ";H"
+  score_ratio: 1.66
+
+- ref: "C1"
+  ngram: "XZ"
+  score_ratio: 2.05
+
+- ref: "QF"
+  ngram: "ZW"
+  score_ratio: 3.2
+
+- ref: "GZ"
+  ngram: "TD"
+  score_ratio: 1.0
+
+- ref: "MN"
+  ngram: "./"
+  score_ratio: 0.90
+
+- ref: "SD"
+  ngram: "G+"
+  score_ratio: 1.3
+
+- ref: "K@"
+  ngram: ",2"
+  score_ratio: 2.3
+
+- ref: "TD"
+  ngram: "DZ"
+  score_ratio: 1.26
+
+- ref: "ZD"
+  ngram: "DZ"
+  score_ratio: 1.4
+
+- ref: "CB"
+  ngram: "BT"
+  score_ratio: 1.66
+
+- ref: "T+"
+  ngram: "ZW"
+  score_ratio: 3.7
+
+- ref: "ZW"
+  ngram: "ZQ"
+  score_ratio: 1.5
+
+- ref: "LP"
+  ngram: "/2"
+  score_ratio: 1.45
+
+- ref: "D+"
+  ngram: "TC"
+  score_ratio: 1.8
+
+- ref: "YK"
+  ngram: ";,"
+  score_ratio: 1.2
+
+- ref: "CF"
+  ngram: "D_"
+  score_ratio: 1.27
+
+- ref: "_F"
+  ngram: "BX"
+  score_ratio: 1.35
+
+- ref: "Z_"
+  ngram: "XZ"
+  score_ratio: 2.8
+
+- ref: "SX"
+  ngram: "ZQ"
+  score_ratio: 2.4
+
+- ref: "@U"
+  ngram: "MN"
+  score_ratio: 1.25
+
+- ref: "^K"
+  ngram: "O^"
+  score_ratio: 1.34
+
+- ref: "K/"
+  ngram: "/O"
+  score_ratio: 3
+
+- ref: "@P"
+  ngram: "@U"
+  score_ratio: 1.05
+
+- ref: "//"
+  ngram: "/O"
+  score_ratio: 1.8
+
+- ref: "SX"
+  ngram: "XZ"
+  score_ratio: 1.65
+
+- ref: "/@"
+  ngram: "MN"
+  score_ratio: 1.9
+
+- ref: "H^"
+  ngram: "@P"
+  score_ratio: 1.7
+
+- ref: "JJ"
+  ngram: ";H"
+  score_ratio: 1.22
+
+- ref: "_F"
+  ngram: "1C"
+  score_ratio: 1.67
+
+- ref: "CB"
+  ngram: "__"
+  score_ratio: 1.7
+
+- ref: "Z_"
+  ngram: "SQ"
+  score_ratio: 3.5
+
+- ref: "@J"
+  ngram: ",N"
+  score_ratio: 1.26
+
+- ref: "_F"
+  ngram: "QB"
+  score_ratio: 1.6
+
+- ref: "Z_"
+  ngram: "QF"
+  score_ratio: 1.3
+
+- ref: "O^"
+  ngram: "H/"
+  score_ratio: 1.55
+
+- ref: "+"
+  ngram: "CB"
+  score_ratio: 1.9
+
+- ref: "GZ"
+  ngram: "1C"
+  score_ratio: 1.5
+
+- ref: "+"
+  ngram: "Z_"
+  score_ratio: 1.9
+
+- ref: ";H"
+  ngram: "L."
+  score_ratio: 1.7
+
+- ref: "XB"
+  ngram: "1C"
+  score_ratio: 1.82
+
+- ref: "H^"
+  ngram: "JJ"
+  score_ratio: 1.3
+
+- ref: "T+"
+  ngram: "BT"
+  score_ratio: 1.72
+
+- ref: "XZ"
+  ngram: "ZW"
+  score_ratio: 1.9
+
+- ref: "Z_"
+  ngram: "QB"
+  score_ratio: 2.1
+
+- ref: "AC"
+  ngram: "_R"
+  score_ratio: 1.1
+
+- ref: ",H"
+  ngram: ";H"
+  score_ratio: 1.27
+
+- ref: ",N"
+  ngram: "LP"
+  score_ratio: 3.7
+
+- ref: "W+"
+  ngram: "FF"
+  score_ratio: 1.04
+
+- ref: "QF"
+  ngram: "C1"
+  score_ratio: 1.15
+
+- ref: "@@"
+  ngram: ";H"
+  score_ratio: 0.88
+
+- ref: "/@"
+  ngram: "@U"
+  score_ratio: 1.34
+
+- ref: "AG"
+  ngram: "QB"
+  score_ratio: 1.34
+
+- ref: "H^"
+  ngram: "/@"
+  score_ratio: 1.18
+
+- ref: "TD"
+  ngram: "QF"
+  score_ratio: 1.25
+
+- ref: "K"
+  ngram: "H"
+  score_ratio: 1.06
+
+- ref: "FF"
+  ngram: "C1"
+  score_ratio: 2
+
+- ref: "G"
+  ngram: "G+"
+  score_ratio: 1.41
+
+- ref: "Y^"
+  ngram: "/P"
+  score_ratio: 3.5
+
+- ref: "K@"
+  ngram: "LP"
+  score_ratio: 4.3
+
+- ref: "C1"
+  ngram: "VB"
+  score_ratio: 1.67
+
+- ref: "/@"
+  ngram: "I/"
+  score_ratio: 1.87
+
+- ref: "H"
+  ngram: ",N"
+  score_ratio: 1.65
+
+- ref: "BX"
+  ngram: "_Q"
+  score_ratio: 1.25
+
+- ref: ".M"
+  ngram: ",H"
+  score_ratio: 1.11
+
+- ref: "QF"
+  ngram: "_R"
+  score_ratio: 1.0
+
+- ref: "CF"
+  ngram: "1C"
+  score_ratio: 1.5
+
+- ref: "/K"
+  ngram: "PJ"
+  score_ratio: 1.7
+
+- ref: "CB"
+  ngram: "DZ"
+  score_ratio: 1.73
+
+- ref: "ZD"
+  ngram: "SQ"
+  score_ratio: 3.4
+
+- ref: "K"
+  ngram: ";,"
+  score_ratio: 2.5
+
+- ref: "H"
+  ngram: "LP"
+  score_ratio: 4.2
+
+- ref: "@@"
+  ngram: "MN"
+  score_ratio: 1.2
+
+- ref: "@@"
+  ngram: "@P"
+  score_ratio: 0.9
+
+- ref: "QB"
+  ngram: "ZZ"
+  score_ratio: 1.13
+
+- ref: ",2"
+  ngram: "/P"
+  score_ratio: 2.2
+
+- ref: "CG"
+  ngram: "TD"
+  score_ratio: 1.4
+
+- ref: ";H"
+  ngram: "PJ"
+  score_ratio: 1.26
+
+- ref: "TD"
+  ngram: "C1"
+  score_ratio: 1.36
+
+- ref: "CB"
+  ngram: "QB"
+  score_ratio: 1.45
+
+- ref: "^K"
+  ngram: "/2"
+  score_ratio: 3.6
+
+- ref: "@U"
+  ngram: "/O"
+  score_ratio: 3.4
+
+- ref: "H"
+  ngram: ";,"
+  score_ratio: 2
+
+- ref: "CB"
+  ngram: "FF"
+  score_ratio: 1.05
+
+- ref: "@J"
+  ngram: ";H"
+  score_ratio: 1.37
+
+- ref: "__"
+  ngram: "SQ"
+  score_ratio: 2.94
+
+- ref: "EZ"
+  ngram: "Z1"
+  score_ratio: 2.3
+
+- ref: "@J"
+  ngram: "K/"
+  score_ratio: 1.47
+
+- ref: "+"
+  ngram: "TD"
+  score_ratio: 1.7
+
+- ref: "L."
+  ngram: "NY"
+  score_ratio: 1.34
+
+- ref: "S+"
+  ngram: "EZ"
+  score_ratio: 1.55
+
+- ref: ",H"
+  ngram: "PN"
+  score_ratio: 1.87
+
+- ref: ",H"
+  ngram: "H/"
+  score_ratio: 1.62
+
+- ref: "_F"
+  ngram: "XB"
+  score_ratio: 1.27
+
+- ref: "TD"
+  ngram: "Z1"
+  score_ratio: 3.4
+
+- ref: "JJ"
+  ngram: ";,"
+  score_ratio: 1.1
+
+- ref: "Z_"
+  ngram: "AC"
+  score_ratio: 1.25
+
+- ref: "AC"
+  ngram: "ZW"
+  score_ratio: 3.2
+
+- ref: "K"
+  ngram: "/P"
+  score_ratio: 4
+
+- ref: ".N"
+  ngram: "/K"
+  score_ratio: 1.25
+
+- ref: "ZD"
+  ngram: "ZW"
+  score_ratio: 3.5
+
+- ref: "QB"
+  ngram: "ZW"
+  score_ratio: 2.3
+
+- ref: "QF"
+  ngram: "T+"
+  score_ratio: 1.31
+
+- ref: ",J"
+  ngram: "./"
+  score_ratio: 4.4
+
+- ref: "W+"
+  ngram: "TD"
+  score_ratio: 1.22
+
+- ref: "H"
+  ngram: "K@"
+  score_ratio: 1.6
+
+- ref: ";H"
+  ngram: "@P"
+  score_ratio: 1.45
+
+- ref: "O^"
+  ngram: "L."
+  score_ratio: 1.3
+
+- ref: "^K"
+  ngram: ",H"
+  score_ratio: 1.0
+
+- ref: "K"
+  ngram: ",H"
+  score_ratio: 1.7
+
+- ref: "D_"
+  ngram: "AC"
+  score_ratio: 1.4
+
+- ref: "K@"
+  ngram: "/O"
+  score_ratio: 4
+
+- ref: "Z_"
+  ngram: "TC"
+  score_ratio: 1.15
+
+- ref: "ZZ"
+  ngram: "BT"
+  score_ratio: 1.23
+
+- ref: "SD"
+  ngram: "TD"
+  score_ratio: 1.35
+
+- ref: "G"
+  ngram: "SD"
+  score_ratio: 1.5
+
+- ref: "ZD"
+  ngram: "VB"
+  score_ratio: 1.89
+
+- ref: "K/"
+  ngram: "PN"
+  score_ratio: 1.7
+
+- ref: "XV"
+  ngram: "Z1"
+  score_ratio: 4
+
+- ref: ",N"
+  ngram: "./"
+  score_ratio: 3.2
+
+- ref: ",H"
+  ngram: "/@"
+  score_ratio: 1.14
+
+- ref: "QF"
+  ngram: "SX"
+  score_ratio: 1.6
+
+- ref: "Y^"
+  ngram: "L."
+  score_ratio: 1.9
+
+- ref: "O^"
+  ngram: ";,"
+  score_ratio: 1.66
+
+- ref: ".M"
+  ngram: "YK"
+  score_ratio: 1.45
+
+- ref: "CB"
+  ngram: "TD"
+  score_ratio: 1.03
+
+- ref: "^K"
+  ngram: "LP"
+  score_ratio: 3.3
+
+- ref: "+D"
+  ngram: "ZZ"
+  score_ratio: 1.75
+
+- ref: "EZ"
+  ngram: "VB"
+  score_ratio: 1.72
+
+- ref: "N."
+  ngram: "L."
+  score_ratio: 1.95
+
+- ref: "SX"
+  ngram: "VB"
+  score_ratio: 1.25
+
+- ref: ".M"
+  ngram: ";H"
+  score_ratio: 1.3
+
+- ref: "D+"
+  ngram: "QF"
+  score_ratio: 1.3
+
+- ref: "_F"
+  ngram: "Z1"
+  score_ratio: 3.7
+
+- ref: "_Q"
+  ngram: "ZW"
+  score_ratio: 3.1
+
+- ref: "_F"
+  ngram: "D+"
+  score_ratio: 1.36
+
+- ref: ".N"
+  ngram: "/@"
+  score_ratio: 1.2
+
+- ref: "K"
+  ngram: ",J"
+  score_ratio: 1.67
+
+- ref: ",N"
+  ngram: "/P"
+  score_ratio: 3.5
+
+- ref: "K/"
+  ngram: "Y^"
+  score_ratio: 1.17
+
+- ref: "H^"
+  ngram: "@@"
+  score_ratio: 1.39
+
+- ref: "_Q"
+  ngram: "TD"
+  score_ratio: 1.0
+
+- ref: "S+"
+  ngram: "QB"
+  score_ratio: 1.49
+
+- ref: "XB"
+  ngram: "_R"
+  score_ratio: 1.0
+
+- ref: "AG"
+  ngram: "ZW"
+  score_ratio: 2.86
+
+- ref: "D+"
+  ngram: "S+"
+  score_ratio: 1.04
+
+- ref: "EZ"
+  ngram: "ZW"
+  score_ratio: 2.2
+
+- ref: "SD"
+  ngram: "FF"
+  score_ratio: 1.3
+
+- ref: "XV"
+  ngram: "XB"
+  score_ratio: 1.06
+
+- ref: "D+"
+  ngram: "T+"
+  score_ratio: 1.12
+
+- ref: ",J"
+  ngram: "YK"
+  score_ratio: 1.3
+
+- ref: "JJ"
+  ngram: "MN"
+  score_ratio: 1.65
+
+- ref: ",J"
+  ngram: "NY"
+  score_ratio: 1.66
+
+- ref: "LK"
+  ngram: "//"
+  score_ratio: 1.97
+
+- ref: "SD"
+  ngram: "SX"
+  score_ratio: 2.35
+
+- ref: "XV"
+  ngram: "QB"
+  score_ratio: 1.585
+
+- ref: ",J"
+  ngram: ",2"
+  score_ratio: 1.8
+
+- ref: "^K"
+  ngram: "N."
+  score_ratio: 1.09
+
+- ref: "@U"
+  ngram: "K/"
+  score_ratio: 1.167
+
+- ref: "CF"
+  ngram: "FF"
+  score_ratio: 1.3
+
+- ref: "D+"
+  ngram: "XB"
+  score_ratio: 1.24
+
+- ref: "CF"
+  ngram: "ZZ"
+  score_ratio: 1.94
+
+- ref: "Y^"
+  ngram: "LP"
+  score_ratio: 3.43
+
+- ref: "FF"
+  ngram: "TD"
+  score_ratio: 1.025
+
+- ref: "D_"
+  ngram: "EZ"
+  score_ratio: 1.67
+
+- ref: "AC"
+  ngram: "ZZ"
+  score_ratio: 1.87
+
+- ref: "D+"
+  ngram: "CB"
+  score_ratio: 1.01
+
+- ref: "+"
+  ngram: "XV"
+  score_ratio: 1.52
+
+- ref: ",J"
+  ngram: "/2"
+  score_ratio: 3.7
+
+- ref: "S+"
+  ngram: "BX"
+  score_ratio: 1.0
+
+- ref: "S+"
+  ngram: "AC"
+  score_ratio: 1.55
+
+- ref: "GZ"
+  ngram: "SX"
+  score_ratio: 2.35
+
+- ref: "JJ"
+  ngram: "@U"
+  score_ratio: 1.1
+
+- ref: "GZ"
+  ngram: "TC"
+  score_ratio: 1.01
+
+- ref: ",N"
+  ngram: "I/"
+  score_ratio: 1.55
+
+- ref: "ZD"
+  ngram: "XZ"
+  score_ratio: 2.0
+
+- ref: "CB"
+  ngram: "ZZ"
+  score_ratio: 1.88
+
+- ref: "K"
+  ngram: "^K"
+  score_ratio: 1.63
+
+- ref: "TD"
+  ngram: "QB"
+  score_ratio: 1.46
+
+- ref: "_F"
+  ngram: "S+"
+  score_ratio: 1.22
+
+- ref: ",N"
+  ngram: ";H"
+  score_ratio: 1.28
+
+- ref: "^K"
+  ngram: ";H"
+  score_ratio: 1.58
+
+- ref: "+"
+  ngram: "_Q"
+  score_ratio: 1.72
+
+- ref: "ZD"
+  ngram: "BT"
+  score_ratio: 1.62
+
+- ref: "LK"
+  ngram: "Y^"
+  score_ratio: 1.16
+
+- ref: "XB"
+  ngram: "DZ"
+  score_ratio: 1.64
+
+- ref: ";H"
+  ngram: "MN"
+  score_ratio: 1.88
+
+- ref: "LK"
+  ngram: "Y,"
+  score_ratio: 1.39
+
+- ref: "S+"
+  ngram: "ZD"
+  score_ratio: 1.39
+
+- ref: "@@"
+  ngram: ",2"
+  score_ratio: 1.63
+
+- ref: "/2"
+  ngram: "/P"
+  score_ratio: 1.33
+
+- ref: "@J"
+  ngram: "K@"
+  score_ratio: 1.07
+
+- ref: "SD"
+  ngram: "CG"
+  score_ratio: 1.0
+
+- ref: "^K"
+  ngram: "Y^"
+  score_ratio: 1.35
+
+- ref: "LK"
+  ngram: ",2"
+  score_ratio: 1.65
+
+- ref: "K"
+  ngram: "I/"
+  score_ratio: 2.2
+
+- ref: "AC"
+  ngram: "QB"
+  score_ratio: 1.36
+
+- ref: "DZ"
+  ngram: "Z1"
+  score_ratio: 2.8
+
+- ref: "L^"
+  ngram: "PJ"
+  score_ratio: 1.4
+
+- ref: "@J"
+  ngram: "PJ"
+  score_ratio: 1.53
+
+- ref: "SD"
+  ngram: "GZ"
+  score_ratio: 1.3
+
+- ref: "@P"
+  ngram: "//"
+  score_ratio: 1.32
+
+- ref: "G+"
+  ngram: "Z1"
+  score_ratio: 3.5
+
+- ref: "@J"
+  ngram: "/K"
+  score_ratio: 1.77
+
+- ref: "2,"
+  ngram: "/2"
+  score_ratio: 2.9
+
+- ref: ".M"
+  ngram: "O^"
+  score_ratio: 1.17
+
+- ref: "2,"
+  ngram: "./"
+  score_ratio: 2.45
+
+- ref: "ZD"
+  ngram: "C1"
+  score_ratio: 1.19
+
+- ref: "QB"
+  ngram: "XZ"
+  score_ratio: 1.55
+
+- ref: "__"
+  ngram: "ZW"
+  score_ratio: 2.7
+
+- ref: "AC"
+  ngram: "C1"
+  score_ratio: 1.35
+
+- ref: "N."
+  ngram: "//"
+  score_ratio: 1.68
+
+- ref: "@@"
+  ngram: "JJ"
+  score_ratio: 0.8
+
+- ref: "LK"
+  ngram: "K/"
+  score_ratio: 1.43
+
+- ref: "H"
+  ngram: "I/"
+  score_ratio: 2.1
+
+- ref: "_R"
+  ngram: "Z1"
+  score_ratio: 3.3
+
+- ref: ",N"
+  ngram: "@P"
+  score_ratio: 1.33
+
+- ref: ".N"
+  ngram: "./"
+  score_ratio: 3.0
+
+- ref: "+"
+  ngram: "T+"
+  score_ratio: 1.66
+
+- ref: "+D"
+  ngram: "XZ"
+  score_ratio: 2.8
+
+- ref: "/@"
+  ngram: "Y^"
+  score_ratio: 1.21
+
+- ref: "CG"
+  ngram: "Z1"
+  score_ratio: 3.0
+
+- ref: "BT"
+  ngram: "ZW"
+  score_ratio: 2.5
+
+- ref: "CF"
+  ngram: "D+"
+  score_ratio: 1.18
+
+- ref: "Y^"
+  ngram: "./"
+  score_ratio: 2.0
+
+- ref: "K"
+  ngram: "K^"
+  score_ratio: 1.55
+
+- ref: "@@"
+  ngram: "/K"
+  score_ratio: 0.91
+
+- ref: "K@"
+  ngram: "/@"
+  score_ratio: 1.1
+
+- ref: "_R"
+  ngram: "QB"
+  score_ratio: 1.35
+
+- ref: "QF"
+  ngram: "TC"
+  score_ratio: 1.03
+
+- ref: "_R"
+  ngram: "SQ"
+  score_ratio: 3.1
+
+- ref: "K/"
+  ngram: "MN"
+  score_ratio: 1.44
+
+- ref: ",J"
+  ngram: "@J"
+  score_ratio: 1.12
+
+- ref: ";,"
+  ngram: "Y,"
+  score_ratio: 1.2
+
+- ref: "PJ"
+  ngram: "NY"
+  score_ratio: 1.24
+
+- ref: "BX"
+  ngram: "Z_"
+  score_ratio: 1.0
+
+- ref: "CF"
+  ngram: "EZ"
+  score_ratio: 1.54
+
+- ref: "XV"
+  ngram: "FF"
+  score_ratio: 1.25
+
+- ref: "SD"
+  ngram: "AC"
+  score_ratio: 1.35
+
+- ref: "ZD"
+  ngram: "AG"
+  score_ratio: 1.13
+
+- ref: "//"
+  ngram: "MN"
+  score_ratio: 1.32
+
+- ref: "K@"
+  ngram: "O^"
+  score_ratio: 1.11
+
+- ref: "@J"
+  ngram: "@U"
+  score_ratio: 1.28
+
+- ref: "AC"
+  ngram: "T+"
+  score_ratio: 1.0
+
+- ref: "VB"
+  ngram: "BT"
+  score_ratio: 0.97
+
+- ref: ".M"
+  ngram: "L."
+  score_ratio: 2.2
+
+- ref: ",H"
+  ngram: "@U"
+  score_ratio: 1.4
+
+- ref: ",H"
+  ngram: "I/"
+  score_ratio: 1.4
+
+- ref: ",H"
+  ngram: "/P"
+  score_ratio: 2.9
+
+- ref: "K@"
+  ngram: "/2"
+  score_ratio: 3.1
+
+- ref: "CG"
+  ngram: "QF"
+  score_ratio: 1.31
+
+- ref: "DZ"
+  ngram: "TC"
+  score_ratio: 1.13
+
+- ref: ",J"
+  ngram: "O^"
+  score_ratio: 1.33
+
+- ref: "D+"
+  ngram: "GZ"
+  score_ratio: 1.4
+
+- ref: "D+"
+  ngram: "D_"
+  score_ratio: 1.025
+
+- ref: "@J"
+  ngram: "LK"
+  score_ratio: 1.32
+
+- ref: "FF"
+  ngram: "ZD"
+  score_ratio: 1.11
+
+- ref: "G+"
+  ngram: "SX"
+  score_ratio: 2.3
+
+- ref: "K^"
+  ngram: "/K"
+  score_ratio: 1.22
+
+- ref: "H"
+  ngram: "K/"
+  score_ratio: 2.23
+
+- ref: ";H"
+  ngram: "H/"
+  score_ratio: 1.26
+
+- ref: ",J"
+  ngram: "Y,"
+  score_ratio: 1.67
+
+- ref: "L^"
+  ngram: "H^"
+  score_ratio: 1.39
+
+- ref: "AG"
+  ngram: "EZ"
+  score_ratio: 1.3
+
+- ref: "CF"
+  ngram: "_R"
+  score_ratio: 1.28
+
+- ref: "Y,"
+  ngram: "MN"
+  score_ratio: 1.93
+
+- ref: "QF"
+  ngram: "QB"
+  score_ratio: 1.37
+
+- ref: "H^"
+  ngram: "NY"
+  score_ratio: 2.1
+
+- ref: ".M"
+  ngram: "N."
+  score_ratio: 1.23
+
+- ref: "O^"
+  ngram: "/K"
+  score_ratio: 1.17
+
+- ref: "XV"
+  ngram: "1C"
+  score_ratio: 1.32
+
+- ref: "DZ"
+  ngram: "SQ"
+  score_ratio: 2.57
+
+- ref: "@U"
+  ngram: "/P"
+  score_ratio: 3.2
+
+- ref: "XB"
+  ngram: "ZW"
+  score_ratio: 3
+
+- ref: "XB"
+  ngram: "_Q"
+  score_ratio: 1.58
+
+- ref: "G"
+  ngram: "ZQ"
+  score_ratio: 4
+
+- ref: "_R"
+  ngram: "BT"
+  score_ratio: 2
+
+- ref: "DZ"
+  ngram: "XZ"
+  score_ratio: 2
+
+- ref: "O^"
+  ngram: "NY"
+  score_ratio: 2
+
+- ref: "O^"
+  ngram: "./"
+  score_ratio: 2.3
+
+- ref: "D+"
+  ngram: "ZW"
+  score_ratio: 2.4
+
+- ref: ",2"
+  ngram: "//"
+  score_ratio: 1.67
+
+- ref: ",H"
+  ngram: "/O"
+  score_ratio: 1.96
+
+- ref: "BX"
+  ngram: "QF"
+  score_ratio: 1.35
+
+- ref: "__"
+  ngram: "XZ"
+  score_ratio: 1.8
+
+- ref: "K@"
+  ngram: ",N"
+  score_ratio: 1.13
+
+- ref: "YK"
+  ngram: "MN"
+  score_ratio: 2.27
+
+- ref: "CG"
+  ngram: "SQ"
+  score_ratio: 3.1
+
+- ref: "H^"
+  ngram: "I/"
+  score_ratio: 1.385
+
+- ref: "+"
+  ngram: "QB"
+  score_ratio: 2.33
+
+- ref: "W+"
+  ngram: "ZQ"
+  score_ratio: 2.85
+
+- ref: "__"
+  ngram: "T+"
+  score_ratio: 1.223
+
+- ref: "CG"
+  ngram: "BX"
+  score_ratio: 1.24
+
+- ref: ",H"
+  ngram: "@@"
+  score_ratio: 1.86
+
+- ref: "2,"
+  ngram: "/P"
+  score_ratio: 2.77
+
+- ref: "TC"
+  ngram: "SQ"
+  score_ratio: 3.3
+
+- ref: "C1"
+  ngram: "Z1"
+  score_ratio: 2.45
+
+- ref: "CG"
+  ngram: "BT"
+  score_ratio: 1.89
+
+- ref: "N."
+  ngram: "@U"
+  score_ratio: 1.19
+
+- ref: "G"
+  ngram: "QF"
+  score_ratio: 1.8
+
+- ref: "@P"
+  ngram: "L."
+  score_ratio: 1.65
+
+- ref: "N."
+  ngram: ";H"
+  score_ratio: 1.28
+
+- ref: "+D"
+  ngram: "TC"
+  score_ratio: 1.535
+
+- ref: "YK"
+  ngram: "/O"
+  score_ratio: 2.25
+
+- ref: "L^"
+  ngram: "@P"
+  score_ratio: 1.82
+
+- ref: "W+"
+  ngram: "Z1"
+  score_ratio: 3.6
+
+- ref: "AG"
+  ngram: "AC"
+  score_ratio: 1.12
+
+- ref: "@J"
+  ngram: "/@"
+  score_ratio: 1.15
+
+- ref: ",J"
+  ngram: "PJ"
+  score_ratio: 1.62
+
+- ref: "Z_"
+  ngram: "DZ"
+  score_ratio: 1.22
+
+- ref: "O^"
+  ngram: "Y,"
+  score_ratio: 1.054
+
+- ref: "+D"
+  ngram: "_R"
+  score_ratio: 1.23
+
+- ref: ";,"
+  ngram: "L."
+  score_ratio: 1.89
+
+- ref: "_F"
+  ngram: "FF"
+  score_ratio: 1.5
+
+- ref: "G+"
+  ngram: "ZW"
+  score_ratio: 3.6
+
+- ref: ".M"
+  ngram: "/K"
+  score_ratio: 1.58
+
+- ref: ",H"
+  ngram: "Y,"
+  score_ratio: 1.5
+
+- ref: "^K"
+  ngram: "K^"
+  score_ratio: 1.1
+
+- ref: "JJ"
+  ngram: "/2"
+  score_ratio: 2.75
+
+- ref: "JJ"
+  ngram: "K/"
+  score_ratio: 1.63
+
+- ref: "N."
+  ngram: ";,"
+  score_ratio: 1.5
+
+- ref: "W+"
+  ngram: "CG"
+  score_ratio: 1.2
+
+- ref: "O^"
+  ngram: ".N"
+  score_ratio: 1.22
+
+- ref: "L^"
+  ngram: "O^"
+  score_ratio: 1.025
+
+- ref: "+D"
+  ngram: "TD"
+  score_ratio: 1.32
+
+- ref: "@@"
+  ngram: "2,"
+  score_ratio: 1.0
+
+- ref: "K/"
+  ngram: "2,"
+  score_ratio: 1.02
+
