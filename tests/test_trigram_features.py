@@ -102,6 +102,8 @@ class TestTrigramFeatures:
             (("onehand", None, None, None, "easy-rolling"), "easy-rolling"),
             # hypothetical (easy-rolling) trigram with v1x flag
             (("onehand", None, "v1x", None, "easy-rolling"), "easy-rolling|v1x"),
+            # A special case where the onehand prefix is preserved
+            (("onehand", None, "v1x", None, None), "onehand|v1x"),
             # fmt: on
         ],
     )

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typing
 from dataclasses import dataclass
-from typing import Literal, Sequence
+from typing import ClassVar, Literal, Sequence
 
 from granite_tools.app_types import FingerType, HandOrKey, Vert2uPenaltyConfig
 from granite_tools.easy_rolling import get_easy_rolling_type_mapping
@@ -28,6 +28,8 @@ class TrigramFeatures:
     vert2u: Vert2uFeatureFlag = None
     redir: RedirFeatureFlag = None
     easy_rolling: EasyRollingFeatureFlag = None
+
+    sep: ClassVar[str] = "|"
 
     @classmethod
     def from_string(
@@ -95,6 +97,7 @@ class TrigramFeatures:
             raise RuntimeError(
                 'Expecting only "onehand" trigram type to have any additional feature flags.'
             )
+
         parts = (
             pt
             for pt in (
@@ -105,7 +108,12 @@ class TrigramFeatures:
             )
             if pt
         )
-        return "|".join(parts)
+
+        name = self.sep.join(parts)
+        if name in ("v1x", "v2x"):
+            # keep onehand text in the name
+            return f"onehand{self.sep}{name}"
+        return name
 
 
 def get_single_finger_pattern(
