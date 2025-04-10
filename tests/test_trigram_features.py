@@ -94,14 +94,16 @@ class TestTrigramFeatures:
         "args, trigram_subtype",
         [
             # fmt: off
-            (("onehand", "SFB", "v1x", None, None), "SFB.v1x"),
-            (("onehand", "SFB", None, "redir", None), "SFB.redir"),
-            (("onehand", "SFB", "v2x", "redir", None), "SFB.redir.v2x"),
+            (("onehand", "SFB", "v1x", None, None), "SFB|v1x"),
+            (("onehand", "SFB", None, "redir", None), "SFB|redir"),
+            (("onehand", "SFB", "v2x", "redir", None), "SFB|redir|v2x"),
             (("balanced", None, None, None, None), "balanced"),
             (("onehand", None, None, None, None), "onehand"),
             (("onehand", None, None, None, "easy-rolling"), "easy-rolling"),
             # hypothetical (easy-rolling) trigram with v1x flag
-            (("onehand", None, "v1x", None, "easy-rolling"), "easy-rolling.v1x"),
+            (("onehand", None, "v1x", None, "easy-rolling"), "easy-rolling|v1x"),
+            # A special case where the onehand prefix is preserved
+            (("onehand", None, "v1x", None, None), "onehand|v1x"),
             # fmt: on
         ],
     )
