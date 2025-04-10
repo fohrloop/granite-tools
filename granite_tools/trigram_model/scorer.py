@@ -3,6 +3,7 @@ from __future__ import annotations
 import typing
 
 from granite_tools.app_types import HAND_TYPES
+from granite_tools.easy_rolling import get_easy_rolling_type_mapping
 from granite_tools.trigram_features import TrigramFeatures
 from granite_tools.trigram_model.params import TrigramModelParameters
 from granite_tools.trigram_types import UnTypableTrigramError
@@ -306,7 +307,7 @@ class TrigramScoreDict(typing.TypedDict):
     score_ratio_actual: float
     score_ratio_pred: float
     estimated_score: float
-    estimated_score_details: dict
+    trigram_score_details: dict
 
 
 def get_trigram_scores(
@@ -340,6 +341,10 @@ def get_trigram_scores(
           model. This is also scaled by dividing by the score of the reference trigram.
           In other words, it is model_score(trigram)/model_score(reference_trigram).
     """
+
+    mapping = mapping or get_easy_rolling_type_mapping(
+        hands.config.easy_rolling_trigrams, hands
+    )
 
     def get_trigram_score_(trigram: str) -> dict:
         """Convenience function which handles expection(s) and makes it easier to call
@@ -375,7 +380,8 @@ def get_trigram_scores(
                 score_ratio_actual=entry["score_ratio"],
                 score_ratio_pred=score_ratio_pred,
                 estimated_score=estimated_score,
-                estimated_score_details=estimated_score_dct,
+                trigram_score_details=estimated_score_dct,
+                reference_score_details=ref_score_dct,
             )
         )
 
