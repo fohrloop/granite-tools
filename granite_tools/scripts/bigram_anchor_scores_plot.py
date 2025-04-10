@@ -2,11 +2,11 @@
 
 Usage:
 
-    uv run granite_tools/scripts/scoreratios_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_json]
+    uv run granite_tools/scripts/bigram_anchor_scores_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_json]
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_plot.py examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json
+    uv run granite_tools/scripts/bigram_anchor_scores_plot.py examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json
 """
 
 from __future__ import annotations

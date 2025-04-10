@@ -170,14 +170,14 @@ This part can be a bit iterative and requires some level of patience. Any outlie
 First, fit the model. This creates raw anchor nrgram scores (JSON) file for the scores of the anchor ngrams (anchor ngrams are the ngrams included in the score ratios of the scoreratio file). The command is:
 
 ```
-[python | uv run] granite_tools/scripts/scoreratios_fit.py [config_file] [bigram_ranking_file] [bigram_scoreratio_file] [bigram_raw_anchor_scores_json]
+[python | uv run] granite_tools/scripts/bigram_anchor_scores_fit.py [config_file] [bigram_ranking_file] [bigram_scoreratio_file] [bigram_raw_anchor_scores_json]
 ```
 
 where the `bigram_raw_anchor_scores_json` defines the output file.
 **Example**:
 
 ```
-uv run granite_tools/scripts/scoreratios_fit.py examples/config.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw.json
+uv run granite_tools/scripts/bigram_anchor_scores_fit.py examples/config.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw.json
 ```
 
 **Note**: This step may run 5-10 minutes depending on the data and power of the CPU in use.
@@ -192,11 +192,11 @@ The output will be a JSON file like this:
 
 You may plot the bigram (and unigram) scores with:
 
-    python granite_tools/scripts/scoreratios_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_scores_json]
+    python granite_tools/scripts/bigram_anchor_scores_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_scores_json]
 
 Example:
 
-    python granite_tools/scripts/scoreratios_plot.py examples/config.yml tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
+    python granite_tools/scripts/bigram_anchor_scores_plot.py examples/config.yml tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
 
 Example output:
 
@@ -233,7 +233,7 @@ python granite_tools/scripts/scoreratios_modify.py examples/config.yml tmp/grani
 
 #### When to continue to the next step?
 
-When the plot generated with `scoreratios_plot.py` look okay to you and you are generally satisfied with the ngram ordering and their scores.
+When the plot generated with `bigram_anchor_scores_plot.py` looks okay to you and you are generally satisfied with the ngram ordering and their scores.
 
 ### (8) Create trigram scoring file
 
