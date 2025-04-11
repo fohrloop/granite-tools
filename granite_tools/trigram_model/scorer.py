@@ -387,16 +387,3 @@ def get_trigram_scores(
         )
 
     return scores
-
-
-def max_abs_error(dcts: Sequence[TrigramScoreDict]) -> float:
-    return max([abs(_get_error(d)) for d in dcts])
-
-
-def average_abs_error(dcts: Sequence[TrigramScoreDict]) -> float:
-    return sum([abs(_get_error(d)) for d in dcts]) / len(dcts)
-
-
-def _get_error(d: TrigramScoreDict) -> float:
-    """Calculates a loss values for a single trigram score pair (trigram model scores)"""
-    return d["score_ratio_pred"] - d["score_ratio_actual"]
