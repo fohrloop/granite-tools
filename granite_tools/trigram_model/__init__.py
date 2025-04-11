@@ -10,4 +10,3 @@ from .optimizer import optimize_parameters as optimize_parameters
 from .scorer import TrigramModelParameters as TrigramModelParameters
 from .scorer import get_trigram_score as get_trigram_score
 from .scorer import get_trigram_scores as get_trigram_scores
-from .scorer import max_abs_error as max_abs_error

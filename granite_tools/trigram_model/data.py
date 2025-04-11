@@ -14,11 +14,7 @@ from granite_tools.easy_rolling import get_easy_rolling_type_mapping
 from granite_tools.hands import get_hands_data
 from granite_tools.trigram_model.optimizer import get_limit_funcs
 from granite_tools.trigram_model.params import TrigramModelParameters
-from granite_tools.trigram_model.scorer import (
-    get_trigram_score,
-    get_trigram_scores,
-    max_abs_error,
-)
+from granite_tools.trigram_model.scorer import get_trigram_score, get_trigram_scores
 from granite_tools.trigram_types import get_trigram_type
 
 if typing.TYPE_CHECKING:

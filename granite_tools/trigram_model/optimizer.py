@@ -9,7 +9,7 @@ from scipy.optimize import minimize
 
 from granite_tools.easy_rolling import get_easy_rolling_type_mapping
 from granite_tools.trigram_model.params import TrigramModelParameters
-from granite_tools.trigram_model.scorer import _get_error, get_trigram_scores
+from granite_tools.trigram_model.scorer import get_trigram_scores
 
 if typing.TYPE_CHECKING:
     from typing import Iterable, Sequence
@@ -51,11 +51,11 @@ def create_optimization_target_function(
         )
 
         for i, trigram_scoredct in enumerate(trigram_scores):
-            err = _get_error(trigram_scoredct)
-            r = trigram_scoredct["score_ratio_actual"]
-            limit_func = get_lower_limit if err < 0 else get_upper_limit
-            err_limit = limit_func((r,))[0] - r
-            scaled_err = err / err_limit
+            r_actual = trigram_scoredct["score_ratio_actual"]
+            residual = trigram_scoredct["score_ratio_pred"] - r_actual
+            limit_func = get_lower_limit if residual < 0 else get_upper_limit
+            err_limit = limit_func((r_actual,))[0] - r_actual
+            scaled_err = residual / err_limit
             sum_ += scaled_err**2
 
         return (sum_ / (i + 1)) ** 0.5
