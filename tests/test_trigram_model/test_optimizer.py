@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import typing
 
+import numpy as np
 import pytest
 
 from granite_tools.score_ratios import ScoreRatioYamlEntry, create_score_ratio_entries
@@ -11,7 +12,7 @@ from granite_tools.trigram_model import (
     get_initial_params,
     get_trigram_score,
 )
-from granite_tools.trigram_model.optimizer import get_limit_funcs
+from granite_tools.trigram_model.optimizer import create_log_m_func
 
 if typing.TYPE_CHECKING:
     from granite_tools.config import Config
@@ -72,14 +73,8 @@ class TestTrigramParamsErrorFunction:
         estimated_score_ratio = score_elf / score_sef
         target_score_ratio = 1.5
 
-        r_err = estimated_score_ratio - target_score_ratio
-        get_lower_limit, get_upper_limit = get_limit_funcs(
-            hands_full.config.limit_multipliers
-        )
-        limit_func = get_lower_limit if r_err < 0 else get_upper_limit
-        err_limit = limit_func((target_score_ratio,))[0] - target_score_ratio
-        scaled_err = r_err / err_limit
-        expected_err = abs(scaled_err)
+        r_err = target_score_ratio - estimated_score_ratio
+        expected_err = abs(r_err)
 
         scorefunc = create_optimization_target_function(
             target_ratios, hands_full, bigram_scores
@@ -136,12 +131,11 @@ class TestTrigramParamsErrorFunction:
         estimated_score_efl = score_efl / score_sef
         estimated_score_xky = score_xky / score_dotky
 
-        get_lower_limit, get_upper_limit = get_limit_funcs(
-            hands_full.config.limit_multipliers
-        )
+        get_log_m = create_log_m_func(hands_full.config.limit_multipliers)
 
-        expected_score_squared = 0
-        for estimated_ratio, actual_ratio in zip(
+        weight_sum = 0
+        sum_ = 0
+        for predicted_ratio, actual_ratio in zip(
             (estimated_score_elf, estimated_score_efl, estimated_score_xky),
             (
                 target_score_ratio_elf_sef,
@@ -149,13 +143,19 @@ class TestTrigramParamsErrorFunction:
                 target_score_ratio_xky_dotky,
             ),
         ):
-            err = estimated_ratio - actual_ratio
-            limit_func = get_lower_limit if err < 0 else get_upper_limit
-            err_limit = limit_func((actual_ratio,))[0] - actual_ratio
-            scaled_err = err / err_limit
-            expected_score_squared += scaled_err**2
 
-        expected_score = (expected_score_squared / 3) ** 0.5
+            residual = actual_ratio - predicted_ratio
+            m = np.exp(get_log_m(actual_ratio))
+
+            if residual < 0:
+                sigma = m / 2
+            else:
+                sigma = 1 / (2 * m)
+            w = 1 / (sigma**2)
+            weight_sum += w
+            sum_ += w * (residual**2)
+
+        expected_score = (sum_ / weight_sum) ** 0.5
         scorefunc = create_optimization_target_function(
             target_ratios, hands_full, bigram_scores
         )
