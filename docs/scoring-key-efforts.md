@@ -63,7 +63,7 @@ Use the `granite-bigram-ranking-view` to see the initial order. You may also do 
 Example:
 
 ```
-❯ granite-bigram-ranking-view tmp/granite.ranking examples/config.yml
+❯ granite-bigram-ranking-view data/granite.ranking examples/config.yml
 ```
 
 ### (4) Create comparison file
@@ -115,7 +115,7 @@ The output file will be called `some.compare.ranking`, which contains all the un
 Before continuing, it's a good idea to do the last check for the ordering of the ngrams in your ngram ranking file. For example:
 
 ```
-❯ granite-bigram-ranking-view tmp/granite.ranking examples/config.yml
+❯ granite-bigram-ranking-view data/granite.ranking examples/config.yml
 ```
 
 After you're confident that the ordering is what you'd like, run:
@@ -127,7 +127,7 @@ After you're confident that the ordering is what you'd like, run:
 Example:
 
 ```
-❯ granite-bigram-score-ratio-template tmp/some.compare.ranking examples/config.yml tmp/some.scoreratios.yml
+❯ granite-bigram-score-ratio-template data/some.compare.ranking examples/config.yml data/some.scoreratios.yml
 ```
 
 to create a template and fill in the details. Example:
@@ -177,7 +177,7 @@ where the `bigram_raw_anchor_scores_json` defines the output file.
 **Example**:
 
 ```
-uv run granite_tools/scripts/bigram_anchor_scores_fit.py examples/config.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw.json
+uv run granite_tools/scripts/bigram_anchor_scores_fit.py examples/config.yml data/granite.ranking data/granite.bigram.scoreratios.yml data/bigram-anchor-scores-raw.json
 ```
 
 **Note**: This step may run 5-10 minutes depending on the data and power of the CPU in use.
@@ -185,7 +185,8 @@ uv run granite_tools/scripts/bigram_anchor_scores_fit.py examples/config.yml tmp
 The output will be a JSON file like this:
 
 ```json
-{"(18,)": 1.0, "(2,)": 1.6183130049926346, "(18, 8)": 1.6941116897431308, "(12, 6)": 1.8170985207530244, ...
+{"(18,)": 1.0, "(2,)": 1.6183130049926346, "(18, 8)": 1.6941116897431308, "(12, 6)": 1.8170985207530244,
+}
 ```
 
 #### Plot the model output
@@ -196,7 +197,7 @@ You may plot the bigram (and unigram) scores with:
 
 Example:
 
-    python granite_tools/scripts/bigram_anchor_scores_plot.py examples/config.yml tmp/granite.ranking tmp/bigram-anchor-scores-raw.json
+    python granite_tools/scripts/bigram_anchor_scores_plot.py examples/config.yml data/granite.ranking data/bigram-anchor-scores-raw.json
 
 Example output:
 
@@ -210,7 +211,7 @@ The example above looks good. The "raw" data points (for anchor ngrams) are quit
 
 **TIP**: In addition, you may use
 
-    python granite_tools/scripts/plot_bigram_scores.py examples/config.yml tmp/granite.ranking  tmp/bigram-anchor-scores-raw.json bigramscores.svg
+    python granite_tools/scripts/plot_bigram_scores.py examples/config.yml data/granite.ranking  data/bigram-anchor-scores-raw.json bigramscores.svg
 
 To show more detailed view of the final fit (saved to bigramscores.svg).
 
@@ -218,7 +219,7 @@ To show more detailed view of the final fit (saved to bigramscores.svg).
 The `scoreratios_show_worst_fit` can be used to check for the score ratios with worst fit. For example:
 
 ```
-python granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml tmp/granite.ranking tmp/granite.bigram.scoreratios.yml tmp/bigram-anchor-scores-raw
+python granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml data/granite.ranking data/granite.bigram.scoreratios.yml data/bigram-anchor-scores-raw
 .json
 ```
 
@@ -228,7 +229,7 @@ It's a good idea to fix large negative `log2err` (the score ratios you estimated
 If the "Q" unigram was selected to be one of the anchor ngrams (included in the score ratio file), you might want to remove it with `scoreratios_modify.py`. For example:
 
 ```
-python granite_tools/scripts/scoreratios_modify.py examples/config.yml tmp/granite.scoreratios-fixed.yml --remove Q
+python granite_tools/scripts/scoreratios_modify.py examples/config.yml data/granite.scoreratios-fixed.yml --remove Q
 ```
 
 #### When to continue to the next step?
@@ -285,7 +286,7 @@ You can use `granite-trigram-score-template` for creating the trigram scoring te
 
 For example:
 
-    granite-trigram-score-template examples/config.yml tmp/trigram.relative.toml 250
+    granite-trigram-score-template examples/config.yml data/trigram.relative.toml 250
 
 Running `granite-trigram-score-template` with same `OUTFILE` as argument will _append_ more trigram sets (that are NOT already in the file). That's a handy way for adding more data to the file afterwards.
 
@@ -296,13 +297,13 @@ Use `granite-trigram-model-fit` to fit the trigram coefficients.
 **Example**:
 
 ```
-granite-trigram-model-fit examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json tmp/granite.trigram.scoreratios.yml
+granite-trigram-model-fit examples/config.yml data/granite.bigram.ranking data/bigram-anchor-scores-raw.json data/granite.trigram.scoreratios.yml
 ```
 
 the results can be checked with:
 
 ```
-granite-trigram-model-fit-check examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json tmp/granite.trigram.scoreratios.yml
+granite-trigram-model-fit-check examples/config.yml data/granite.bigram.ranking data/bigram-anchor-scores-raw.json data/granite.trigram.scoreratios.yml
 ```
 
 ## granite-bigram-ranking-view
