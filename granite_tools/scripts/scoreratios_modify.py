@@ -8,7 +8,7 @@ Usage:
 
 Example:
 
-    python granite_tools/scripts/scoreratios_modify.py examples/config.yml tmp/granite.bigram.scorerations.yml --remove Q SD
+    python granite_tools/scripts/scoreratios_modify.py examples/config.yml data/granite.bigram.scoreratios.yml --remove Q SD
 
 """
 
