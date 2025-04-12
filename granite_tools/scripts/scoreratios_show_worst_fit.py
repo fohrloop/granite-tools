@@ -6,7 +6,7 @@ Usage:
 
 Example:
 
-    uv run granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml tmp/granite.bigram.ranking tmp/granite.bigram.scorerations.yml tmp/bigram-anchor-scores-raw.json
+    uv run granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml data/granite.bigram.ranking data/granite.bigram.scorerations.yml data/bigram-anchor-scores-raw.json
 """
 
 # mypy: ignore-errors
