@@ -6,7 +6,7 @@ Usage:
     python granite_tools/scripts/dev/compare_bigram_scoring_models.py BIGRAM_RANKING_FILE SCORES_RAW_OUT_FILE
 
 Example:
-    python granite_tools/scripts/dev/compare_bigram_scoring_models.py tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json
+    python granite_tools/scripts/dev/compare_bigram_scoring_models.py data/granite.bigram.ranking data/bigram-anchor-scores-raw.json
 
 """
 
