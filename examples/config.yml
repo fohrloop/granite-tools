@@ -117,15 +117,15 @@ u_weight_alternating: 0.1
 vert2u_coeff: 0.115
 
 # Fitted parameters:
-easy_rolling_coeff: 0.471
-balanced_coeff: 0.735
-alternating_coeff: 1.193
-redir_coeff: 1.533
-sfb_in_onehand_coeff: 2.189
-sft_coeff: 2.123
-sftb_coeff: 2.426
-sfs_coeff: 1.466
-sfsb_coeff: 1.355
+easy_rolling_coeff: 0.607
+balanced_coeff: 0.707
+alternating_coeff: 1.131
+redir_coeff: 1.379
+sfb_in_onehand_coeff: 1.753
+sft_coeff: 2.060
+sftb_coeff: 1.379
+sfs_coeff: 1.247
+sfsb_coeff: 0.770
 
 # This is used for trigram model fitting process (ADVANCED SETTING)
 # With this you tell the uncertainty of the trigram score ratios in the trigram score ratio file
