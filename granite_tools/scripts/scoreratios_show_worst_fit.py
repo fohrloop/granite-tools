@@ -87,7 +87,7 @@ if __name__ == "__main__":
         config_file = sys.argv[1]
         bigram_ranking_file = sys.argv[2]
         scoreratio_file = sys.argv[3]
-        scores_raw_out_file = sys.argv[4]
+        anchor_scores_raw_file = sys.argv[4]
         n_show = int(sys.argv[5]) if len(sys.argv) > 5 else 50
     except IndexError:
         print(__doc__)
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     score_ratio_entries = load_score_ratio_entries(scoreratio_file, hands)
 
-    with open(scores_raw_out_file) as f:
+    with open(anchor_scores_raw_file) as f:
         scores_json = json.load(f)
         scores = {ast.literal_eval(k): v for k, v in scores_json.items()}
 

@@ -7,7 +7,7 @@ Usage:
 
 where the
     - bigram_ranking_file is the file containing the bigram and unigram rankings (from create_ngram_ranking.py)
-    - raw_anchor_scores_file.json is created with bigram_anchor_scores_fit.py
+    - raw_anchor_scores_file.json is created with granite-bigram-scores-fit
     - config_file.yml is the Granite Config YAML file (optional)
 """
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         print(__doc__)
         sys.exit(1)
 
-    y_all, x_all = get_spline_scores(ngrams_ordered, scores)
+    y_all, ranks = get_spline_scores(ngrams_ordered, scores)
     s = get_linear_scaling_function(
         oldmin=min(y_all), oldmax=max(y_all), newmin=1, newmax=5
     )

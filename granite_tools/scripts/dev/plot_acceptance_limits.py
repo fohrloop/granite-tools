@@ -52,7 +52,7 @@ ARG_BIGRAM_RANKING_FILE = Annotated[
 ARG_NGRAM_ANCHOR_SCORES_JSON = Annotated[
     Path | None,
     typer.Argument(
-        help="The path to the anchor scores (JSON) file. Created with granite_tools/scripts/bigram_anchor_scores_fit.py",
+        help="The path to the anchor scores (JSON) file. Created with granite-bigram-scores-fit",
         show_default=False,
     ),
 ]

@@ -208,10 +208,10 @@ if __name__ == "__main__":
     ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     scores = read_raw_anchor_scores_json(scores_raw_out_file)
 
-    y_all, x_all = get_spline_scores(ngrams_ordered, scores)
+    y_all, ranks = get_spline_scores(ngrams_ordered, scores)
     data = defaultdict(list)
     data["y"] = list(y_all)
-    data["x"] = list(x_all)
+    data["x"] = list(ranks)
 
     for keyseq in ngrams_ordered:
         data["ngram_left"].append(hands.get_symbols_visualization("Left", keyseq))

@@ -1,13 +1,18 @@
 from __future__ import annotations
 
 import itertools
+import json
 import random
 import sys
+import time
 import typing
 from pathlib import Path
+from typing import TypedDict
 
 import typer
 
+from granite_tools.bigram_scores.anchor_scores import fit_anchor_ngram_scores
+from granite_tools.bigram_scores.bigram_scores import get_spline_scores
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.bigram_scores.score_ratio_template import (
     save_score_ratios,
@@ -15,6 +20,8 @@ from granite_tools.bigram_scores.score_ratio_template import (
 )
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
+from granite_tools.score_ratios import load_score_ratio_entries
+from granite_tools.utils import DATA_FOLDER
 
 try:
     from typing import Annotated
@@ -27,6 +34,17 @@ if typing.TYPE_CHECKING:
 
     from granite_tools.app_types import KeySeq
     from granite_tools.hands import Hand, Hands
+
+
+class BigramScoreDict(TypedDict):
+    """Typed dict for bigram scores."""
+
+    key_indices: KeySeq
+    type: str
+    score: float
+    rank: int
+    __comment__left: str
+    __comment__right: str
 
 
 def create_bigram_score_ratio_template():
@@ -140,3 +158,97 @@ def _get_left_or_right(
     if ngram != fallback:
         return ngram, fallback_hand
     raise RuntimeError(f"Key sequence {keyseq} not found in both hands.")
+
+
+def bigram_scores_fit():
+    typer.run(bigram_scores_fit_)
+
+
+ARG_BIGRAM_TEMPLATE_FILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the input bigram score ratio file.",
+        show_default=False,
+    ),
+]
+
+ARG_BIGRAM_SCORE_OUTFILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the output bigram score (JSON) file ",
+        show_default=True,
+    ),
+]
+
+ARG_ANCHOR_BIGRAM_RAW_SCORE_OUTFILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the output anchor bigram RAW score (JSON) file. This file is useful for debugging but it's not needed later on (after you've settled with the bigram scoring).",
+        show_default=True,
+    ),
+]
+
+DEFAULT_SCORE_FILE_OUT = DATA_FOLDER / "bigram.scores.json"
+DEFAULT_ANCHOR_RAW_SCORE_FILE_OUT = DATA_FOLDER / "bigram-anchor-scores-raw.json"
+
+
+def bigram_scores_fit_(
+    config_file: ARG_CONFIG,
+    bigram_ranking_file: ARG_NGRAM_RANKING_FILE,
+    bigram_scoreratio_file: ARG_BIGRAM_TEMPLATE_FILE,
+    bigram_score_file_out: ARG_BIGRAM_SCORE_OUTFILE = DEFAULT_SCORE_FILE_OUT,
+    anchor_bigram_raw_score_file_out: ARG_ANCHOR_BIGRAM_RAW_SCORE_OUTFILE = DEFAULT_ANCHOR_RAW_SCORE_FILE_OUT,
+):
+    """Create bigram.scores.json (and the raw anchor score json) files based on the
+    bigram.ranking and bigram.scoreratios.yml files."""
+    config = read_config(config_file)
+    hands = get_hands_data(config)
+
+    ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
+    score_ratio_entries = load_score_ratio_entries(bigram_scoreratio_file, hands)
+
+    t0 = time.time()
+    print("Fitting anchor ngram scores.. (this might take a few minutes)")
+    scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
+    print(f"Fitting scores took {time.time() - t0:.2f}s")
+
+    scores_ordered, _ = get_spline_scores(ngrams_ordered, scores)
+    scoredcts = make_bigram_score_dicts(scores_ordered, ngrams_ordered, hands)
+
+    with open(bigram_score_file_out, "w") as f:
+        json.dump(scoredcts, f, indent=2)
+    print(f"Bigram scores written to {bigram_score_file_out}")
+
+    with open(anchor_bigram_raw_score_file_out, "w") as f:
+        json.dump({str(k): v for k, v in scores.items()}, f, indent=2)
+    print(f"Raw bigram anchor scores written to {anchor_bigram_raw_score_file_out}")
+
+
+def make_bigram_score_dicts(
+    scores: Sequence[float],
+    ngrams_ordered: list[KeySeq],
+    hands: Hands,
+) -> list[BigramScoreDict]:
+    scoredcts = []
+    for rank, (key_indices, score) in enumerate(zip(ngrams_ordered, scores), start=1):
+
+        if len(key_indices) == 1:
+            ngram_type = "unigram"
+        elif len(key_indices) == 2:
+            ngram_type = "bigram"
+        else:
+            raise ValueError(
+                f"Invalid ngram length: {len(key_indices)}. Expected 1 or 2."
+            )
+
+        dct = BigramScoreDict(
+            key_indices=key_indices,
+            type=ngram_type,
+            score=round(score, 3),
+            rank=rank,
+            __comment__left=hands.get_symbols_visualization("Left", key_indices),
+            __comment__right=hands.get_symbols_visualization("Right", key_indices),
+        )
+
+        scoredcts.append(dct)
+    return scoredcts
