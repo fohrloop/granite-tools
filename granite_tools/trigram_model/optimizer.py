@@ -38,7 +38,7 @@ def create_optimization_target_function(
         if hands.config.easy_rolling_trigrams is not None
         else None
     )
-    get_lower_limit, get_upper_limit = get_limit_funcs(hands.config.limit_multipliers)
+    get_log_m = create_log_m_func(hands.config.limit_multipliers)
 
     def func(x: tuple[float], *_: typing.Any) -> float:
         """Function that can be used as optimization target. Takes the model parameters
@@ -50,15 +50,32 @@ def create_optimization_target_function(
             model_params, trigram_score_ratios, hands, bigram_scores, mapping=mapping
         )
 
-        for i, trigram_scoredct in enumerate(trigram_scores):
-            r_actual = trigram_scoredct["score_ratio_actual"]
-            residual = trigram_scoredct["score_ratio_pred"] - r_actual
-            limit_func = get_lower_limit if residual < 0 else get_upper_limit
-            err_limit = limit_func((r_actual,))[0] - r_actual
-            scaled_err = residual / err_limit
-            sum_ += scaled_err**2
+        weight_sum = 0
 
-        return (sum_ / (i + 1)) ** 0.5
+        for trigram_scoredct in trigram_scores:
+            r_actual = trigram_scoredct["score_ratio_actual"]
+            residual = r_actual - trigram_scoredct["score_ratio_pred"]
+
+            log_m = get_log_m(r_actual)
+            m = np.exp(log_m)
+
+            # Asymmetric loss function. The positive side is allowed to have longer tail
+            # than the negative side. The "multiplier" (r/m, r*m) is assumed to cover
+            # roughly 95% of the distribution, which means that on the right 2*sigma=m
+            # and on the left 2*sigma=1/m.
+            if residual < 0:
+                sigma = m / 2
+            else:
+                sigma = 1 / (2 * m)
+
+            # The typical weight: 1/variance
+            w = 1 / (sigma**2)
+
+            weight_sum += w
+
+            sum_ += w * (residual**2)
+
+        return np.sqrt(sum_ / weight_sum)
 
     return func
 
@@ -105,7 +122,6 @@ def create_log_m_func(
     limit_multipliers: dict[float, float],
 ) -> typing.Callable[[float], float]:
 
-    # TODO: Check if this is needed?
     mlist_sorted = sorted(
         ((k, v) for k, v in limit_multipliers.items()), key=lambda x: x[0]
     )
