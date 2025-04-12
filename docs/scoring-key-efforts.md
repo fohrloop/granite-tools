@@ -185,7 +185,8 @@ uv run granite_tools/scripts/bigram_anchor_scores_fit.py examples/config.yml dat
 The output will be a JSON file like this:
 
 ```json
-{"(18,)": 1.0, "(2,)": 1.6183130049926346, "(18, 8)": 1.6941116897431308, "(12, 6)": 1.8170985207530244, ...
+{"(18,)": 1.0, "(2,)": 1.6183130049926346, "(18, 8)": 1.6941116897431308, "(12, 6)": 1.8170985207530244,
+}
 ```
 
 #### Plot the model output
