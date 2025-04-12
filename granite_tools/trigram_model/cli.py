@@ -73,7 +73,7 @@ ARG_TRIGRAM_SCORE_RATIO_FILE = Annotated[
 ARG_ANCHOR_SCORES_FILE = Annotated[
     Path,
     typer.Argument(
-        help="The path to the bigram anchor scores file. Created with granite_tools/scripts/bigram_anchor_scores_fit.py",
+        help="The path to the bigram anchor scores file. Created with granite-bigram-scores-fit",
         show_default=False,
     ),
 ]

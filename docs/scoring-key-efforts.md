@@ -167,31 +167,72 @@ This part can be a bit iterative and requires some level of patience. Any outlie
 
 ### Fit the model
 
-First, fit the model. This creates raw anchor nrgram scores (JSON) file for the scores of the anchor ngrams (anchor ngrams are the ngrams included in the score ratios of the scoreratio file). The command is:
+First, fit the model which takes bigram rankings and bigram scoreratios as input and
+returns bigram scores as output. The command is:
 
 ```
-[python | uv run] granite_tools/scripts/bigram_anchor_scores_fit.py [config_file] [bigram_ranking_file] [bigram_scoreratio_file] [bigram_raw_anchor_scores_json]
+granite-bigram-scores-fit CONFIG_FILE BIGRAM_RANKING_FILE BIGRAM_SCORERATIO_FILE [BIGRAM_SCORE_FILE_OUT] [ANCHOR_BIGRAM_RAW_SCORE_FILE_OUT]
 ```
 
-where the `bigram_raw_anchor_scores_json` defines the output file.
 **Example**:
 
 ```
-uv run granite_tools/scripts/bigram_anchor_scores_fit.py examples/config.yml data/granite.ranking data/granite.bigram.scoreratios.yml data/bigram-anchor-scores-raw.json
+uv run granite-bigram-scores-fit examples/config.yml data/granite.bigram.ranking data/granite.bigram.scoreratios.yml data/bigram.scores.json data/bigram-anchor-scores-raw.json
 ```
 
 **Note**: This step may run 5-10 minutes depending on the data and power of the CPU in use.
 
-The output will be a JSON file like this:
+The output contains two JSON files
+
+1. **bigram.scores.json**: This file contains the "final" bigram (and unigram) scores.
+  It is an important file and will be used to create the trigram scores later.
+2. **bigram-anchor-scores-raw.json**: This file contains the _raw_ anchor ngram scores (JSON). Anchor ngrams are the ngrams you have included in the bigram scoreratios YAML file. The anchor
+scores file is useful in the bigram scores creation phase, as you can use it for debugging. This is an intermediate result. The `bigram-anchor-scores-raw.json` was used to create the `bigram.scores.json` and is not needed after the bigram scores are finalized.
+
+Example of `bigram.scores.json` (shortened):
 
 ```json
-{"(18,)": 1.0, "(2,)": 1.6183130049926346, "(18, 8)": 1.6941116897431308, "(12, 6)": 1.8170985207530244,
+[
+  {
+    "key_indices": [
+      8
+    ],
+    "type": "unigram",
+    "score": 1.0,
+    "rank": 1,
+    "__comment__left": "D",
+    "__comment__right": "K"
+  },
+  {
+    "key_indices": [
+      2,
+      13
+    ],
+    "type": "bigram",
+    "score": 2.366,
+    "rank": 240,
+    "__comment__left": "GQ",
+    "__comment__right": "HP"
+  },
+]
+```
+
+Example of the `bigram-anchor-scores-raw.json` (shortened):
+
+```json
+{
+  "(8,)": 1.0,
+  "(18,)": 1.1276687649622947,
+  "(5, 5)": 1.7738713587486092,
+  "(11, 13)": 5.927100483663654,
+  "(15, 13)": 6.415838557602717
 }
 ```
 
+
 #### Plot the model output
 
-You may plot the bigram (and unigram) scores with:
+You may check the quality of the bigram model fit with:
 
     python granite_tools/scripts/bigram_anchor_scores_plot.py [config_file] [bigram_ranking_file] [bigram_raw_anchor_scores_json]
 

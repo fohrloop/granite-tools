@@ -6,7 +6,7 @@ Usage:
 
 Example:
 
-    uv run granite_tools/scripts/bigram_anchor_scores_plot.py examples/config.yml tmp/granite.bigram.ranking tmp/bigram-anchor-scores-raw.json
+    uv run granite_tools/scripts/bigram_anchor_scores_plot.py examples/config.yml data/granite.bigram.ranking data/bigram-anchor-scores-raw.json
 """
 
 from __future__ import annotations
