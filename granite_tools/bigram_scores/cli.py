@@ -7,17 +7,21 @@ import sys
 import time
 import typing
 from pathlib import Path
-from typing import TypedDict
 
+import pandas as pd
 import typer
+from matplotlib import pyplot as plt
 
+from granite_tools.app_types import BigramScoreDict
 from granite_tools.bigram_scores.anchor_scores import fit_anchor_ngram_scores
 from granite_tools.bigram_scores.bigram_scores import get_spline_scores
+from granite_tools.bigram_scores.plotting import plot_anchor_scores, plot_bigram_scores
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.bigram_scores.score_ratio_template import (
     save_score_ratios,
     select_every_nth_item,
 )
+from granite_tools.bigram_scores.score_ratios import get_worst_score_ratios
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.score_ratios import load_score_ratio_entries
@@ -32,19 +36,8 @@ except ImportError:
 if typing.TYPE_CHECKING:
     from typing import Sequence
 
-    from granite_tools.app_types import KeySeq
+    from granite_tools.app_types import BigramOrUnigram, KeySeq
     from granite_tools.hands import Hand, Hands
-
-
-class BigramScoreDict(TypedDict):
-    """Typed dict for bigram scores."""
-
-    key_indices: KeySeq
-    type: str
-    score: float
-    rank: int
-    __comment__left: str
-    __comment__right: str
 
 
 def create_bigram_score_ratio_template():
@@ -209,19 +202,29 @@ def bigram_scores_fit_(
 
     t0 = time.time()
     print("Fitting anchor ngram scores.. (this might take a few minutes)")
-    scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
-    print(f"Fitting scores took {time.time() - t0:.2f}s")
+    raw_anchor_scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
 
-    scores_ordered, _ = get_spline_scores(ngrams_ordered, scores)
-    scoredcts = make_bigram_score_dicts(scores_ordered, ngrams_ordered, hands)
+    scores_ordered, _ = get_spline_scores(ngrams_ordered, raw_anchor_scores)
+    bigram_scores = make_bigram_score_dicts(scores_ordered, ngrams_ordered, hands)
+
+    worst = get_worst_score_ratios(score_ratio_entries, raw_anchor_scores, hands)
+    n_show = 100
+    with pd.option_context("display.max_rows", n_show):
+        print(worst.tail(n_show))
+
+    print(f"Fitting scores took {time.time() - t0:.2f}s")
+    plot_anchor_scores(ngrams_ordered, raw_anchor_scores)
+    plot_bigram_scores(bigram_scores)
 
     with open(bigram_score_file_out, "w") as f:
-        json.dump(scoredcts, f, indent=2)
+        json.dump(bigram_scores, f, indent=2)
     print(f"Bigram scores written to {bigram_score_file_out}")
 
     with open(anchor_bigram_raw_score_file_out, "w") as f:
-        json.dump({str(k): v for k, v in scores.items()}, f, indent=2)
+        json.dump({str(k): v for k, v in raw_anchor_scores.items()}, f, indent=2)
     print(f"Raw bigram anchor scores written to {anchor_bigram_raw_score_file_out}")
+
+    plt.show()
 
 
 def make_bigram_score_dicts(
@@ -230,12 +233,19 @@ def make_bigram_score_dicts(
     hands: Hands,
 ) -> list[BigramScoreDict]:
     scoredcts = []
+    unigram_rank = 0
+    bigram_rank = 0
+    ngram_type: BigramOrUnigram
     for rank, (key_indices, score) in enumerate(zip(ngrams_ordered, scores), start=1):
 
         if len(key_indices) == 1:
             ngram_type = "unigram"
+            unigram_rank += 1
+            rank_type = unigram_rank
         elif len(key_indices) == 2:
             ngram_type = "bigram"
+            bigram_rank += 1
+            rank_type = bigram_rank
         else:
             raise ValueError(
                 f"Invalid ngram length: {len(key_indices)}. Expected 1 or 2."
@@ -246,6 +256,7 @@ def make_bigram_score_dicts(
             type=ngram_type,
             score=round(score, 3),
             rank=rank,
+            rank_type=rank_type,
             __comment__left=hands.get_symbols_visualization("Left", key_indices),
             __comment__right=hands.get_symbols_visualization("Right", key_indices),
         )

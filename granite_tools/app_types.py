@@ -14,6 +14,31 @@ HAND_TYPES = tuple(typing.get_args(HandType))
 
 KeySeq = tuple[int, ...]
 
+BigramOrUnigram = Literal["unigram", "bigram"]
+
+
+class BigramScoreDict(TypedDict):
+    """A dictionary containing information about a bigram score."""
+
+    key_indices: KeySeq
+    """The indices of the keys on the keyboard (defined in config file)."""
+
+    type: BigramOrUnigram
+    """The type of the ngram. Bigram score files contain also data for unigrams."""
+
+    score: float
+    """The score of the bigram (or unigram)."""
+
+    rank: int
+    """The rank of the ngram (bigram or unigram) in the list of ngrams. 1 means the 
+    easiest to type (and lowest score)."""
+
+    rank_type: int
+    """The rank of the unigram or bigram within the ngram type."""
+
+    __comment__left: str
+    __comment__right: str
+
 
 class OrderedStrEnum(Enum):
     def __lt__(self, other):
