@@ -252,7 +252,7 @@ The example above looks good. The "raw" data points (for anchor ngrams) are quit
 
 **TIP**: In addition, you may use
 
-    python granite_tools/scripts/plot_bigram_scores.py examples/config.yml data/granite.ranking  data/bigram-anchor-scores-raw.json bigramscores.svg
+    granite-bigram-scores-dumbbell-plot data/bigram.scores.json examples/config.yml data/bigramscores.svg
 
 To show more detailed view of the final fit (saved to bigramscores.svg).
 

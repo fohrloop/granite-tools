@@ -21,6 +21,9 @@ if typing.TYPE_CHECKING:
     KeySeq = tuple[int, ...]
     from granite_tools.config import Config
 
+# Temporarily disable mypy errors. This file is currently under NOQA
+# mypy: ignore-errors
+
 
 def get_trigram_data_from_files(
     config_file: str | Path,

@@ -6,6 +6,7 @@ import random
 import sys
 import time
 import typing
+from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
@@ -14,16 +15,22 @@ from matplotlib import pyplot as plt
 
 from granite_tools.app_types import BigramScoreDict
 from granite_tools.bigram_scores.anchor_scores import fit_anchor_ngram_scores
-from granite_tools.bigram_scores.bigram_scores import get_spline_scores
-from granite_tools.bigram_scores.plotting import plot_anchor_scores, plot_bigram_scores
+from granite_tools.bigram_scores.bigram_scores import read_bigram_scores
+from granite_tools.bigram_scores.plotting import (
+    BIGRAM_DUMBBELL_PLOT_LEGEND_INFO,
+    bigram_scores_dumbbell_plot,
+    plot_anchor_scores,
+    plot_bigram_scores,
+)
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.bigram_scores.score_ratio_template import (
     save_score_ratios,
     select_every_nth_item,
 )
 from granite_tools.bigram_scores.score_ratios import get_worst_score_ratios
+from granite_tools.bigram_scores.spline_smoothing import get_spline_scores
 from granite_tools.config import read_config
-from granite_tools.hands import get_hands_data
+from granite_tools.hands import Hands, get_hands_data
 from granite_tools.score_ratios import load_score_ratio_entries
 from granite_tools.utils import DATA_FOLDER
 
@@ -263,3 +270,69 @@ def make_bigram_score_dicts(
 
         scoredcts.append(dct)
     return scoredcts
+
+
+def bigram_scores_plot():
+    typer.run(bigram_scores_plot_)
+
+
+ARG_BIGRAM_SCORE_FILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the bigram score (JSON) file ",
+        show_default=True,
+    ),
+]
+
+
+def bigram_scores_plot_(
+    bigram_score_file: ARG_BIGRAM_SCORE_FILE = DEFAULT_SCORE_FILE_OUT,
+):
+    """Plot bigram scores from a bigram score JSON file."""
+    bigram_scores = read_bigram_scores(bigram_score_file)
+    plot_bigram_scores(bigram_scores)
+    plt.show()
+
+
+ARG_BIGRAM_DUMBBELL_PLOT_OUTFILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the dumbbell plot output (.svg) file.",
+        show_default=True,
+    ),
+]
+
+
+def bigram_scores_dumbbell_plot_cli():
+    typer.run(bigram_scores_dumbbell_plot_cli_)
+
+
+def bigram_scores_dumbbell_plot_cli_(
+    bigram_score_file: ARG_BIGRAM_SCORE_FILE,
+    config_file: ARG_CONFIG,
+    save_to: ARG_BIGRAM_DUMBBELL_PLOT_OUTFILE,
+):
+
+    config = read_config(config_file)
+    hands = get_hands_data(config)
+
+    bigram_scores = read_bigram_scores(bigram_score_file)
+
+    data: defaultdict[str, list[str | float]] = defaultdict(list)
+
+    for score in bigram_scores:
+        if not score["type"] == "bigram":
+            continue
+        keyseq = tuple(score["key_indices"])
+        data["rank"].append(score["rank_type"])
+        data["score"].append(score["score"])
+        data["ngram_left"].append(hands.get_symbols_visualization("Left", keyseq))
+        data["ngram_right"].append(hands.get_symbols_visualization("Right", keyseq))
+        data["repeats"].append(str(hands.get_repeats_text(keyseq)))
+        data["rowdiff"].append(str(hands.get_rowdiff_text(keyseq)))
+
+    bigram_scores_dumbbell_plot(data)
+    print(BIGRAM_DUMBBELL_PLOT_LEGEND_INFO)
+    plt.savefig(str(save_to), dpi=150)
+    print("Plot saved to", save_to)
+    plt.close()
