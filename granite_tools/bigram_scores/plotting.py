@@ -4,6 +4,7 @@ from math import ceil
 
 import pandas as pd
 from matplotlib import pyplot as plt
+from matplotlib.ticker import MaxNLocator
 from mplcursors import Selection, cursor  # type: ignore[import]
 from rich.color import Color
 
@@ -68,7 +69,6 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         color="tab:blue",
     )
     ax_unigram.set_xlabel("Rank of unigram")
-    ax_unigram.set_ylabel("Score")
     ax_unigram.set_title("Unigrams")
 
     scatter_bigram = ax_bigram.scatter(
@@ -79,11 +79,13 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         color="tab:red",
     )
     ax_bigram.set_xlabel("Rank of bigram")
-    ax_bigram.set_ylabel("Score")
-
     ax_bigram.set_title("Bigrams")
-    ax_unigram.grid(ls="--", lw=0.5, color="lightgray")
-    ax_bigram.grid(ls="--", lw=0.5, color="lightgray")
+
+    for ax in axes:
+        ax.set_ylabel("Score")
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        ax.grid(ls="--", lw=0.5, color="lightgray")
+
     plt.tight_layout()
     cur = cursor(figure, hover=True)
 
