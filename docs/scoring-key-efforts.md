@@ -101,7 +101,7 @@ where
 Exract the bigram ranking file from the `.compare.pickle` file using:
 
 ```
-python granite_tools/scripts/granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
+python granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
 ```
 
 The output file will be called `some.compare.ranking`, which contains all the bigrams in rank order (easiest on the top of the file, most difficult at the bottom).
