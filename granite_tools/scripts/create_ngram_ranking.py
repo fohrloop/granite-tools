@@ -34,6 +34,7 @@ class NgramType(Enum):
     BIGRAM = 3
 
 
+# TODO: Check this function. Does it work without any unigram data?
 def get_combined_order(
     unigrams: list[Unigram],
     repeats: list[Bigram],
@@ -74,6 +75,7 @@ def get_order_for_types(ordered_ngrams: list[KeySeq]) -> list[NgramType]:
     return ngram_types
 
 
+# TODO: Check this function. Does it work without unigram data?
 def create_ngram_ranking(comparisons_all: list[tuple[KeySeq, KeySeq]]) -> list[KeySeq]:
     bigram_pairs = get_bigram_pairs(comparisons_all)
 

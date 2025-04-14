@@ -42,6 +42,81 @@ hands:
   - [      Left, Left, Left, Left, Left,                Right, Right, Right, Right, Right       ]
   -           [                     Left, Left, Right, Right,                                   ]
 
+###################################
+# GRANITE BIGRAM SCORING MODEL   ##
+###################################
+easiest_unigram_score: 1.0
+most_difficult_unigram_score: 1.95
+
+########################################
+# GRANITE TRIGRAM MODEL v4 PARAMETERS ##
+########################################
+# Fixed parameters:
+w_ac_one: 0.65
+u_weight_balanced: 0.1
+u_weight_alternating: 0.1
+vert2u_coeff: 0.115
+
+# Fitted parameters:
+easy_rolling_coeff: 0.607
+balanced_coeff: 0.707
+alternating_coeff: 1.131
+redir_coeff: 1.379
+sfb_in_onehand_coeff: 1.753
+sft_coeff: 2.060
+sftb_coeff: 1.379
+sfs_coeff: 1.247
+sfsb_coeff: 0.770
+
+# Define easy-rolling trigram types
+easy_rolling_trigrams:
+  hammer:
+  - "..33"
+  - "1233"
+  - "..33"
+  shield:
+  - "..3."
+  - ".233"
+  - "1.33"
+  - "..3."
+  snow-scoop:
+  - "1.."
+  - ".23"
+
+# Define exceptions to vertical 2 unit jump penalties
+vert2u_penalties:
+  # All bigrams that are a part of a onehand trigram, with 2 unit vertical distance
+  # between the keys will have a vert2u penalty. If there are two transitions, the
+  # penalty is double. Bigrams with thumb keys will NOT have penalty.
+
+  exceptions:
+    # Exceptions. These are the indices (from `key_indices`)
+    # Format: [[bottom_index], [top_indices]].
+    # These transitions will NOT cause vertical 2u penalties
+    - [15, [7, 4]] # p bottom <-> m or i top
+    - [12, [7, 4]] # r bottom <-> m or i top
+    - [6, [7, 10]] # i bottom <-> m or r top
+
+# This is used for trigram model fitting process (ADVANCED SETTING)
+# With this you tell the uncertainty of the trigram score ratios in the trigram score ratio file
+#  key: score ratio (r) where the limit should be applied
+#  value: multiplier to the limit, meaning that the limits will be
+#         r/multiplier (below),  r * multiplier (above)
+# Example: 1: 2 would mean that limit is from 0.5 to 2 for score ratio 1.0.
+limit_multipliers:
+  0.15: 3
+  0.6: 1.416
+  1: 1.1
+  2.5: 1.35
+  3.0: 1.4
+
+
+#########################################
+# Settings related to the textual apps ##
+#########################################
+# These settings are not affecting the scoring model itself, but they are used
+# in the CLI apps (visualization settings)
+
 # For calculating if something is SFB
 finger_matrix:
   - [       p,  r,  m,  i,  i,      i,  i,  m,  r,  p       ]
@@ -77,65 +152,3 @@ color_mapping:
   t: royal_blue1
   p: salmon1
   Q: deep_pink1
-
-
-## SCORING
-easy_rolling_trigrams:
-  hammer:
-  - "..33"
-  - "1233"
-  - "..33"
-  shield:
-  - "..3."
-  - ".233"
-  - "1.33"
-  - "..3."
-  snow-scoop:
-  - "1.."
-  - ".23"
-
-vert2u_penalties:
-  # All bigrams that are a part of a onehand trigram, with 2 unit vertical distance
-  # between the keys will have a vert2u penalty. If there are two transitions, the
-  # penalty is double. Bigrams with thumb keys will NOT have penalty.
-
-  exceptions:
-    # Exceptions. These are the indices (from `key_indices`)
-    # Format: [[bottom_index], [top_indices]].
-    # These transitions will NOT cause vertical 2u penalties
-    - [15, [7, 4]] # p bottom <-> m or i top
-    - [12, [7, 4]] # r bottom <-> m or i top
-    - [6, [7, 10]] # i bottom <-> m or r top
-
-########################################
-# GRANITE TRIGRAM MODEL v4 PARAMETERS ##
-########################################
-# Fixed parameters:
-w_ac_one: 0.65
-u_weight_balanced: 0.1
-u_weight_alternating: 0.1
-vert2u_coeff: 0.115
-
-# Fitted parameters:
-easy_rolling_coeff: 0.607
-balanced_coeff: 0.707
-alternating_coeff: 1.131
-redir_coeff: 1.379
-sfb_in_onehand_coeff: 1.753
-sft_coeff: 2.060
-sftb_coeff: 1.379
-sfs_coeff: 1.247
-sfsb_coeff: 0.770
-
-# This is used for trigram model fitting process (ADVANCED SETTING)
-# With this you tell the uncertainty of the trigram score ratios in the trigram score ratio file
-#  key: score ratio (r) where the limit should be applied
-#  value: multiplier to the limit, meaning that the limits will be
-#         r/multiplier (below),  r * multiplier (above)
-# Example: 1: 2 would mean that limit is from 0.5 to 2 for score ratio 1.0.
-limit_multipliers:
-  0.15: 3
-  0.6: 1.416
-  1: 1.1
-  2.5: 1.35
-  3.0: 1.4

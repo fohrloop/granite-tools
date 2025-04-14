@@ -34,10 +34,6 @@
   ngram: "CB"
   score_ratio: 1.19
 
-- ref: "H"
-  ngram: "MN"
-  score_ratio: 3.85
-
 - ref: "D+"
   ngram: "SQ"
   score_ratio: 3.75
@@ -69,10 +65,6 @@
 - ref: "N."
   ngram: "LP"
   score_ratio: 3.95
-
-- ref: "+"
-  ngram: "XZ"
-  score_ratio: 3.23
 
 - ref: "D+"
   ngram: "C1"
@@ -110,10 +102,6 @@
   ngram: "TC"
   score_ratio: 1.58
 
-- ref: "G"
-  ngram: "ZZ"
-  score_ratio: 3.35
-
 - ref: "_F"
   ngram: "AC"
   score_ratio: 1.4
@@ -122,7 +110,7 @@
   ngram: "T+"
   score_ratio: 1.0
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "LK"
   score_ratio: 1.0
 
@@ -186,10 +174,6 @@
   ngram: "H^"
   score_ratio: 1.3
 
-- ref: "H"
-  ngram: "^K"
-  score_ratio: 1.67
-
 - ref: "N."
   ngram: "./"
   score_ratio: 3.3
@@ -206,10 +190,6 @@
   ngram: "MN"
   score_ratio: 1.14
 
-- ref: "G"
-  ngram: "1C"
-  score_ratio: 2.45
-
 - ref: "YK"
   ngram: "2,"
   score_ratio: 1.4
@@ -217,10 +197,6 @@
 - ref: "K^"
   ngram: "MN"
   score_ratio: 3
-
-- ref: "K"
-  ngram: "/K"
-  score_ratio: 2.35
 
 - ref: "XV"
   ngram: "ZW"
@@ -242,10 +218,6 @@
   ngram: "@U"
   score_ratio: 1.14
 
-- ref: "G"
-  ngram: "XV"
-  score_ratio: 2.0
-
 - ref: ",J"
   ngram: "/O"
   score_ratio: 3.85
@@ -262,14 +234,6 @@
   ngram: "ZZ"
   score_ratio: 2.3
 
-- ref: "G"
-  ngram: "T+"
-  score_ratio: 2.0
-
-- ref: "K"
-  ngram: "Y,"
-  score_ratio: 2.56
-
 - ref: "JJ"
   ngram: "2,"
   score_ratio: 1.35
@@ -277,10 +241,6 @@
 - ref: "H/"
   ngram: "@U"
   score_ratio: 1.08
-
-- ref: "+"
-  ngram: "S+"
-  score_ratio: 1.67
 
 - ref: "H^"
   ngram: "K/"
@@ -306,10 +266,6 @@
   ngram: "ZZ"
   score_ratio: 2.35
 
-- ref: "G"
-  ngram: "TC"
-  score_ratio: 2.4
-
 - ref: "/K"
   ngram: "//"
   score_ratio: 1.8
@@ -329,10 +285,6 @@
 - ref: "GZ"
   ngram: "ZW"
   score_ratio: 3.8
-
-- ref: "K"
-  ngram: "@@"
-  score_ratio: 2.0
 
 - ref: "GZ"
   ngram: "ZZ"
@@ -386,15 +338,7 @@
   ngram: "ZW"
   score_ratio: 3.9
 
-- ref: "K"
-  ngram: "NY"
-  score_ratio: 2.67
-
-- ref: "+"
-  ngram: "Z1"
-  score_ratio: 4.4
-
-- ref: "+D"
+- ref: "DF"
   ngram: "S+"
   score_ratio: 1.19
 
@@ -414,13 +358,9 @@
   ngram: "@@"
   score_ratio: 2.03
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "/K"
   score_ratio: 1.73
-
-- ref: "H"
-  ngram: "L."
-  score_ratio: 3.1
 
 - ref: "@P"
   ngram: "PJ"
@@ -449,14 +389,6 @@
 - ref: ",N"
   ngram: "/2"
   score_ratio: 3.82
-
-- ref: "K"
-  ngram: "K@"
-  score_ratio: 1.7
-
-- ref: "H"
-  ngram: "/O"
-  score_ratio: 4.25
 
 - ref: "W+"
   ngram: "_R"
@@ -498,14 +430,6 @@
   ngram: "Y,"
   score_ratio: 1.44
 
-- ref: "+"
-  ngram: "_R"
-  score_ratio: 1.7
-
-- ref: "+"
-  ngram: "QF"
-  score_ratio: 2.7
-
 - ref: "CF"
   ngram: "S+"
   score_ratio: 1.2
@@ -526,10 +450,6 @@
   ngram: "I/"
   score_ratio: 1.99
 
-- ref: "K"
-  ngram: "/O"
-  score_ratio: 4.5
-
 - ref: "_Q"
   ngram: "EZ"
   score_ratio: 1.5
@@ -549,10 +469,6 @@
 - ref: ".N"
   ngram: "PN"
   score_ratio: 1.78
-
-- ref: "K"
-  ngram: ".N"
-  score_ratio: 2
 
 - ref: ",J"
   ngram: "/@"
@@ -585,10 +501,6 @@
 - ref: "AC"
   ngram: "XZ"
   score_ratio: 3.0
-
-- ref: "H"
-  ngram: ";H"
-  score_ratio: 1.7
 
 - ref: "G+"
   ngram: "VB"
@@ -654,7 +566,7 @@
   ngram: "ZQ"
   score_ratio: 3.4
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "/P"
   score_ratio: 3.6
 
@@ -694,17 +606,9 @@
   ngram: "ZZ"
   score_ratio: 2.4
 
-- ref: "K"
-  ngram: "//"
-  score_ratio: 3.4
-
 - ref: "S+"
   ngram: "Z_"
   score_ratio: 1.8
-
-- ref: "G"
-  ngram: "ZD"
-  score_ratio: 1.9
 
 - ref: ",H"
   ngram: "Y^"
@@ -730,19 +634,11 @@
   ngram: "/@"
   score_ratio: 0.9
 
-- ref: "K"
-  ngram: "2,"
-  score_ratio: 2.1
-
 - ref: "@P"
   ngram: "Y^"
   score_ratio: 1.0
 
-- ref: "H"
-  ngram: "L^"
-  score_ratio: 2
-
-- ref: "+D"
+- ref: "DF"
   ngram: "BT"
   score_ratio: 2.3
 
@@ -762,17 +658,9 @@
   ngram: "AG"
   score_ratio: 1.2
 
-- ref: "+"
-  ngram: "SX"
-  score_ratio: 3.3
-
 - ref: "XB"
   ngram: "__"
   score_ratio: 1.9
-
-- ref: "G"
-  ngram: "BX"
-  score_ratio: 2.3
 
 - ref: "O^"
   ngram: "I/"
@@ -781,10 +669,6 @@
 - ref: "LK"
   ngram: "./"
   score_ratio: 2.73
-
-- ref: "K"
-  ngram: "K/"
-  score_ratio: 2.2
 
 - ref: "/K"
   ngram: "2,"
@@ -806,7 +690,7 @@
   ngram: "1C"
   score_ratio: 1.4
 
-- ref: "+D"
+- ref: "DF"
   ngram: "__"
   score_ratio: 1.75
 
@@ -846,7 +730,7 @@
   ngram: "/2"
   score_ratio: 3.4
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "K/"
   score_ratio: 1.62
 
@@ -877,10 +761,6 @@
 - ref: "XV"
   ngram: "D+"
   score_ratio: 1.15
-
-- ref: "K"
-  ngram: "@J"
-  score_ratio: 1.7
 
 - ref: "CF"
   ngram: "SQ"
@@ -914,7 +794,7 @@
   ngram: "/P"
   score_ratio: 4.0
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "I/"
   score_ratio: 2.0
 
@@ -1010,10 +890,6 @@
   ngram: "JJ"
   score_ratio: 1.05
 
-- ref: "G"
-  ngram: "_Q"
-  score_ratio: 2.7
-
 - ref: ",N"
   ngram: "L."
   score_ratio: 2.35
@@ -1038,10 +914,6 @@
   ngram: "NY"
   score_ratio: 1.47
 
-- ref: "+"
-  ngram: "VB"
-  score_ratio: 3.88
-
 - ref: "JJ"
   ngram: "LP"
   score_ratio: 3.8
@@ -1058,7 +930,7 @@
   ngram: "T+"
   score_ratio: 1.1
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "K@"
   score_ratio: 1.34
 
@@ -1158,10 +1030,6 @@
   ngram: "2,"
   score_ratio: 2.2
 
-- ref: "+"
-  ngram: "C1"
-  score_ratio: 2.5
-
 - ref: "CG"
   ngram: "C1"
   score_ratio: 1.66
@@ -1170,10 +1038,6 @@
   ngram: "@P"
   score_ratio: 1.5
 
-- ref: "G"
-  ngram: "__"
-  score_ratio: 2.6
-
 - ref: "FF"
   ngram: "QB"
   score_ratio: 1.6
@@ -1181,10 +1045,6 @@
 - ref: "Z_"
   ngram: "1C"
   score_ratio: 1.25
-
-- ref: "G"
-  ngram: "_F"
-  score_ratio: 1.9
 
 - ref: ".M"
   ngram: "PJ"
@@ -1214,14 +1074,6 @@
   ngram: "2,"
   score_ratio: 0.96
 
-- ref: "G"
-  ngram: "Z1"
-  score_ratio: 3.9
-
-- ref: "K"
-  ngram: "LK"
-  score_ratio: 1.55
-
 - ref: "/K"
   ngram: ";,"
   score_ratio: 1.5
@@ -1238,10 +1090,6 @@
   ngram: "K/"
   score_ratio: 0.95
 
-- ref: "H"
-  ngram: "K^"
-  score_ratio: 1.5
-
 - ref: "LK"
   ngram: "PN"
   score_ratio: 1.9
@@ -1257,10 +1105,6 @@
 - ref: "XB"
   ngram: "QF"
   score_ratio: 1.44
-
-- ref: "G"
-  ngram: "FF"
-  score_ratio: 1.4
 
 - ref: "2,"
   ngram: "PN"
@@ -1318,7 +1162,7 @@
   ngram: "_R"
   score_ratio: 1.15
 
-- ref: "^K"
+- ref: "KJ"
   ngram: ",J"
   score_ratio: 0.95
 
@@ -1334,7 +1178,7 @@
   ngram: "/2"
   score_ratio: 2.8
 
-- ref: "+D"
+- ref: "DF"
   ngram: "XV"
   score_ratio: 1.0
 
@@ -1354,7 +1198,7 @@
   ngram: "L."
   score_ratio: 1.7
 
-- ref: "+D"
+- ref: "DF"
   ngram: "G+"
   score_ratio: 1.22
 
@@ -1414,7 +1258,7 @@
   ngram: "DZ"
   score_ratio: 0.9
 
-- ref: "+D"
+- ref: "DF"
   ngram: "XB"
   score_ratio: 1.15
 
@@ -1434,20 +1278,8 @@
   ngram: "VB"
   score_ratio: 1.8
 
-- ref: "K"
-  ngram: "O^"
-  score_ratio: 1.65
-
 - ref: "L^"
   ngram: "NY"
-  score_ratio: 2.1
-
-- ref: "G"
-  ngram: "Z_"
-  score_ratio: 2
-
-- ref: "G"
-  ngram: "_R"
   score_ratio: 2.1
 
 - ref: ",2"
@@ -1477,10 +1309,6 @@
 - ref: "C1"
   ngram: "ZW"
   score_ratio: 2.5
-
-- ref: "H"
-  ngram: "PN"
-  score_ratio: 3.1
 
 - ref: "_F"
   ngram: "GZ"
@@ -1534,7 +1362,7 @@
   ngram: "C1"
   score_ratio: 1.5
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "PN"
   score_ratio: 1.6
 
@@ -1578,15 +1406,15 @@
   ngram: "CB"
   score_ratio: 1.33
 
-- ref: "+D"
+- ref: "DF"
   ngram: "GZ"
   score_ratio: 1.6
 
-- ref: "+D"
+- ref: "DF"
   ngram: "CB"
   score_ratio: 1.2
 
-- ref: "^K"
+- ref: "KJ"
   ngram: ",2"
   score_ratio: 1.6
 
@@ -1598,7 +1426,7 @@
   ngram: "XZ"
   score_ratio: 2.89
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "MN"
   score_ratio: 2
 
@@ -1630,12 +1458,8 @@
   ngram: "Y^"
   score_ratio: 1.0
 
-- ref: "+D"
+- ref: "DF"
   ngram: "1C"
-  score_ratio: 1.8
-
-- ref: "G"
-  ngram: "W+"
   score_ratio: 1.8
 
 - ref: "VB"
@@ -1646,7 +1470,7 @@
   ngram: "NY"
   score_ratio: 1.7
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "/O"
   score_ratio: 3.9
 
@@ -1698,7 +1522,7 @@
   ngram: "__"
   score_ratio: 2
 
-- ref: "+D"
+- ref: "DF"
   ngram: "FF"
   score_ratio: 1.55
 
@@ -1762,25 +1586,9 @@
   ngram: "ZZ"
   score_ratio: 2.4
 
-- ref: "G"
-  ngram: "GZ"
-  score_ratio: 1.57
-
-- ref: "+"
-  ngram: "SQ"
-  score_ratio: 4.2
-
 - ref: "XB"
   ngram: "GZ"
   score_ratio: 1.33
-
-- ref: "G"
-  ngram: "CF"
-  score_ratio: 1.5
-
-- ref: "K"
-  ngram: "H/"
-  score_ratio: 1.8
 
 - ref: ",J"
   ngram: ";,"
@@ -1822,7 +1630,7 @@
   ngram: "ZD"
   score_ratio: 1.5
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "@P"
   score_ratio: 1.6
 
@@ -1841,10 +1649,6 @@
 - ref: ".N"
   ngram: "//"
   score_ratio: 2.1
-
-- ref: "+"
-  ngram: "G+"
-  score_ratio: 1.5
 
 - ref: "__"
   ngram: "BT"
@@ -1910,10 +1714,6 @@
   ngram: "VB"
   score_ratio: 2
 
-- ref: "G"
-  ngram: "C1"
-  score_ratio: 2
-
 - ref: "@P"
   ngram: "NY"
   score_ratio: 1.23
@@ -1925,10 +1725,6 @@
 - ref: "C1"
   ngram: "BT"
   score_ratio: 1.5
-
-- ref: "+"
-  ngram: "AG"
-  score_ratio: 1.7
 
 - ref: "AG"
   ngram: "ZQ"
@@ -1946,7 +1742,7 @@
   ngram: "SX"
   score_ratio: 2.6
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "PJ"
   score_ratio: 1.8
 
@@ -1981,10 +1777,6 @@
 - ref: "AC"
   ngram: "BT"
   score_ratio: 1.8
-
-- ref: "+"
-  ngram: "FF"
-  score_ratio: 1.7
 
 - ref: "G+"
   ngram: "SQ"
@@ -2090,13 +1882,9 @@
   ngram: "K/"
   score_ratio: 1.9
 
-- ref: "+D"
+- ref: "DF"
   ngram: "AC"
   score_ratio: 1.6
-
-- ref: "H"
-  ngram: ".N"
-  score_ratio: 2.05
 
 - ref: "SD"
   ngram: "Z1"
@@ -2134,10 +1922,6 @@
   ngram: "EZ"
   score_ratio: 1.45
 
-- ref: "H"
-  ngram: "YK"
-  score_ratio: 1.82
-
 - ref: "@J"
   ngram: "NY"
   score_ratio: 2.1
@@ -2145,10 +1929,6 @@
 - ref: "XB"
   ngram: "AC"
   score_ratio: 1.6
-
-- ref: "H"
-  ngram: "./"
-  score_ratio: 4.7
 
 - ref: "__"
   ngram: "_R"
@@ -2186,7 +1966,7 @@
   ngram: "Y,"
   score_ratio: 1.26
 
-- ref: "+D"
+- ref: "DF"
   ngram: "Z_"
   score_ratio: 1.11
 
@@ -2206,7 +1986,7 @@
   ngram: "MN"
   score_ratio: 1.8
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "@J"
   score_ratio: 1.0
 
@@ -2233,10 +2013,6 @@
 - ref: "@J"
   ngram: "Y^"
   score_ratio: 1.4
-
-- ref: "K"
-  ngram: "N."
-  score_ratio: 1.9
 
 - ref: ";H"
   ngram: ",2"
@@ -2270,11 +2046,7 @@
   ngram: ".N"
   score_ratio: 1.45
 
-- ref: "G"
-  ngram: "BT"
-  score_ratio: 2.9
-
-- ref: "+D"
+- ref: "DF"
   ngram: "SX"
   score_ratio: 2.5
 
@@ -2285,10 +2057,6 @@
 - ref: "L^"
   ngram: "K/"
   score_ratio: 2.0
-
-- ref: "G"
-  ngram: "CG"
-  score_ratio: 1.63
 
 - ref: "D_"
   ngram: "QB"
@@ -2324,7 +2092,7 @@
 
 - ref: "MN"
   ngram: "./"
-  score_ratio: 0.90
+  score_ratio: 0.9
 
 - ref: "SD"
   ngram: "G+"
@@ -2386,7 +2154,7 @@
   ngram: "MN"
   score_ratio: 1.25
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "O^"
   score_ratio: 1.34
 
@@ -2446,17 +2214,9 @@
   ngram: "H/"
   score_ratio: 1.55
 
-- ref: "+"
-  ngram: "CB"
-  score_ratio: 1.9
-
 - ref: "GZ"
   ngram: "1C"
   score_ratio: 1.5
-
-- ref: "+"
-  ngram: "Z_"
-  score_ratio: 1.9
 
 - ref: ";H"
   ngram: "L."
@@ -2522,17 +2282,9 @@
   ngram: "QF"
   score_ratio: 1.25
 
-- ref: "K"
-  ngram: "H"
-  score_ratio: 1.06
-
 - ref: "FF"
   ngram: "C1"
   score_ratio: 2
-
-- ref: "G"
-  ngram: "G+"
-  score_ratio: 1.41
 
 - ref: "Y^"
   ngram: "/P"
@@ -2549,10 +2301,6 @@
 - ref: "/@"
   ngram: "I/"
   score_ratio: 1.87
-
-- ref: "H"
-  ngram: ",N"
-  score_ratio: 1.65
 
 - ref: "BX"
   ngram: "_Q"
@@ -2581,14 +2329,6 @@
 - ref: "ZD"
   ngram: "SQ"
   score_ratio: 3.4
-
-- ref: "K"
-  ngram: ";,"
-  score_ratio: 2.5
-
-- ref: "H"
-  ngram: "LP"
-  score_ratio: 4.2
 
 - ref: "@@"
   ngram: "MN"
@@ -2622,17 +2362,13 @@
   ngram: "QB"
   score_ratio: 1.45
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "/2"
   score_ratio: 3.6
 
 - ref: "@U"
   ngram: "/O"
   score_ratio: 3.4
-
-- ref: "H"
-  ngram: ";,"
-  score_ratio: 2
 
 - ref: "CB"
   ngram: "FF"
@@ -2653,10 +2389,6 @@
 - ref: "@J"
   ngram: "K/"
   score_ratio: 1.47
-
-- ref: "+"
-  ngram: "TD"
-  score_ratio: 1.7
 
 - ref: "L."
   ngram: "NY"
@@ -2694,10 +2426,6 @@
   ngram: "ZW"
   score_ratio: 3.2
 
-- ref: "K"
-  ngram: "/P"
-  score_ratio: 4
-
 - ref: ".N"
   ngram: "/K"
   score_ratio: 1.25
@@ -2722,10 +2450,6 @@
   ngram: "TD"
   score_ratio: 1.22
 
-- ref: "H"
-  ngram: "K@"
-  score_ratio: 1.6
-
 - ref: ";H"
   ngram: "@P"
   score_ratio: 1.45
@@ -2734,13 +2458,9 @@
   ngram: "L."
   score_ratio: 1.3
 
-- ref: "^K"
+- ref: "KJ"
   ngram: ",H"
   score_ratio: 1.0
-
-- ref: "K"
-  ngram: ",H"
-  score_ratio: 1.7
 
 - ref: "D_"
   ngram: "AC"
@@ -2761,10 +2481,6 @@
 - ref: "SD"
   ngram: "TD"
   score_ratio: 1.35
-
-- ref: "G"
-  ngram: "SD"
-  score_ratio: 1.5
 
 - ref: "ZD"
   ngram: "VB"
@@ -2806,11 +2522,11 @@
   ngram: "TD"
   score_ratio: 1.03
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "LP"
   score_ratio: 3.3
 
-- ref: "+D"
+- ref: "DF"
   ngram: "ZZ"
   score_ratio: 1.75
 
@@ -2849,10 +2565,6 @@
 - ref: ".N"
   ngram: "/@"
   score_ratio: 1.2
-
-- ref: "K"
-  ngram: ",J"
-  score_ratio: 1.67
 
 - ref: ",N"
   ngram: "/P"
@@ -2930,7 +2642,7 @@
   ngram: ",2"
   score_ratio: 1.8
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "N."
   score_ratio: 1.09
 
@@ -2970,10 +2682,6 @@
   ngram: "CB"
   score_ratio: 1.01
 
-- ref: "+"
-  ngram: "XV"
-  score_ratio: 1.52
-
 - ref: ",J"
   ngram: "/2"
   score_ratio: 3.7
@@ -3010,10 +2718,6 @@
   ngram: "ZZ"
   score_ratio: 1.88
 
-- ref: "K"
-  ngram: "^K"
-  score_ratio: 1.63
-
 - ref: "TD"
   ngram: "QB"
   score_ratio: 1.46
@@ -3026,13 +2730,9 @@
   ngram: ";H"
   score_ratio: 1.28
 
-- ref: "^K"
+- ref: "KJ"
   ngram: ";H"
   score_ratio: 1.58
-
-- ref: "+"
-  ngram: "_Q"
-  score_ratio: 1.72
 
 - ref: "ZD"
   ngram: "BT"
@@ -3074,17 +2774,13 @@
   ngram: "CG"
   score_ratio: 1.0
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "Y^"
   score_ratio: 1.35
 
 - ref: "LK"
   ngram: ",2"
   score_ratio: 1.65
-
-- ref: "K"
-  ngram: "I/"
-  score_ratio: 2.2
 
 - ref: "AC"
   ngram: "QB"
@@ -3158,10 +2854,6 @@
   ngram: "K/"
   score_ratio: 1.43
 
-- ref: "H"
-  ngram: "I/"
-  score_ratio: 2.1
-
 - ref: "_R"
   ngram: "Z1"
   score_ratio: 3.3
@@ -3174,11 +2866,7 @@
   ngram: "./"
   score_ratio: 3.0
 
-- ref: "+"
-  ngram: "T+"
-  score_ratio: 1.66
-
-- ref: "+D"
+- ref: "DF"
   ngram: "XZ"
   score_ratio: 2.8
 
@@ -3201,10 +2889,6 @@
 - ref: "Y^"
   ngram: "./"
   score_ratio: 2.0
-
-- ref: "K"
-  ngram: "K^"
-  score_ratio: 1.55
 
 - ref: "@@"
   ngram: "/K"
@@ -3338,10 +3022,6 @@
   ngram: "/K"
   score_ratio: 1.22
 
-- ref: "H"
-  ngram: "K/"
-  score_ratio: 2.23
-
 - ref: ";H"
   ngram: "H/"
   score_ratio: 1.26
@@ -3402,10 +3082,6 @@
   ngram: "_Q"
   score_ratio: 1.58
 
-- ref: "G"
-  ngram: "ZQ"
-  score_ratio: 4
-
 - ref: "_R"
   ngram: "BT"
   score_ratio: 2
@@ -3458,10 +3134,6 @@
   ngram: "I/"
   score_ratio: 1.385
 
-- ref: "+"
-  ngram: "QB"
-  score_ratio: 2.33
-
 - ref: "W+"
   ngram: "ZQ"
   score_ratio: 2.85
@@ -3498,10 +3170,6 @@
   ngram: "@U"
   score_ratio: 1.19
 
-- ref: "G"
-  ngram: "QF"
-  score_ratio: 1.8
-
 - ref: "@P"
   ngram: "L."
   score_ratio: 1.65
@@ -3510,7 +3178,7 @@
   ngram: ";H"
   score_ratio: 1.28
 
-- ref: "+D"
+- ref: "DF"
   ngram: "TC"
   score_ratio: 1.535
 
@@ -3546,7 +3214,7 @@
   ngram: "Y,"
   score_ratio: 1.054
 
-- ref: "+D"
+- ref: "DF"
   ngram: "_R"
   score_ratio: 1.23
 
@@ -3570,7 +3238,7 @@
   ngram: "Y,"
   score_ratio: 1.5
 
-- ref: "^K"
+- ref: "KJ"
   ngram: "K^"
   score_ratio: 1.1
 
@@ -3598,7 +3266,7 @@
   ngram: "O^"
   score_ratio: 1.025
 
-- ref: "+D"
+- ref: "DF"
   ngram: "TD"
   score_ratio: 1.32
 

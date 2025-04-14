@@ -12,78 +12,91 @@
   },
   {
     "key_indices": [
+      8,
       5
     ],
-    "type": "unigram",
-    "score": 1.027,
+    "type": "bigram",
+    "score": 1.0,
     "rank": 2,
-    "rank_type": 2,
-    "__comment__left": "F",
-    "__comment__right": "J"
+    "rank_type": 1,
+    "__comment__left": "DF",
+    "__comment__right": "KJ"
   },
   {
     "key_indices": [
       7
     ],
     "type": "unigram",
-    "score": 1.054,
+    "score": 1.0,
     "rank": 3,
-    "rank_type": 3,
+    "rank_type": 2,
     "__comment__left": "E",
     "__comment__right": "I"
   },
   {
     "key_indices": [
-      6
+      5
     ],
     "type": "unigram",
-    "score": 1.079,
+    "score": 1.025,
     "rank": 4,
-    "rank_type": 4,
-    "__comment__left": "V",
-    "__comment__right": "M"
-  },
-  {
-    "key_indices": [
-      11
-    ],
-    "type": "unigram",
-    "score": 1.104,
-    "rank": 5,
-    "rank_type": 5,
-    "__comment__left": "S",
-    "__comment__right": "L"
-  },
-  {
-    "key_indices": [
-      17
-    ],
-    "type": "unigram",
-    "score": 1.128,
-    "rank": 6,
-    "rank_type": 6,
-    "__comment__left": "_",
-    "__comment__right": "@"
+    "rank_type": 3,
+    "__comment__left": "F",
+    "__comment__right": "J"
   },
   {
     "key_indices": [
       18
     ],
     "type": "unigram",
-    "score": 1.151,
-    "rank": 7,
-    "rank_type": 7,
+    "score": 1.033,
+    "rank": 5,
+    "rank_type": 4,
     "__comment__left": "+",
     "__comment__right": "^"
+  },
+  {
+    "key_indices": [
+      17
+    ],
+    "type": "unigram",
+    "score": 1.058,
+    "rank": 6,
+    "rank_type": 5,
+    "__comment__left": "_",
+    "__comment__right": "@"
+  },
+  {
+    "key_indices": [
+      18,
+      8
+    ],
+    "type": "bigram",
+    "score": 1.077,
+    "rank": 7,
+    "rank_type": 2,
+    "__comment__left": "+D",
+    "__comment__right": "^K"
+  },
+  {
+    "key_indices": [
+      6
+    ],
+    "type": "unigram",
+    "score": 1.118,
+    "rank": 8,
+    "rank_type": 6,
+    "__comment__left": "V",
+    "__comment__right": "M"
   },
   {
     "key_indices": [
       2
     ],
     "type": "unigram",
-    "score": 1.173,
-    "rank": 8,
-    "rank_type": 8,
+    "score": 1.132,
+    "rank": 9,
+    "rank_type": 7,
     "__comment__left": "G",
     "__comment__right": "H"
   },
@@ -92,79 +105,11 @@
       9
     ],
     "type": "unigram",
-    "score": 1.194,
-    "rank": 9,
-    "rank_type": 9,
+    "score": 1.144,
+    "rank": 10,
+    "rank_type": 8,
     "__comment__left": "C",
     "__comment__right": ","
-  },
-  {
-    "key_indices": [
-      12
-    ],
-    "type": "unigram",
-    "score": 1.214,
-    "rank": 10,
-    "rank_type": 10,
-    "__comment__left": "X",
-    "__comment__right": "."
-  },
-  {
-    "key_indices": [
-      10
-    ],
-    "type": "unigram",
-    "score": 1.233,
-    "rank": 11,
-    "rank_type": 11,
-    "__comment__left": "W",
-    "__comment__right": "O"
-  },
-  {
-    "key_indices": [
-      3
-    ],
-    "type": "unigram",
-    "score": 1.252,
-    "rank": 12,
-    "rank_type": 12,
-    "__comment__left": "B",
-    "__comment__right": "N"
-  },
-  {
-    "key_indices": [
-      4
-    ],
-    "type": "unigram",
-    "score": 1.269,
-    "rank": 13,
-    "rank_type": 13,
-    "__comment__left": "R",
-    "__comment__right": "U"
-  },
-  {
-    "key_indices": [
-      8,
-      5
-    ],
-    "type": "bigram",
-    "score": 1.286,
-    "rank": 14,
-    "rank_type": 1,
-    "__comment__left": "DF",
-    "__comment__right": "KJ"
-  },
-  {
-    "key_indices": [
-      18,
-      8
-    ],
-    "type": "bigram",
-    "score": 1.301,
-    "rank": 15,
-    "rank_type": 2,
-    "__comment__left": "+D",
-    "__comment__right": "^K"
   },
   {
     "key_indices": [
@@ -172,11 +117,22 @@
       7
     ],
     "type": "bigram",
-    "score": 1.316,
-    "rank": 16,
+    "score": 1.149,
+    "rank": 11,
     "rank_type": 3,
     "__comment__left": "+E",
     "__comment__right": "^I"
+  },
+  {
+    "key_indices": [
+      4
+    ],
+    "type": "unigram",
+    "score": 1.2,
+    "rank": 12,
+    "rank_type": 9,
+    "__comment__left": "R",
+    "__comment__right": "U"
   },
   {
     "key_indices": [
@@ -184,11 +140,33 @@
       6
     ],
     "type": "bigram",
-    "score": 1.33,
-    "rank": 17,
+    "score": 1.217,
+    "rank": 13,
     "rank_type": 4,
     "__comment__left": "DV",
     "__comment__right": "KM"
+  },
+  {
+    "key_indices": [
+      3
+    ],
+    "type": "unigram",
+    "score": 1.24,
+    "rank": 14,
+    "rank_type": 10,
+    "__comment__left": "B",
+    "__comment__right": "N"
+  },
+  {
+    "key_indices": [
+      11
+    ],
+    "type": "unigram",
+    "score": 1.244,
+    "rank": 15,
+    "rank_type": 11,
+    "__comment__left": "S",
+    "__comment__right": "L"
   },
   {
     "key_indices": [
@@ -196,8 +174,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.342,
-    "rank": 18,
+    "score": 1.28,
+    "rank": 16,
     "rank_type": 5,
     "__comment__left": "EF",
     "__comment__right": "IJ"
@@ -208,11 +186,22 @@
       8
     ],
     "type": "bigram",
-    "score": 1.354,
-    "rank": 19,
+    "score": 1.338,
+    "rank": 17,
     "rank_type": 6,
     "__comment__left": "VD",
     "__comment__right": "MK"
+  },
+  {
+    "key_indices": [
+      12
+    ],
+    "type": "unigram",
+    "score": 1.341,
+    "rank": 18,
+    "rank_type": 12,
+    "__comment__left": "X",
+    "__comment__right": "."
   },
   {
     "key_indices": [
@@ -220,11 +209,22 @@
       5
     ],
     "type": "bigram",
-    "score": 1.366,
-    "rank": 20,
+    "score": 1.391,
+    "rank": 19,
     "rank_type": 7,
     "__comment__left": "SF",
     "__comment__right": "LJ"
+  },
+  {
+    "key_indices": [
+      10
+    ],
+    "type": "unigram",
+    "score": 1.408,
+    "rank": 20,
+    "rank_type": 13,
+    "__comment__left": "W",
+    "__comment__right": "O"
   },
   {
     "key_indices": [
@@ -232,7 +232,7 @@
       7
     ],
     "type": "bigram",
-    "score": 1.376,
+    "score": 1.44,
     "rank": 21,
     "rank_type": 8,
     "__comment__left": "VE",
@@ -240,15 +240,37 @@
   },
   {
     "key_indices": [
+      1
+    ],
+    "type": "unigram",
+    "score": 1.453,
+    "rank": 22,
+    "rank_type": 14,
+    "__comment__left": "T",
+    "__comment__right": "Y"
+  },
+  {
+    "key_indices": [
       12,
       6
     ],
     "type": "bigram",
-    "score": 1.386,
-    "rank": 22,
+    "score": 1.485,
+    "rank": 23,
     "rank_type": 9,
     "__comment__left": "XV",
     "__comment__right": ".M"
+  },
+  {
+    "key_indices": [
+      14
+    ],
+    "type": "unigram",
+    "score": 1.501,
+    "rank": 24,
+    "rank_type": 15,
+    "__comment__left": "A",
+    "__comment__right": ";"
   },
   {
     "key_indices": [
@@ -256,8 +278,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.395,
-    "rank": 23,
+    "score": 1.526,
+    "rank": 25,
     "rank_type": 10,
     "__comment__left": "FE",
     "__comment__right": "JI"
@@ -268,8 +290,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.403,
-    "rank": 24,
+    "score": 1.563,
+    "rank": 26,
     "rank_type": 11,
     "__comment__left": "SV",
     "__comment__right": "LM"
@@ -280,8 +302,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.41,
-    "rank": 25,
+    "score": 1.596,
+    "rank": 27,
     "rank_type": 12,
     "__comment__left": "CV",
     "__comment__right": ",M"
@@ -292,22 +314,11 @@
       5
     ],
     "type": "bigram",
-    "score": 1.417,
-    "rank": 26,
+    "score": 1.625,
+    "rank": 28,
     "rank_type": 13,
     "__comment__left": "XF",
     "__comment__right": ".J"
-  },
-  {
-    "key_indices": [
-      14
-    ],
-    "type": "unigram",
-    "score": 1.423,
-    "rank": 27,
-    "rank_type": 14,
-    "__comment__left": "A",
-    "__comment__right": ";"
   },
   {
     "key_indices": [
@@ -315,11 +326,22 @@
       11
     ],
     "type": "bigram",
-    "score": 1.428,
-    "rank": 28,
+    "score": 1.65,
+    "rank": 29,
     "rank_type": 14,
     "__comment__left": "+S",
     "__comment__right": "^L"
+  },
+  {
+    "key_indices": [
+      15
+    ],
+    "type": "unigram",
+    "score": 1.667,
+    "rank": 30,
+    "rank_type": 16,
+    "__comment__left": "Z",
+    "__comment__right": "/"
   },
   {
     "key_indices": [
@@ -327,11 +349,22 @@
       12
     ],
     "type": "bigram",
-    "score": 1.433,
-    "rank": 29,
+    "score": 1.672,
+    "rank": 31,
     "rank_type": 15,
     "__comment__left": "+X",
     "__comment__right": "^."
+  },
+  {
+    "key_indices": [
+      16
+    ],
+    "type": "unigram",
+    "score": 1.684,
+    "rank": 32,
+    "rank_type": 17,
+    "__comment__left": "1",
+    "__comment__right": "2"
   },
   {
     "key_indices": [
@@ -339,8 +372,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.438,
-    "rank": 30,
+    "score": 1.691,
+    "rank": 33,
     "rank_type": 16,
     "__comment__left": "CF",
     "__comment__right": ",J"
@@ -351,8 +384,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.442,
-    "rank": 31,
+    "score": 1.707,
+    "rank": 34,
     "rank_type": 17,
     "__comment__left": "_W",
     "__comment__right": "@O"
@@ -363,8 +396,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.446,
-    "rank": 32,
+    "score": 1.72,
+    "rank": 35,
     "rank_type": 18,
     "__comment__left": "_E",
     "__comment__right": "@I"
@@ -375,8 +408,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.449,
-    "rank": 33,
+    "score": 1.731,
+    "rank": 36,
     "rank_type": 19,
     "__comment__left": "+V",
     "__comment__right": "^M"
@@ -387,8 +420,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.452,
-    "rank": 34,
+    "score": 1.741,
+    "rank": 37,
     "rank_type": 20,
     "__comment__left": "+F",
     "__comment__right": "^J"
@@ -399,8 +432,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.455,
-    "rank": 35,
+    "score": 1.748,
+    "rank": 38,
     "rank_type": 21,
     "__comment__left": "_D",
     "__comment__right": "@K"
@@ -411,8 +444,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.457,
-    "rank": 36,
+    "score": 1.754,
+    "rank": 39,
     "rank_type": 22,
     "__comment__left": "XD",
     "__comment__right": ".K"
@@ -423,8 +456,8 @@
       2
     ],
     "type": "bigram",
-    "score": 1.459,
-    "rank": 37,
+    "score": 1.759,
+    "rank": 40,
     "rank_type": 23,
     "__comment__left": "EG",
     "__comment__right": "IH"
@@ -435,8 +468,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.461,
-    "rank": 38,
+    "score": 1.763,
+    "rank": 41,
     "rank_type": 24,
     "__comment__left": "_F",
     "__comment__right": "@J"
@@ -447,8 +480,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.463,
-    "rank": 39,
+    "score": 1.767,
+    "rank": 42,
     "rank_type": 25,
     "__comment__left": "SE",
     "__comment__right": "LI"
@@ -459,8 +492,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.465,
-    "rank": 40,
+    "score": 1.769,
+    "rank": 43,
     "rank_type": 26,
     "__comment__left": "WF",
     "__comment__right": "OJ"
@@ -471,8 +504,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.467,
-    "rank": 41,
+    "score": 1.77,
+    "rank": 44,
     "rank_type": 27,
     "__comment__left": "XC",
     "__comment__right": ".,"
@@ -483,8 +516,8 @@
       4
     ],
     "type": "bigram",
-    "score": 1.469,
-    "rank": 42,
+    "score": 1.772,
+    "rank": 45,
     "rank_type": 28,
     "__comment__left": "ER",
     "__comment__right": "IU"
@@ -495,8 +528,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.471,
-    "rank": 43,
+    "score": 1.772,
+    "rank": 46,
     "rank_type": 29,
     "__comment__left": "+W",
     "__comment__right": "^O"
@@ -507,8 +540,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.472,
-    "rank": 44,
+    "score": 1.773,
+    "rank": 47,
     "rank_type": 30,
     "__comment__left": "EV",
     "__comment__right": "IM"
@@ -519,8 +552,8 @@
       12
     ],
     "type": "bigram",
-    "score": 1.474,
-    "rank": 45,
+    "score": 1.773,
+    "rank": 48,
     "rank_type": 31,
     "__comment__left": "_X",
     "__comment__right": "@."
@@ -531,8 +564,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.476,
-    "rank": 46,
+    "score": 1.773,
+    "rank": 49,
     "rank_type": 32,
     "__comment__left": "D+",
     "__comment__right": "K^"
@@ -543,8 +576,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.478,
-    "rank": 47,
+    "score": 1.773,
+    "rank": 50,
     "rank_type": 33,
     "__comment__left": "+C",
     "__comment__right": "^,"
@@ -555,8 +588,8 @@
       2
     ],
     "type": "bigram",
-    "score": 1.48,
-    "rank": 48,
+    "score": 1.773,
+    "rank": 51,
     "rank_type": 34,
     "__comment__left": "DG",
     "__comment__right": "KH"
@@ -567,8 +600,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.482,
-    "rank": 49,
+    "score": 1.773,
+    "rank": 52,
     "rank_type": 35,
     "__comment__left": "VS",
     "__comment__right": "ML"
@@ -579,8 +612,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.484,
-    "rank": 50,
+    "score": 1.773,
+    "rank": 53,
     "rank_type": 36,
     "__comment__left": "_S",
     "__comment__right": "@L"
@@ -591,8 +624,8 @@
       2
     ],
     "type": "bigram",
-    "score": 1.487,
-    "rank": 51,
+    "score": 1.773,
+    "rank": 54,
     "rank_type": 37,
     "__comment__left": "+G",
     "__comment__right": "^H"
@@ -603,8 +636,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.489,
-    "rank": 52,
+    "score": 1.774,
+    "rank": 55,
     "rank_type": 38,
     "__comment__left": "FD",
     "__comment__right": "JK"
@@ -615,8 +648,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.492,
-    "rank": 53,
+    "score": 1.775,
+    "rank": 56,
     "rank_type": 39,
     "__comment__left": "_C",
     "__comment__right": "@,"
@@ -627,8 +660,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.495,
-    "rank": 54,
+    "score": 1.776,
+    "rank": 57,
     "rank_type": 40,
     "__comment__left": "SD",
     "__comment__right": "LK"
@@ -639,8 +672,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.498,
-    "rank": 55,
+    "score": 1.777,
+    "rank": 58,
     "rank_type": 41,
     "__comment__left": "FS",
     "__comment__right": "JL"
@@ -651,8 +684,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.501,
-    "rank": 56,
+    "score": 1.779,
+    "rank": 59,
     "rank_type": 42,
     "__comment__left": "S_",
     "__comment__right": "L@"
@@ -663,8 +696,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.504,
-    "rank": 57,
+    "score": 1.781,
+    "rank": 60,
     "rank_type": 43,
     "__comment__left": "E_",
     "__comment__right": "I@"
@@ -675,22 +708,11 @@
       7
     ],
     "type": "bigram",
-    "score": 1.508,
-    "rank": 58,
+    "score": 1.783,
+    "rank": 61,
     "rank_type": 44,
     "__comment__left": "GE",
     "__comment__right": "HI"
-  },
-  {
-    "key_indices": [
-      1
-    ],
-    "type": "unigram",
-    "score": 1.511,
-    "rank": 59,
-    "rank_type": 15,
-    "__comment__left": "T",
-    "__comment__right": "Y"
   },
   {
     "key_indices": [
@@ -698,8 +720,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.515,
-    "rank": 60,
+    "score": 1.786,
+    "rank": 62,
     "rank_type": 45,
     "__comment__left": "_V",
     "__comment__right": "@M"
@@ -710,8 +732,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.519,
-    "rank": 61,
+    "score": 1.789,
+    "rank": 63,
     "rank_type": 46,
     "__comment__left": "E+",
     "__comment__right": "I^"
@@ -722,8 +744,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.523,
-    "rank": 62,
+    "score": 1.792,
+    "rank": 64,
     "rank_type": 47,
     "__comment__left": "D_",
     "__comment__right": "K@"
@@ -734,8 +756,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.527,
-    "rank": 63,
+    "score": 1.795,
+    "rank": 65,
     "rank_type": 48,
     "__comment__left": "WE",
     "__comment__right": "OI"
@@ -746,8 +768,8 @@
       4
     ],
     "type": "bigram",
-    "score": 1.532,
-    "rank": 64,
+    "score": 1.799,
+    "rank": 66,
     "rank_type": 49,
     "__comment__left": "DR",
     "__comment__right": "KU"
@@ -758,22 +780,11 @@
       2
     ],
     "type": "bigram",
-    "score": 1.536,
-    "rank": 65,
+    "score": 1.804,
+    "rank": 67,
     "rank_type": 50,
     "__comment__left": "SG",
     "__comment__right": "LH"
-  },
-  {
-    "key_indices": [
-      15
-    ],
-    "type": "unigram",
-    "score": 1.541,
-    "rank": 66,
-    "rank_type": 16,
-    "__comment__left": "Z",
-    "__comment__right": "/"
   },
   {
     "key_indices": [
@@ -781,8 +792,8 @@
       2
     ],
     "type": "bigram",
-    "score": 1.545,
-    "rank": 67,
+    "score": 1.809,
+    "rank": 68,
     "rank_type": 51,
     "__comment__left": "XG",
     "__comment__right": ".H"
@@ -793,8 +804,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.55,
-    "rank": 68,
+    "score": 1.814,
+    "rank": 69,
     "rank_type": 52,
     "__comment__left": "VW",
     "__comment__right": "MO"
@@ -805,8 +816,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.554,
-    "rank": 69,
+    "score": 1.819,
+    "rank": 70,
     "rank_type": 53,
     "__comment__left": "V_",
     "__comment__right": "M@"
@@ -817,8 +828,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.559,
-    "rank": 70,
+    "score": 1.825,
+    "rank": 71,
     "rank_type": 54,
     "__comment__left": "S+",
     "__comment__right": "L^"
@@ -829,8 +840,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.563,
-    "rank": 71,
+    "score": 1.83,
+    "rank": 72,
     "rank_type": 55,
     "__comment__left": "FW",
     "__comment__right": "JO"
@@ -841,8 +852,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.568,
-    "rank": 72,
+    "score": 1.837,
+    "rank": 73,
     "rank_type": 56,
     "__comment__left": "W_",
     "__comment__right": "O@"
@@ -853,8 +864,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.572,
-    "rank": 73,
+    "score": 1.843,
+    "rank": 74,
     "rank_type": 57,
     "__comment__left": "RE",
     "__comment__right": "UI"
@@ -865,8 +876,8 @@
       4
     ],
     "type": "bigram",
-    "score": 1.576,
-    "rank": 74,
+    "score": 1.849,
+    "rank": 75,
     "rank_type": 58,
     "__comment__left": "WR",
     "__comment__right": "OU"
@@ -877,8 +888,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.58,
-    "rank": 75,
+    "score": 1.855,
+    "rank": 76,
     "rank_type": 59,
     "__comment__left": "F+",
     "__comment__right": "J^"
@@ -889,8 +900,8 @@
       12
     ],
     "type": "bigram",
-    "score": 1.584,
-    "rank": 76,
+    "score": 1.862,
+    "rank": 77,
     "rank_type": 60,
     "__comment__left": "FX",
     "__comment__right": "J."
@@ -901,8 +912,8 @@
       4
     ],
     "type": "bigram",
-    "score": 1.588,
-    "rank": 77,
+    "score": 1.868,
+    "rank": 78,
     "rank_type": 61,
     "__comment__left": "SR",
     "__comment__right": "LU"
@@ -913,8 +924,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.591,
-    "rank": 78,
+    "score": 1.874,
+    "rank": 79,
     "rank_type": 62,
     "__comment__left": "W+",
     "__comment__right": "O^"
@@ -925,8 +936,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.594,
-    "rank": 79,
+    "score": 1.88,
+    "rank": 80,
     "rank_type": 63,
     "__comment__left": "GS",
     "__comment__right": "HL"
@@ -937,8 +948,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.597,
-    "rank": 80,
+    "score": 1.886,
+    "rank": 81,
     "rank_type": 64,
     "__comment__left": "RS",
     "__comment__right": "UL"
@@ -949,8 +960,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.6,
-    "rank": 81,
+    "score": 1.892,
+    "rank": 82,
     "rank_type": 65,
     "__comment__left": "GD",
     "__comment__right": "HK"
@@ -961,8 +972,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.603,
-    "rank": 82,
+    "score": 1.897,
+    "rank": 83,
     "rank_type": 66,
     "__comment__left": "VC",
     "__comment__right": "M,"
@@ -973,8 +984,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.605,
-    "rank": 83,
+    "score": 1.903,
+    "rank": 84,
     "rank_type": 67,
     "__comment__left": "XE",
     "__comment__right": ".I"
@@ -985,8 +996,8 @@
       3
     ],
     "type": "bigram",
-    "score": 1.608,
-    "rank": 84,
+    "score": 1.908,
+    "rank": 85,
     "rank_type": 68,
     "__comment__left": "DB",
     "__comment__right": "KN"
@@ -997,8 +1008,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.61,
-    "rank": 85,
+    "score": 1.913,
+    "rank": 86,
     "rank_type": 69,
     "__comment__left": "BD",
     "__comment__right": "NK"
@@ -1009,8 +1020,8 @@
       3
     ],
     "type": "bigram",
-    "score": 1.611,
-    "rank": 86,
+    "score": 1.918,
+    "rank": 87,
     "rank_type": 70,
     "__comment__left": "XB",
     "__comment__right": ".N"
@@ -1021,22 +1032,11 @@
       18
     ],
     "type": "bigram",
-    "score": 1.613,
-    "rank": 87,
+    "score": 1.923,
+    "rank": 88,
     "rank_type": 71,
     "__comment__left": "X+",
     "__comment__right": ".^"
-  },
-  {
-    "key_indices": [
-      16
-    ],
-    "type": "unigram",
-    "score": 1.614,
-    "rank": 88,
-    "rank_type": 17,
-    "__comment__left": "1",
-    "__comment__right": "2"
   },
   {
     "key_indices": [
@@ -1044,7 +1044,7 @@
       17
     ],
     "type": "bigram",
-    "score": 1.615,
+    "score": 1.927,
     "rank": 89,
     "rank_type": 72,
     "__comment__left": "X_",
@@ -1056,7 +1056,7 @@
       6
     ],
     "type": "bigram",
-    "score": 1.616,
+    "score": 1.931,
     "rank": 90,
     "rank_type": 73,
     "__comment__left": "WV",
@@ -1068,7 +1068,7 @@
       11
     ],
     "type": "bigram",
-    "score": 1.617,
+    "score": 1.935,
     "rank": 91,
     "rank_type": 74,
     "__comment__left": "BS",
@@ -1080,7 +1080,7 @@
       3
     ],
     "type": "bigram",
-    "score": 1.617,
+    "score": 1.938,
     "rank": 92,
     "rank_type": 75,
     "__comment__left": "EB",
@@ -1092,7 +1092,7 @@
       2
     ],
     "type": "bigram",
-    "score": 1.618,
+    "score": 1.942,
     "rank": 93,
     "rank_type": 76,
     "__comment__left": "WG",
@@ -1104,7 +1104,7 @@
       2
     ],
     "type": "bigram",
-    "score": 1.619,
+    "score": 1.945,
     "rank": 94,
     "rank_type": 77,
     "__comment__left": "CG",
@@ -1116,7 +1116,7 @@
       12
     ],
     "type": "bigram",
-    "score": 1.619,
+    "score": 1.948,
     "rank": 95,
     "rank_type": 78,
     "__comment__left": "VX",
@@ -1124,12 +1124,23 @@
   },
   {
     "key_indices": [
+      13
+    ],
+    "type": "unigram",
+    "score": 1.95,
+    "rank": 96,
+    "rank_type": 18,
+    "__comment__left": "Q",
+    "__comment__right": "P"
+  },
+  {
+    "key_indices": [
       10,
       3
     ],
     "type": "bigram",
-    "score": 1.62,
-    "rank": 96,
+    "score": 1.951,
+    "rank": 97,
     "rank_type": 79,
     "__comment__left": "WB",
     "__comment__right": "ON"
@@ -1140,8 +1151,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.621,
-    "rank": 97,
+    "score": 1.954,
+    "rank": 98,
     "rank_type": 80,
     "__comment__left": "C+",
     "__comment__right": ",^"
@@ -1152,8 +1163,8 @@
       7
     ],
     "type": "bigram",
-    "score": 1.621,
-    "rank": 98,
+    "score": 1.957,
+    "rank": 99,
     "rank_type": 81,
     "__comment__left": "BE",
     "__comment__right": "NI"
@@ -1164,8 +1175,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.622,
-    "rank": 99,
+    "score": 1.96,
+    "rank": 100,
     "rank_type": 82,
     "__comment__left": "F_",
     "__comment__right": "J@"
@@ -1176,8 +1187,8 @@
       3
     ],
     "type": "bigram",
-    "score": 1.623,
-    "rank": 100,
+    "score": 1.962,
+    "rank": 101,
     "rank_type": 83,
     "__comment__left": "SB",
     "__comment__right": "LN"
@@ -1188,8 +1199,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.624,
-    "rank": 101,
+    "score": 1.965,
+    "rank": 102,
     "rank_type": 84,
     "__comment__left": "V+",
     "__comment__right": "M^"
@@ -1200,8 +1211,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.625,
-    "rank": 102,
+    "score": 1.968,
+    "rank": 103,
     "rank_type": 85,
     "__comment__left": "G+",
     "__comment__right": "H^"
@@ -1212,8 +1223,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.627,
-    "rank": 103,
+    "score": 1.97,
+    "rank": 104,
     "rank_type": 86,
     "__comment__left": "GW",
     "__comment__right": "HO"
@@ -1224,8 +1235,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.629,
-    "rank": 104,
+    "score": 1.973,
+    "rank": 105,
     "rank_type": 87,
     "__comment__left": "G_",
     "__comment__right": "H@"
@@ -1236,8 +1247,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.631,
-    "rank": 105,
+    "score": 1.977,
+    "rank": 106,
     "rank_type": 88,
     "__comment__left": "C_",
     "__comment__right": ",@"
@@ -1248,8 +1259,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.633,
-    "rank": 106,
+    "score": 1.98,
+    "rank": 107,
     "rank_type": 89,
     "__comment__left": "++",
     "__comment__right": "^^"
@@ -1260,8 +1271,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.635,
-    "rank": 107,
+    "score": 1.984,
+    "rank": 108,
     "rank_type": 90,
     "__comment__left": "DD",
     "__comment__right": "KK"
@@ -1272,8 +1283,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.638,
-    "rank": 108,
+    "score": 1.987,
+    "rank": 109,
     "rank_type": 91,
     "__comment__left": "SC",
     "__comment__right": "L,"
@@ -1284,8 +1295,8 @@
       12
     ],
     "type": "bigram",
-    "score": 1.641,
-    "rank": 109,
+    "score": 1.992,
+    "rank": 110,
     "rank_type": 92,
     "__comment__left": "CX",
     "__comment__right": ",."
@@ -1296,8 +1307,8 @@
       3
     ],
     "type": "bigram",
-    "score": 1.645,
-    "rank": 110,
+    "score": 1.996,
+    "rank": 111,
     "rank_type": 93,
     "__comment__left": "CB",
     "__comment__right": ",N"
@@ -1308,8 +1319,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.649,
-    "rank": 111,
+    "score": 2.001,
+    "rank": 112,
     "rank_type": 94,
     "__comment__left": "DS",
     "__comment__right": "KL"
@@ -1320,8 +1331,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.653,
-    "rank": 112,
+    "score": 2.006,
+    "rank": 113,
     "rank_type": 95,
     "__comment__left": "BW",
     "__comment__right": "NO"
@@ -1332,8 +1343,8 @@
       15
     ],
     "type": "bigram",
-    "score": 1.657,
-    "rank": 113,
+    "score": 2.012,
+    "rank": 114,
     "rank_type": 96,
     "__comment__left": "_Z",
     "__comment__right": "@/"
@@ -1344,8 +1355,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.662,
-    "rank": 114,
+    "score": 2.018,
+    "rank": 115,
     "rank_type": 97,
     "__comment__left": "RD",
     "__comment__right": "UK"
@@ -1356,8 +1367,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.667,
-    "rank": 115,
+    "score": 2.025,
+    "rank": 116,
     "rank_type": 98,
     "__comment__left": "ES",
     "__comment__right": "IL"
@@ -1368,8 +1379,8 @@
       4
     ],
     "type": "bigram",
-    "score": 1.673,
-    "rank": 116,
+    "score": 2.032,
+    "rank": 117,
     "rank_type": 99,
     "__comment__left": "XR",
     "__comment__right": ".U"
@@ -1380,8 +1391,8 @@
       10
     ],
     "type": "bigram",
-    "score": 1.679,
-    "rank": 117,
+    "score": 2.039,
+    "rank": 118,
     "rank_type": 100,
     "__comment__left": "RW",
     "__comment__right": "UO"
@@ -1392,8 +1403,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.685,
-    "rank": 118,
+    "score": 2.047,
+    "rank": 119,
     "rank_type": 101,
     "__comment__left": "BC",
     "__comment__right": "N,"
@@ -1404,8 +1415,8 @@
       12
     ],
     "type": "bigram",
-    "score": 1.691,
-    "rank": 119,
+    "score": 2.055,
+    "rank": 120,
     "rank_type": 102,
     "__comment__left": "GX",
     "__comment__right": "H."
@@ -1416,8 +1427,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.698,
-    "rank": 120,
+    "score": 2.064,
+    "rank": 121,
     "rank_type": 103,
     "__comment__left": "GC",
     "__comment__right": "H,"
@@ -1428,8 +1439,8 @@
       1
     ],
     "type": "bigram",
-    "score": 1.705,
-    "rank": 121,
+    "score": 2.073,
+    "rank": 122,
     "rank_type": 104,
     "__comment__left": "WT",
     "__comment__right": "OY"
@@ -1440,8 +1451,8 @@
       12
     ],
     "type": "bigram",
-    "score": 1.713,
-    "rank": 122,
+    "score": 2.083,
+    "rank": 123,
     "rank_type": 105,
     "__comment__left": "DX",
     "__comment__right": "K."
@@ -1452,8 +1463,8 @@
       9
     ],
     "type": "bigram",
-    "score": 1.72,
-    "rank": 123,
+    "score": 2.093,
+    "rank": 124,
     "rank_type": 106,
     "__comment__left": "FC",
     "__comment__right": "J,"
@@ -1464,8 +1475,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.728,
-    "rank": 124,
+    "score": 2.103,
+    "rank": 125,
     "rank_type": 107,
     "__comment__left": "ZV",
     "__comment__right": "/M"
@@ -1476,8 +1487,8 @@
       12
     ],
     "type": "bigram",
-    "score": 1.736,
-    "rank": 125,
+    "score": 2.114,
+    "rank": 126,
     "rank_type": 108,
     "__comment__left": "BX",
     "__comment__right": "N."
@@ -1488,8 +1499,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.744,
-    "rank": 126,
+    "score": 2.125,
+    "rank": 127,
     "rank_type": 109,
     "__comment__left": "A_",
     "__comment__right": ";@"
@@ -1500,8 +1511,8 @@
       17
     ],
     "type": "bigram",
-    "score": 1.753,
-    "rank": 127,
+    "score": 2.136,
+    "rank": 128,
     "rank_type": 110,
     "__comment__left": "B_",
     "__comment__right": "N@"
@@ -1512,8 +1523,8 @@
       1
     ],
     "type": "bigram",
-    "score": 1.761,
-    "rank": 128,
+    "score": 2.148,
+    "rank": 129,
     "rank_type": 111,
     "__comment__left": "ET",
     "__comment__right": "IY"
@@ -1524,8 +1535,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.77,
-    "rank": 129,
+    "score": 2.159,
+    "rank": 130,
     "rank_type": 112,
     "__comment__left": "A+",
     "__comment__right": ";^"
@@ -1536,8 +1547,8 @@
       14
     ],
     "type": "bigram",
-    "score": 1.779,
-    "rank": 130,
+    "score": 2.171,
+    "rank": 131,
     "rank_type": 113,
     "__comment__left": "VA",
     "__comment__right": "M;"
@@ -1548,8 +1559,8 @@
       14
     ],
     "type": "bigram",
-    "score": 1.788,
-    "rank": 131,
+    "score": 2.183,
+    "rank": 132,
     "rank_type": 114,
     "__comment__left": "_A",
     "__comment__right": "@;"
@@ -1560,8 +1571,8 @@
       11
     ],
     "type": "bigram",
-    "score": 1.797,
-    "rank": 132,
+    "score": 2.195,
+    "rank": 133,
     "rank_type": 115,
     "__comment__left": "CS",
     "__comment__right": ",L"
@@ -1572,8 +1583,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.806,
-    "rank": 133,
+    "score": 2.207,
+    "rank": 134,
     "rank_type": 116,
     "__comment__left": "FF",
     "__comment__right": "JJ"
@@ -1584,8 +1595,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.815,
-    "rank": 134,
+    "score": 2.22,
+    "rank": 135,
     "rank_type": 117,
     "__comment__left": "WD",
     "__comment__right": "OK"
@@ -1596,8 +1607,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.823,
-    "rank": 135,
+    "score": 2.232,
+    "rank": 136,
     "rank_type": 118,
     "__comment__left": "AF",
     "__comment__right": ";J"
@@ -1608,8 +1619,8 @@
       1
     ],
     "type": "bigram",
-    "score": 1.832,
-    "rank": 136,
+    "score": 2.244,
+    "rank": 137,
     "rank_type": 119,
     "__comment__left": "DT",
     "__comment__right": "KY"
@@ -1620,8 +1631,8 @@
       14
     ],
     "type": "bigram",
-    "score": 1.841,
-    "rank": 137,
+    "score": 2.255,
+    "rank": 138,
     "rank_type": 120,
     "__comment__left": "FA",
     "__comment__right": "J;"
@@ -1632,8 +1643,8 @@
       15
     ],
     "type": "bigram",
-    "score": 1.849,
-    "rank": 138,
+    "score": 2.267,
+    "rank": 139,
     "rank_type": 121,
     "__comment__left": "FZ",
     "__comment__right": "J/"
@@ -1644,8 +1655,8 @@
       5
     ],
     "type": "bigram",
-    "score": 1.858,
-    "rank": 139,
+    "score": 2.279,
+    "rank": 140,
     "rank_type": 122,
     "__comment__left": "ZF",
     "__comment__right": "/J"
@@ -1656,8 +1667,8 @@
       1
     ],
     "type": "bigram",
-    "score": 1.866,
-    "rank": 140,
+    "score": 2.29,
+    "rank": 141,
     "rank_type": 123,
     "__comment__left": "ST",
     "__comment__right": "LY"
@@ -1668,8 +1679,8 @@
       8
     ],
     "type": "bigram",
-    "score": 1.874,
-    "rank": 141,
+    "score": 2.301,
+    "rank": 142,
     "rank_type": 124,
     "__comment__left": "ZD",
     "__comment__right": "/K"
@@ -1680,8 +1691,8 @@
       14
     ],
     "type": "bigram",
-    "score": 1.882,
-    "rank": 142,
+    "score": 2.312,
+    "rank": 143,
     "rank_type": 125,
     "__comment__left": "GA",
     "__comment__right": "H;"
@@ -1692,8 +1703,8 @@
       6
     ],
     "type": "bigram",
-    "score": 1.889,
-    "rank": 143,
+    "score": 2.323,
+    "rank": 144,
     "rank_type": 126,
     "__comment__left": "AV",
     "__comment__right": ";M"
@@ -1704,8 +1715,8 @@
       4
     ],
     "type": "bigram",
-    "score": 1.897,
-    "rank": 144,
+    "score": 2.333,
+    "rank": 145,
     "rank_type": 127,
     "__comment__left": "CR",
     "__comment__right": ",U"
@@ -1716,8 +1727,8 @@
       18
     ],
     "type": "bigram",
-    "score": 1.904,
-    "rank": 145,
+    "score": 2.343,
+    "rank": 146,
     "rank_type": 128,
     "__comment__left": "B+",
     "__comment__right": "N^"
@@ -1728,8 +1739,8 @@
       14
     ],
     "type": "bigram",
-    "score": 1.911,
-    "rank": 146,
+    "score": 2.353,
+    "rank": 147,
     "rank_type": 129,
     "__comment__left": "+A",
     "__comment__right": "^;"
@@ -1740,8 +1751,8 @@
       15
     ],
     "type": "bigram",
-    "score": 1.918,
-    "rank": 147,
+    "score": 2.362,
+    "rank": 148,
     "rank_type": 130,
     "__comment__left": "VZ",
     "__comment__right": "M/"
@@ -1752,22 +1763,11 @@
       7
     ],
     "type": "bigram",
-    "score": 1.924,
-    "rank": 148,
+    "score": 2.372,
+    "rank": 149,
     "rank_type": 131,
     "__comment__left": "EE",
     "__comment__right": "II"
-  },
-  {
-    "key_indices": [
-      13
-    ],
-    "type": "unigram",
-    "score": 1.93,
-    "rank": 149,
-    "rank_type": 18,
-    "__comment__left": "Q",
-    "__comment__right": "P"
   },
   {
     "key_indices": [
@@ -1775,7 +1775,7 @@
       6
     ],
     "type": "bigram",
-    "score": 1.936,
+    "score": 2.38,
     "rank": 150,
     "rank_type": 132,
     "__comment__left": "VV",
@@ -1787,7 +1787,7 @@
       10
     ],
     "type": "bigram",
-    "score": 1.942,
+    "score": 2.389,
     "rank": 151,
     "rank_type": 133,
     "__comment__left": "EW",
@@ -1799,7 +1799,7 @@
       2
     ],
     "type": "bigram",
-    "score": 1.948,
+    "score": 2.398,
     "rank": 152,
     "rank_type": 134,
     "__comment__left": "_G",
@@ -1811,7 +1811,7 @@
       1
     ],
     "type": "bigram",
-    "score": 1.953,
+    "score": 2.406,
     "rank": 153,
     "rank_type": 135,
     "__comment__left": "XT",
@@ -1823,7 +1823,7 @@
       16
     ],
     "type": "bigram",
-    "score": 1.958,
+    "score": 2.414,
     "rank": 154,
     "rank_type": 136,
     "__comment__left": "+1",
@@ -1835,7 +1835,7 @@
       7
     ],
     "type": "bigram",
-    "score": 1.964,
+    "score": 2.422,
     "rank": 155,
     "rank_type": 137,
     "__comment__left": "TE",
@@ -1847,7 +1847,7 @@
       10
     ],
     "type": "bigram",
-    "score": 1.969,
+    "score": 2.429,
     "rank": 156,
     "rank_type": 138,
     "__comment__left": "TW",
@@ -1859,7 +1859,7 @@
       2
     ],
     "type": "bigram",
-    "score": 1.974,
+    "score": 2.437,
     "rank": 157,
     "rank_type": 139,
     "__comment__left": "AG",
@@ -1871,7 +1871,7 @@
       14
     ],
     "type": "bigram",
-    "score": 1.978,
+    "score": 2.444,
     "rank": 158,
     "rank_type": 140,
     "__comment__left": "BA",
@@ -1883,7 +1883,7 @@
       11
     ],
     "type": "bigram",
-    "score": 1.983,
+    "score": 2.451,
     "rank": 159,
     "rank_type": 141,
     "__comment__left": "SS",
@@ -1895,7 +1895,7 @@
       2
     ],
     "type": "bigram",
-    "score": 1.988,
+    "score": 2.459,
     "rank": 160,
     "rank_type": 142,
     "__comment__left": "ZG",
@@ -1907,7 +1907,7 @@
       16
     ],
     "type": "bigram",
-    "score": 1.993,
+    "score": 2.466,
     "rank": 161,
     "rank_type": 143,
     "__comment__left": "V1",
@@ -1919,7 +1919,7 @@
       4
     ],
     "type": "bigram",
-    "score": 1.997,
+    "score": 2.473,
     "rank": 162,
     "rank_type": 144,
     "__comment__left": "AR",
@@ -1931,7 +1931,7 @@
       5
     ],
     "type": "bigram",
-    "score": 2.002,
+    "score": 2.481,
     "rank": 163,
     "rank_type": 145,
     "__comment__left": "1F",
@@ -1943,7 +1943,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.007,
+    "score": 2.488,
     "rank": 164,
     "rank_type": 146,
     "__comment__left": "+B",
@@ -1955,7 +1955,7 @@
       15
     ],
     "type": "bigram",
-    "score": 2.012,
+    "score": 2.496,
     "rank": 165,
     "rank_type": 147,
     "__comment__left": "GZ",
@@ -1967,7 +1967,7 @@
       7
     ],
     "type": "bigram",
-    "score": 2.017,
+    "score": 2.503,
     "rank": 166,
     "rank_type": 148,
     "__comment__left": "AE",
@@ -1979,7 +1979,7 @@
       8
     ],
     "type": "bigram",
-    "score": 2.022,
+    "score": 2.511,
     "rank": 167,
     "rank_type": 149,
     "__comment__left": "AD",
@@ -1991,7 +1991,7 @@
       12
     ],
     "type": "bigram",
-    "score": 2.028,
+    "score": 2.519,
     "rank": 168,
     "rank_type": 150,
     "__comment__left": "ZX",
@@ -2003,7 +2003,7 @@
       18
     ],
     "type": "bigram",
-    "score": 2.033,
+    "score": 2.527,
     "rank": 169,
     "rank_type": 151,
     "__comment__left": "Z+",
@@ -2015,7 +2015,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.039,
+    "score": 2.536,
     "rank": 170,
     "rank_type": 152,
     "__comment__left": "GG",
@@ -2027,7 +2027,7 @@
       11
     ],
     "type": "bigram",
-    "score": 2.045,
+    "score": 2.544,
     "rank": 171,
     "rank_type": 153,
     "__comment__left": "TS",
@@ -2039,7 +2039,7 @@
       6
     ],
     "type": "bigram",
-    "score": 2.051,
+    "score": 2.553,
     "rank": 172,
     "rank_type": 154,
     "__comment__left": "1V",
@@ -2051,7 +2051,7 @@
       17
     ],
     "type": "bigram",
-    "score": 2.058,
+    "score": 2.561,
     "rank": 173,
     "rank_type": 155,
     "__comment__left": "Z_",
@@ -2063,7 +2063,7 @@
       15
     ],
     "type": "bigram",
-    "score": 2.064,
+    "score": 2.57,
     "rank": 174,
     "rank_type": 156,
     "__comment__left": "+Z",
@@ -2075,7 +2075,7 @@
       14
     ],
     "type": "bigram",
-    "score": 2.071,
+    "score": 2.579,
     "rank": 175,
     "rank_type": 157,
     "__comment__left": "RA",
@@ -2087,7 +2087,7 @@
       16
     ],
     "type": "bigram",
-    "score": 2.078,
+    "score": 2.587,
     "rank": 176,
     "rank_type": 158,
     "__comment__left": "_1",
@@ -2099,7 +2099,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.084,
+    "score": 2.596,
     "rank": 177,
     "rank_type": 159,
     "__comment__left": "+Q",
@@ -2111,7 +2111,7 @@
       14
     ],
     "type": "bigram",
-    "score": 2.092,
+    "score": 2.605,
     "rank": 178,
     "rank_type": 160,
     "__comment__left": "EA",
@@ -2123,7 +2123,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.099,
+    "score": 2.614,
     "rank": 179,
     "rank_type": 161,
     "__comment__left": "AB",
@@ -2135,7 +2135,7 @@
       9
     ],
     "type": "bigram",
-    "score": 2.106,
+    "score": 2.622,
     "rank": 180,
     "rank_type": 162,
     "__comment__left": "CC",
@@ -2147,7 +2147,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.114,
+    "score": 2.631,
     "rank": 181,
     "rank_type": 163,
     "__comment__left": "_Q",
@@ -2159,7 +2159,7 @@
       10
     ],
     "type": "bigram",
-    "score": 2.121,
+    "score": 2.64,
     "rank": 182,
     "rank_type": 164,
     "__comment__left": "DW",
@@ -2171,7 +2171,7 @@
       11
     ],
     "type": "bigram",
-    "score": 2.129,
+    "score": 2.648,
     "rank": 183,
     "rank_type": 165,
     "__comment__left": "AS",
@@ -2183,7 +2183,7 @@
       7
     ],
     "type": "bigram",
-    "score": 2.137,
+    "score": 2.656,
     "rank": 184,
     "rank_type": 166,
     "__comment__left": "1E",
@@ -2195,7 +2195,7 @@
       12
     ],
     "type": "bigram",
-    "score": 2.145,
+    "score": 2.664,
     "rank": 185,
     "rank_type": 167,
     "__comment__left": "RX",
@@ -2207,7 +2207,7 @@
       18
     ],
     "type": "bigram",
-    "score": 2.153,
+    "score": 2.672,
     "rank": 186,
     "rank_type": 168,
     "__comment__left": "1+",
@@ -2219,7 +2219,7 @@
       12
     ],
     "type": "bigram",
-    "score": 2.161,
+    "score": 2.68,
     "rank": 187,
     "rank_type": 169,
     "__comment__left": "XX",
@@ -2231,7 +2231,7 @@
       12
     ],
     "type": "bigram",
-    "score": 2.169,
+    "score": 2.688,
     "rank": 188,
     "rank_type": 170,
     "__comment__left": "TX",
@@ -2243,7 +2243,7 @@
       8
     ],
     "type": "bigram",
-    "score": 2.177,
+    "score": 2.695,
     "rank": 189,
     "rank_type": 171,
     "__comment__left": "TD",
@@ -2255,7 +2255,7 @@
       18
     ],
     "type": "bigram",
-    "score": 2.185,
+    "score": 2.702,
     "rank": 190,
     "rank_type": 172,
     "__comment__left": "R+",
@@ -2267,7 +2267,7 @@
       17
     ],
     "type": "bigram",
-    "score": 2.192,
+    "score": 2.709,
     "rank": 191,
     "rank_type": 173,
     "__comment__left": "1_",
@@ -2279,7 +2279,7 @@
       1
     ],
     "type": "bigram",
-    "score": 2.2,
+    "score": 2.716,
     "rank": 192,
     "rank_type": 174,
     "__comment__left": "_T",
@@ -2291,7 +2291,7 @@
       1
     ],
     "type": "bigram",
-    "score": 2.208,
+    "score": 2.722,
     "rank": 193,
     "rank_type": 175,
     "__comment__left": "CT",
@@ -2303,7 +2303,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.216,
+    "score": 2.729,
     "rank": 194,
     "rank_type": 176,
     "__comment__left": "+R",
@@ -2315,7 +2315,7 @@
       10
     ],
     "type": "bigram",
-    "score": 2.223,
+    "score": 2.735,
     "rank": 195,
     "rank_type": 177,
     "__comment__left": "WW",
@@ -2327,7 +2327,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.231,
+    "score": 2.741,
     "rank": 196,
     "rank_type": 178,
     "__comment__left": "FQ",
@@ -2339,7 +2339,7 @@
       9
     ],
     "type": "bigram",
-    "score": 2.238,
+    "score": 2.746,
     "rank": 197,
     "rank_type": 179,
     "__comment__left": "AC",
@@ -2351,7 +2351,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.245,
+    "score": 2.751,
     "rank": 198,
     "rank_type": 180,
     "__comment__left": "VQ",
@@ -2363,7 +2363,7 @@
       17
     ],
     "type": "bigram",
-    "score": 2.252,
+    "score": 2.756,
     "rank": 199,
     "rank_type": 181,
     "__comment__left": "Q_",
@@ -2375,7 +2375,7 @@
       16
     ],
     "type": "bigram",
-    "score": 2.258,
+    "score": 2.761,
     "rank": 200,
     "rank_type": 182,
     "__comment__left": "F1",
@@ -2387,7 +2387,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.264,
+    "score": 2.765,
     "rank": 201,
     "rank_type": 183,
     "__comment__left": "1R",
@@ -2399,7 +2399,7 @@
       6
     ],
     "type": "bigram",
-    "score": 2.27,
+    "score": 2.769,
     "rank": 202,
     "rank_type": 184,
     "__comment__left": "QV",
@@ -2411,7 +2411,7 @@
       15
     ],
     "type": "bigram",
-    "score": 2.276,
+    "score": 2.772,
     "rank": 203,
     "rank_type": 185,
     "__comment__left": "EZ",
@@ -2423,7 +2423,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.281,
+    "score": 2.775,
     "rank": 204,
     "rank_type": 186,
     "__comment__left": "ZB",
@@ -2435,7 +2435,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.286,
+    "score": 2.778,
     "rank": 205,
     "rank_type": 187,
     "__comment__left": "_B",
@@ -2447,7 +2447,7 @@
       18
     ],
     "type": "bigram",
-    "score": 2.291,
+    "score": 2.78,
     "rank": 206,
     "rank_type": 188,
     "__comment__left": "Q+",
@@ -2459,7 +2459,7 @@
       9
     ],
     "type": "bigram",
-    "score": 2.295,
+    "score": 2.781,
     "rank": 207,
     "rank_type": 189,
     "__comment__left": "ZC",
@@ -2471,7 +2471,7 @@
       1
     ],
     "type": "bigram",
-    "score": 2.299,
+    "score": 2.782,
     "rank": 208,
     "rank_type": 190,
     "__comment__left": "+T",
@@ -2483,7 +2483,7 @@
       16
     ],
     "type": "bigram",
-    "score": 2.302,
+    "score": 2.783,
     "rank": 209,
     "rank_type": 191,
     "__comment__left": "R1",
@@ -2495,7 +2495,7 @@
       5
     ],
     "type": "bigram",
-    "score": 2.306,
+    "score": 2.784,
     "rank": 210,
     "rank_type": 192,
     "__comment__left": "QF",
@@ -2507,7 +2507,7 @@
       7
     ],
     "type": "bigram",
-    "score": 2.309,
+    "score": 2.784,
     "rank": 211,
     "rank_type": 193,
     "__comment__left": "ZE",
@@ -2519,7 +2519,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.311,
+    "score": 2.785,
     "rank": 212,
     "rank_type": 194,
     "__comment__left": "ZR",
@@ -2531,7 +2531,7 @@
       14
     ],
     "type": "bigram",
-    "score": 2.314,
+    "score": 2.785,
     "rank": 213,
     "rank_type": 195,
     "__comment__left": "TA",
@@ -2543,7 +2543,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.316,
+    "score": 2.785,
     "rank": 214,
     "rank_type": 196,
     "__comment__left": "RR",
@@ -2551,171 +2551,51 @@
   },
   {
     "key_indices": [
-      3,
-      3
+      8,
+      14
     ],
     "type": "bigram",
-    "score": 2.318,
+    "score": 2.785,
     "rank": 215,
     "rank_type": 197,
-    "__comment__left": "BB",
-    "__comment__right": "NN"
-  },
-  {
-    "key_indices": [
-      7,
-      12
-    ],
-    "type": "bigram",
-    "score": 2.32,
-    "rank": 216,
-    "rank_type": 198,
-    "__comment__left": "EX",
-    "__comment__right": "I."
-  },
-  {
-    "key_indices": [
-      9,
-      14
-    ],
-    "type": "bigram",
-    "score": 2.322,
-    "rank": 217,
-    "rank_type": 199,
-    "__comment__left": "CA",
-    "__comment__right": ",;"
-  },
-  {
-    "key_indices": [
-      17,
-      4
-    ],
-    "type": "bigram",
-    "score": 2.324,
-    "rank": 218,
-    "rank_type": 200,
-    "__comment__left": "_R",
-    "__comment__right": "@U"
-  },
-  {
-    "key_indices": [
-      2,
-      16
-    ],
-    "type": "bigram",
-    "score": 2.325,
-    "rank": 219,
-    "rank_type": 201,
-    "__comment__left": "G1",
-    "__comment__right": "H2"
-  },
-  {
-    "key_indices": [
-      3,
-      15
-    ],
-    "type": "bigram",
-    "score": 2.327,
-    "rank": 220,
-    "rank_type": 202,
-    "__comment__left": "BZ",
-    "__comment__right": "N/"
-  },
-  {
-    "key_indices": [
-      7,
-      16
-    ],
-    "type": "bigram",
-    "score": 2.329,
-    "rank": 221,
-    "rank_type": 203,
-    "__comment__left": "E1",
-    "__comment__right": "I2"
-  },
-  {
-    "key_indices": [
-      17,
-      17
-    ],
-    "type": "bigram",
-    "score": 2.33,
-    "rank": 222,
-    "rank_type": 204,
-    "__comment__left": "__",
-    "__comment__right": "@@"
-  },
-  {
-    "key_indices": [
-      14,
-      1
-    ],
-    "type": "bigram",
-    "score": 2.332,
-    "rank": 223,
-    "rank_type": 205,
-    "__comment__left": "AT",
-    "__comment__right": ";Y"
-  },
-  {
-    "key_indices": [
-      14,
-      14
-    ],
-    "type": "bigram",
-    "score": 2.334,
-    "rank": 224,
-    "rank_type": 206,
-    "__comment__left": "AA",
-    "__comment__right": ";;"
+    "__comment__left": "DA",
+    "__comment__right": "K;"
   },
   {
     "key_indices": [
       4,
+      9
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 216,
+    "rank_type": 198,
+    "__comment__left": "RC",
+    "__comment__right": "U,"
+  },
+  {
+    "key_indices": [
+      1,
+      9
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 217,
+    "rank_type": 199,
+    "__comment__left": "TC",
+    "__comment__right": "Y,"
+  },
+  {
+    "key_indices": [
+      1,
       17
     ],
     "type": "bigram",
-    "score": 2.335,
-    "rank": 225,
-    "rank_type": 207,
-    "__comment__left": "R_",
-    "__comment__right": "U@"
-  },
-  {
-    "key_indices": [
-      8,
-      15
-    ],
-    "type": "bigram",
-    "score": 2.337,
-    "rank": 226,
-    "rank_type": 208,
-    "__comment__left": "DZ",
-    "__comment__right": "K/"
-  },
-  {
-    "key_indices": [
-      9,
-      10
-    ],
-    "type": "bigram",
-    "score": 2.339,
-    "rank": 227,
-    "rank_type": 209,
-    "__comment__left": "CW",
-    "__comment__right": ",O"
-  },
-  {
-    "key_indices": [
-      13,
-      4
-    ],
-    "type": "bigram",
-    "score": 2.34,
-    "rank": 228,
-    "rank_type": 210,
-    "__comment__left": "QR",
-    "__comment__right": "PU"
+    "score": 2.785,
+    "rank": 218,
+    "rank_type": 200,
+    "__comment__left": "T_",
+    "__comment__right": "Y@"
   },
   {
     "key_indices": [
@@ -2723,59 +2603,119 @@
       8
     ],
     "type": "bigram",
-    "score": 2.342,
-    "rank": 229,
-    "rank_type": 211,
+    "score": 2.785,
+    "rank": 219,
+    "rank_type": 201,
     "__comment__left": "1D",
     "__comment__right": "2K"
   },
   {
     "key_indices": [
-      1,
-      17
+      13,
+      4
     ],
     "type": "bigram",
-    "score": 2.344,
-    "rank": 230,
-    "rank_type": 212,
-    "__comment__left": "T_",
-    "__comment__right": "Y@"
+    "score": 2.785,
+    "rank": 220,
+    "rank_type": 202,
+    "__comment__left": "QR",
+    "__comment__right": "PU"
   },
   {
     "key_indices": [
-      1,
-      9
+      9,
+      10
     ],
     "type": "bigram",
-    "score": 2.345,
-    "rank": 231,
-    "rank_type": 213,
-    "__comment__left": "TC",
-    "__comment__right": "Y,"
-  },
-  {
-    "key_indices": [
-      4,
-      9
-    ],
-    "type": "bigram",
-    "score": 2.347,
-    "rank": 232,
-    "rank_type": 214,
-    "__comment__left": "RC",
-    "__comment__right": "U,"
+    "score": 2.785,
+    "rank": 221,
+    "rank_type": 203,
+    "__comment__left": "CW",
+    "__comment__right": ",O"
   },
   {
     "key_indices": [
       8,
+      15
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 222,
+    "rank_type": 204,
+    "__comment__left": "DZ",
+    "__comment__right": "K/"
+  },
+  {
+    "key_indices": [
+      4,
+      17
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 223,
+    "rank_type": 205,
+    "__comment__left": "R_",
+    "__comment__right": "U@"
+  },
+  {
+    "key_indices": [
+      14,
       14
     ],
     "type": "bigram",
-    "score": 2.349,
-    "rank": 233,
-    "rank_type": 215,
-    "__comment__left": "DA",
-    "__comment__right": "K;"
+    "score": 2.785,
+    "rank": 224,
+    "rank_type": 206,
+    "__comment__left": "AA",
+    "__comment__right": ";;"
+  },
+  {
+    "key_indices": [
+      14,
+      1
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 225,
+    "rank_type": 207,
+    "__comment__left": "AT",
+    "__comment__right": ";Y"
+  },
+  {
+    "key_indices": [
+      17,
+      17
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 226,
+    "rank_type": 208,
+    "__comment__left": "__",
+    "__comment__right": "@@"
+  },
+  {
+    "key_indices": [
+      7,
+      16
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 227,
+    "rank_type": 209,
+    "__comment__left": "E1",
+    "__comment__right": "I2"
+  },
+  {
+    "key_indices": [
+      3,
+      15
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 228,
+    "rank_type": 210,
+    "__comment__left": "BZ",
+    "__comment__right": "N/"
   },
   {
     "key_indices": [
@@ -2783,11 +2723,71 @@
       1
     ],
     "type": "bigram",
-    "score": 2.351,
-    "rank": 234,
-    "rank_type": 216,
+    "score": 2.785,
+    "rank": 229,
+    "rank_type": 211,
     "__comment__left": "TT",
     "__comment__right": "YY"
+  },
+  {
+    "key_indices": [
+      2,
+      16
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 230,
+    "rank_type": 212,
+    "__comment__left": "G1",
+    "__comment__right": "H2"
+  },
+  {
+    "key_indices": [
+      17,
+      4
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 231,
+    "rank_type": 213,
+    "__comment__left": "_R",
+    "__comment__right": "@U"
+  },
+  {
+    "key_indices": [
+      9,
+      14
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 232,
+    "rank_type": 214,
+    "__comment__left": "CA",
+    "__comment__right": ",;"
+  },
+  {
+    "key_indices": [
+      7,
+      12
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 233,
+    "rank_type": 215,
+    "__comment__left": "EX",
+    "__comment__right": "I."
+  },
+  {
+    "key_indices": [
+      3,
+      3
+    ],
+    "type": "bigram",
+    "score": 2.785,
+    "rank": 234,
+    "rank_type": 216,
+    "__comment__left": "BB",
+    "__comment__right": "NN"
   },
   {
     "key_indices": [
@@ -2795,7 +2795,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.353,
+    "score": 2.785,
     "rank": 235,
     "rank_type": 217,
     "__comment__left": "RQ",
@@ -2807,7 +2807,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.355,
+    "score": 2.785,
     "rank": 236,
     "rank_type": 218,
     "__comment__left": "1B",
@@ -2819,7 +2819,7 @@
       9
     ],
     "type": "bigram",
-    "score": 2.358,
+    "score": 2.785,
     "rank": 237,
     "rank_type": 219,
     "__comment__left": "1C",
@@ -2831,7 +2831,7 @@
       7
     ],
     "type": "bigram",
-    "score": 2.36,
+    "score": 2.785,
     "rank": 238,
     "rank_type": 220,
     "__comment__left": "DE",
@@ -2843,7 +2843,7 @@
       8
     ],
     "type": "bigram",
-    "score": 2.363,
+    "score": 2.786,
     "rank": 239,
     "rank_type": 221,
     "__comment__left": "ED",
@@ -2855,7 +2855,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.366,
+    "score": 2.786,
     "rank": 240,
     "rank_type": 222,
     "__comment__left": "GQ",
@@ -2867,7 +2867,7 @@
       15
     ],
     "type": "bigram",
-    "score": 2.369,
+    "score": 2.787,
     "rank": 241,
     "rank_type": 223,
     "__comment__left": "CZ",
@@ -2879,7 +2879,7 @@
       16
     ],
     "type": "bigram",
-    "score": 2.373,
+    "score": 2.789,
     "rank": 242,
     "rank_type": 224,
     "__comment__left": "B1",
@@ -2891,7 +2891,7 @@
       5
     ],
     "type": "bigram",
-    "score": 2.377,
+    "score": 2.79,
     "rank": 243,
     "rank_type": 225,
     "__comment__left": "VF",
@@ -2903,7 +2903,7 @@
       6
     ],
     "type": "bigram",
-    "score": 2.381,
+    "score": 2.792,
     "rank": 244,
     "rank_type": 226,
     "__comment__left": "FV",
@@ -2915,7 +2915,7 @@
       16
     ],
     "type": "bigram",
-    "score": 2.386,
+    "score": 2.795,
     "rank": 245,
     "rank_type": 227,
     "__comment__left": "D1",
@@ -2927,7 +2927,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.391,
+    "score": 2.798,
     "rank": 246,
     "rank_type": 228,
     "__comment__left": "1G",
@@ -2939,7 +2939,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.397,
+    "score": 2.802,
     "rank": 247,
     "rank_type": 229,
     "__comment__left": "VG",
@@ -2951,7 +2951,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.403,
+    "score": 2.806,
     "rank": 248,
     "rank_type": 230,
     "__comment__left": "FR",
@@ -2963,7 +2963,7 @@
       6
     ],
     "type": "bigram",
-    "score": 2.41,
+    "score": 2.812,
     "rank": 249,
     "rank_type": 231,
     "__comment__left": "GV",
@@ -2975,7 +2975,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.418,
+    "score": 2.819,
     "rank": 250,
     "rank_type": 232,
     "__comment__left": "FB",
@@ -2987,7 +2987,7 @@
       1
     ],
     "type": "bigram",
-    "score": 2.427,
+    "score": 2.826,
     "rank": 251,
     "rank_type": 233,
     "__comment__left": "FT",
@@ -2999,7 +2999,7 @@
       16
     ],
     "type": "bigram",
-    "score": 2.436,
+    "score": 2.835,
     "rank": 252,
     "rank_type": 234,
     "__comment__left": "C1",
@@ -3011,7 +3011,7 @@
       5
     ],
     "type": "bigram",
-    "score": 2.447,
+    "score": 2.846,
     "rank": 253,
     "rank_type": 235,
     "__comment__left": "RF",
@@ -3023,7 +3023,7 @@
       1
     ],
     "type": "bigram",
-    "score": 2.458,
+    "score": 2.858,
     "rank": 254,
     "rank_type": 236,
     "__comment__left": "GT",
@@ -3035,7 +3035,7 @@
       14
     ],
     "type": "bigram",
-    "score": 2.47,
+    "score": 2.871,
     "rank": 255,
     "rank_type": 237,
     "__comment__left": "SA",
@@ -3047,7 +3047,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.484,
+    "score": 2.887,
     "rank": 256,
     "rank_type": 238,
     "__comment__left": "QG",
@@ -3059,7 +3059,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.498,
+    "score": 2.903,
     "rank": 257,
     "rank_type": 239,
     "__comment__left": "GR",
@@ -3071,7 +3071,7 @@
       5
     ],
     "type": "bigram",
-    "score": 2.514,
+    "score": 2.922,
     "rank": 258,
     "rank_type": 240,
     "__comment__left": "BF",
@@ -3083,7 +3083,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.532,
+    "score": 2.942,
     "rank": 259,
     "rank_type": 241,
     "__comment__left": "BG",
@@ -3095,7 +3095,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.55,
+    "score": 2.964,
     "rank": 260,
     "rank_type": 242,
     "__comment__left": "RG",
@@ -3107,7 +3107,7 @@
       13
     ],
     "type": "bigram",
-    "score": 2.57,
+    "score": 2.988,
     "rank": 261,
     "rank_type": 243,
     "__comment__left": "BQ",
@@ -3119,7 +3119,7 @@
       18
     ],
     "type": "bigram",
-    "score": 2.591,
+    "score": 3.013,
     "rank": 262,
     "rank_type": 244,
     "__comment__left": "T+",
@@ -3131,7 +3131,7 @@
       9
     ],
     "type": "bigram",
-    "score": 2.613,
+    "score": 3.041,
     "rank": 263,
     "rank_type": 245,
     "__comment__left": "DC",
@@ -3143,7 +3143,7 @@
       15
     ],
     "type": "bigram",
-    "score": 2.636,
+    "score": 3.071,
     "rank": 264,
     "rank_type": 246,
     "__comment__left": "RZ",
@@ -3155,7 +3155,7 @@
       7
     ],
     "type": "bigram",
-    "score": 2.661,
+    "score": 3.102,
     "rank": 265,
     "rank_type": 247,
     "__comment__left": "QE",
@@ -3167,7 +3167,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.686,
+    "score": 3.135,
     "rank": 266,
     "rank_type": 248,
     "__comment__left": "BR",
@@ -3179,7 +3179,7 @@
       5
     ],
     "type": "bigram",
-    "score": 2.713,
+    "score": 3.17,
     "rank": 267,
     "rank_type": 249,
     "__comment__left": "TF",
@@ -3191,7 +3191,7 @@
       9
     ],
     "type": "bigram",
-    "score": 2.741,
+    "score": 3.206,
     "rank": 268,
     "rank_type": 250,
     "__comment__left": "EC",
@@ -3203,7 +3203,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.77,
+    "score": 3.243,
     "rank": 269,
     "rank_type": 251,
     "__comment__left": "QB",
@@ -3215,7 +3215,7 @@
       8
     ],
     "type": "bigram",
-    "score": 2.799,
+    "score": 3.282,
     "rank": 270,
     "rank_type": 252,
     "__comment__left": "CD",
@@ -3227,7 +3227,7 @@
       6
     ],
     "type": "bigram",
-    "score": 2.83,
+    "score": 3.322,
     "rank": 271,
     "rank_type": 253,
     "__comment__left": "RV",
@@ -3239,7 +3239,7 @@
       3
     ],
     "type": "bigram",
-    "score": 2.861,
+    "score": 3.362,
     "rank": 272,
     "rank_type": 254,
     "__comment__left": "RB",
@@ -3251,7 +3251,7 @@
       4
     ],
     "type": "bigram",
-    "score": 2.893,
+    "score": 3.404,
     "rank": 273,
     "rank_type": 255,
     "__comment__left": "VR",
@@ -3263,7 +3263,7 @@
       2
     ],
     "type": "bigram",
-    "score": 2.926,
+    "score": 3.446,
     "rank": 274,
     "rank_type": 256,
     "__comment__left": "FG",
@@ -3275,7 +3275,7 @@
       8
     ],
     "type": "bigram",
-    "score": 2.959,
+    "score": 3.49,
     "rank": 275,
     "rank_type": 257,
     "__comment__left": "QD",
@@ -3287,7 +3287,7 @@
       11
     ],
     "type": "bigram",
-    "score": 2.993,
+    "score": 3.534,
     "rank": 276,
     "rank_type": 258,
     "__comment__left": "1S",
@@ -3299,7 +3299,7 @@
       10
     ],
     "type": "bigram",
-    "score": 3.027,
+    "score": 3.578,
     "rank": 277,
     "rank_type": 259,
     "__comment__left": "QW",
@@ -3311,7 +3311,7 @@
       11
     ],
     "type": "bigram",
-    "score": 3.062,
+    "score": 3.623,
     "rank": 278,
     "rank_type": 260,
     "__comment__left": "ZS",
@@ -3323,7 +3323,7 @@
       7
     ],
     "type": "bigram",
-    "score": 3.096,
+    "score": 3.669,
     "rank": 279,
     "rank_type": 261,
     "__comment__left": "CE",
@@ -3335,7 +3335,7 @@
       1
     ],
     "type": "bigram",
-    "score": 3.131,
+    "score": 3.715,
     "rank": 280,
     "rank_type": 262,
     "__comment__left": "ZT",
@@ -3347,7 +3347,7 @@
       1
     ],
     "type": "bigram",
-    "score": 3.166,
+    "score": 3.761,
     "rank": 281,
     "rank_type": 263,
     "__comment__left": "1T",
@@ -3359,7 +3359,7 @@
       1
     ],
     "type": "bigram",
-    "score": 3.201,
+    "score": 3.808,
     "rank": 282,
     "rank_type": 264,
     "__comment__left": "QT",
@@ -3371,7 +3371,7 @@
       12
     ],
     "type": "bigram",
-    "score": 3.237,
+    "score": 3.855,
     "rank": 283,
     "rank_type": 265,
     "__comment__left": "AX",
@@ -3383,7 +3383,7 @@
       13
     ],
     "type": "bigram",
-    "score": 3.272,
+    "score": 3.902,
     "rank": 284,
     "rank_type": 266,
     "__comment__left": "EQ",
@@ -3395,7 +3395,7 @@
       10
     ],
     "type": "bigram",
-    "score": 3.308,
+    "score": 3.95,
     "rank": 285,
     "rank_type": 267,
     "__comment__left": "SW",
@@ -3407,7 +3407,7 @@
       12
     ],
     "type": "bigram",
-    "score": 3.344,
+    "score": 3.999,
     "rank": 286,
     "rank_type": 268,
     "__comment__left": "SX",
@@ -3419,7 +3419,7 @@
       11
     ],
     "type": "bigram",
-    "score": 3.38,
+    "score": 4.048,
     "rank": 287,
     "rank_type": 269,
     "__comment__left": "XS",
@@ -3431,7 +3431,7 @@
       15
     ],
     "type": "bigram",
-    "score": 3.416,
+    "score": 4.097,
     "rank": 288,
     "rank_type": 270,
     "__comment__left": "TZ",
@@ -3443,7 +3443,7 @@
       13
     ],
     "type": "bigram",
-    "score": 3.453,
+    "score": 4.148,
     "rank": 289,
     "rank_type": 271,
     "__comment__left": "TQ",
@@ -3455,7 +3455,7 @@
       9
     ],
     "type": "bigram",
-    "score": 3.489,
+    "score": 4.199,
     "rank": 290,
     "rank_type": 272,
     "__comment__left": "WC",
@@ -3467,7 +3467,7 @@
       10
     ],
     "type": "bigram",
-    "score": 3.526,
+    "score": 4.252,
     "rank": 291,
     "rank_type": 273,
     "__comment__left": "AW",
@@ -3479,7 +3479,7 @@
       15
     ],
     "type": "bigram",
-    "score": 3.563,
+    "score": 4.305,
     "rank": 292,
     "rank_type": 274,
     "__comment__left": "ZZ",
@@ -3491,7 +3491,7 @@
       16
     ],
     "type": "bigram",
-    "score": 3.601,
+    "score": 4.36,
     "rank": 293,
     "rank_type": 275,
     "__comment__left": "11",
@@ -3503,7 +3503,7 @@
       12
     ],
     "type": "bigram",
-    "score": 3.639,
+    "score": 4.416,
     "rank": 294,
     "rank_type": 276,
     "__comment__left": "1X",
@@ -3515,7 +3515,7 @@
       15
     ],
     "type": "bigram",
-    "score": 3.679,
+    "score": 4.474,
     "rank": 295,
     "rank_type": 277,
     "__comment__left": "XZ",
@@ -3527,7 +3527,7 @@
       16
     ],
     "type": "bigram",
-    "score": 3.719,
+    "score": 4.534,
     "rank": 296,
     "rank_type": 278,
     "__comment__left": "W1",
@@ -3539,7 +3539,7 @@
       14
     ],
     "type": "bigram",
-    "score": 3.761,
+    "score": 4.595,
     "rank": 297,
     "rank_type": 279,
     "__comment__left": "XA",
@@ -3551,7 +3551,7 @@
       9
     ],
     "type": "bigram",
-    "score": 3.805,
+    "score": 4.659,
     "rank": 298,
     "rank_type": 280,
     "__comment__left": "QC",
@@ -3563,7 +3563,7 @@
       10
     ],
     "type": "bigram",
-    "score": 3.85,
+    "score": 4.725,
     "rank": 299,
     "rank_type": 281,
     "__comment__left": "1W",
@@ -3575,7 +3575,7 @@
       16
     ],
     "type": "bigram",
-    "score": 3.896,
+    "score": 4.794,
     "rank": 300,
     "rank_type": 282,
     "__comment__left": "T1",
@@ -3587,7 +3587,7 @@
       13
     ],
     "type": "bigram",
-    "score": 3.945,
+    "score": 4.866,
     "rank": 301,
     "rank_type": 283,
     "__comment__left": "DQ",
@@ -3599,7 +3599,7 @@
       3
     ],
     "type": "bigram",
-    "score": 3.995,
+    "score": 4.94,
     "rank": 302,
     "rank_type": 284,
     "__comment__left": "GB",
@@ -3611,7 +3611,7 @@
       1
     ],
     "type": "bigram",
-    "score": 4.047,
+    "score": 5.018,
     "rank": 303,
     "rank_type": 285,
     "__comment__left": "BT",
@@ -3623,7 +3623,7 @@
       14
     ],
     "type": "bigram",
-    "score": 4.102,
+    "score": 5.099,
     "rank": 304,
     "rank_type": 286,
     "__comment__left": "WA",
@@ -3635,7 +3635,7 @@
       16
     ],
     "type": "bigram",
-    "score": 4.158,
+    "score": 5.182,
     "rank": 305,
     "rank_type": 287,
     "__comment__left": "S1",
@@ -3647,7 +3647,7 @@
       2
     ],
     "type": "bigram",
-    "score": 4.217,
+    "score": 5.268,
     "rank": 306,
     "rank_type": 288,
     "__comment__left": "TG",
@@ -3659,7 +3659,7 @@
       3
     ],
     "type": "bigram",
-    "score": 4.278,
+    "score": 5.356,
     "rank": 307,
     "rank_type": 289,
     "__comment__left": "TB",
@@ -3671,7 +3671,7 @@
       6
     ],
     "type": "bigram",
-    "score": 4.342,
+    "score": 5.446,
     "rank": 308,
     "rank_type": 290,
     "__comment__left": "TV",
@@ -3683,7 +3683,7 @@
       1
     ],
     "type": "bigram",
-    "score": 4.407,
+    "score": 5.539,
     "rank": 309,
     "rank_type": 291,
     "__comment__left": "VT",
@@ -3695,7 +3695,7 @@
       5
     ],
     "type": "bigram",
-    "score": 4.476,
+    "score": 5.633,
     "rank": 310,
     "rank_type": 292,
     "__comment__left": "GF",
@@ -3707,7 +3707,7 @@
       3
     ],
     "type": "bigram",
-    "score": 4.546,
+    "score": 5.729,
     "rank": 311,
     "rank_type": 293,
     "__comment__left": "VB",
@@ -3719,7 +3719,7 @@
       1
     ],
     "type": "bigram",
-    "score": 4.619,
+    "score": 5.826,
     "rank": 312,
     "rank_type": 294,
     "__comment__left": "RT",
@@ -3731,7 +3731,7 @@
       4
     ],
     "type": "bigram",
-    "score": 4.693,
+    "score": 5.925,
     "rank": 313,
     "rank_type": 295,
     "__comment__left": "TR",
@@ -3743,7 +3743,7 @@
       6
     ],
     "type": "bigram",
-    "score": 4.769,
+    "score": 6.024,
     "rank": 314,
     "rank_type": 296,
     "__comment__left": "BV",
@@ -3755,7 +3755,7 @@
       18
     ],
     "type": "bigram",
-    "score": 4.847,
+    "score": 6.123,
     "rank": 315,
     "rank_type": 297,
     "__comment__left": "_+",
@@ -3767,7 +3767,7 @@
       17
     ],
     "type": "bigram",
-    "score": 4.925,
+    "score": 6.222,
     "rank": 316,
     "rank_type": 298,
     "__comment__left": "+_",
@@ -3779,7 +3779,7 @@
       11
     ],
     "type": "bigram",
-    "score": 5.004,
+    "score": 6.321,
     "rank": 317,
     "rank_type": 299,
     "__comment__left": "WS",
@@ -3791,7 +3791,7 @@
       13
     ],
     "type": "bigram",
-    "score": 5.083,
+    "score": 6.418,
     "rank": 318,
     "rank_type": 300,
     "__comment__left": "CQ",
@@ -3803,7 +3803,7 @@
       10
     ],
     "type": "bigram",
-    "score": 5.163,
+    "score": 6.514,
     "rank": 319,
     "rank_type": 301,
     "__comment__left": "ZW",
@@ -3815,7 +3815,7 @@
       12
     ],
     "type": "bigram",
-    "score": 5.243,
+    "score": 6.608,
     "rank": 320,
     "rank_type": 302,
     "__comment__left": "WX",
@@ -3827,7 +3827,7 @@
       16
     ],
     "type": "bigram",
-    "score": 5.322,
+    "score": 6.7,
     "rank": 321,
     "rank_type": 303,
     "__comment__left": "X1",
@@ -3839,7 +3839,7 @@
       10
     ],
     "type": "bigram",
-    "score": 5.4,
+    "score": 6.789,
     "rank": 322,
     "rank_type": 304,
     "__comment__left": "XW",
@@ -3851,7 +3851,7 @@
       15
     ],
     "type": "bigram",
-    "score": 5.478,
+    "score": 6.875,
     "rank": 323,
     "rank_type": 305,
     "__comment__left": "SZ",
@@ -3863,7 +3863,7 @@
       13
     ],
     "type": "bigram",
-    "score": 5.555,
+    "score": 6.958,
     "rank": 324,
     "rank_type": 306,
     "__comment__left": "QQ",
@@ -3875,7 +3875,7 @@
       13
     ],
     "type": "bigram",
-    "score": 5.631,
+    "score": 7.038,
     "rank": 325,
     "rank_type": 307,
     "__comment__left": "WQ",
@@ -3887,7 +3887,7 @@
       13
     ],
     "type": "bigram",
-    "score": 5.705,
+    "score": 7.114,
     "rank": 326,
     "rank_type": 308,
     "__comment__left": "SQ",
@@ -3899,7 +3899,7 @@
       11
     ],
     "type": "bigram",
-    "score": 5.778,
+    "score": 7.188,
     "rank": 327,
     "rank_type": 309,
     "__comment__left": "QS",
@@ -3911,7 +3911,7 @@
       15
     ],
     "type": "bigram",
-    "score": 5.849,
+    "score": 7.257,
     "rank": 328,
     "rank_type": 310,
     "__comment__left": "AZ",
@@ -3923,7 +3923,7 @@
       14
     ],
     "type": "bigram",
-    "score": 5.918,
+    "score": 7.323,
     "rank": 329,
     "rank_type": 311,
     "__comment__left": "ZA",
@@ -3935,7 +3935,7 @@
       14
     ],
     "type": "bigram",
-    "score": 5.985,
+    "score": 7.385,
     "rank": 330,
     "rank_type": 312,
     "__comment__left": "QA",
@@ -3947,7 +3947,7 @@
       13
     ],
     "type": "bigram",
-    "score": 6.049,
+    "score": 7.443,
     "rank": 331,
     "rank_type": 313,
     "__comment__left": "AQ",
@@ -3959,7 +3959,7 @@
       16
     ],
     "type": "bigram",
-    "score": 6.111,
+    "score": 7.497,
     "rank": 332,
     "rank_type": 314,
     "__comment__left": "Q1",
@@ -3971,7 +3971,7 @@
       15
     ],
     "type": "bigram",
-    "score": 6.171,
+    "score": 7.548,
     "rank": 333,
     "rank_type": 315,
     "__comment__left": "WZ",
@@ -3983,7 +3983,7 @@
       13
     ],
     "type": "bigram",
-    "score": 6.229,
+    "score": 7.595,
     "rank": 334,
     "rank_type": 316,
     "__comment__left": "XQ",
@@ -3995,7 +3995,7 @@
       16
     ],
     "type": "bigram",
-    "score": 6.284,
+    "score": 7.638,
     "rank": 335,
     "rank_type": 317,
     "__comment__left": "Z1",
@@ -4007,7 +4007,7 @@
       15
     ],
     "type": "bigram",
-    "score": 6.336,
+    "score": 7.678,
     "rank": 336,
     "rank_type": 318,
     "__comment__left": "1Z",
@@ -4019,7 +4019,7 @@
       16
     ],
     "type": "bigram",
-    "score": 6.386,
+    "score": 7.714,
     "rank": 337,
     "rank_type": 319,
     "__comment__left": "A1",
@@ -4031,7 +4031,7 @@
       14
     ],
     "type": "bigram",
-    "score": 6.433,
+    "score": 7.748,
     "rank": 338,
     "rank_type": 320,
     "__comment__left": "1A",
@@ -4043,7 +4043,7 @@
       12
     ],
     "type": "bigram",
-    "score": 6.478,
+    "score": 7.779,
     "rank": 339,
     "rank_type": 321,
     "__comment__left": "QX",
@@ -4055,7 +4055,7 @@
       15
     ],
     "type": "bigram",
-    "score": 6.52,
+    "score": 7.807,
     "rank": 340,
     "rank_type": 322,
     "__comment__left": "QZ",
@@ -4067,7 +4067,7 @@
       13
     ],
     "type": "bigram",
-    "score": 6.559,
+    "score": 7.832,
     "rank": 341,
     "rank_type": 323,
     "__comment__left": "1Q",
@@ -4079,7 +4079,7 @@
       13
     ],
     "type": "bigram",
-    "score": 6.596,
+    "score": 7.855,
     "rank": 342,
     "rank_type": 324,
     "__comment__left": "ZQ",

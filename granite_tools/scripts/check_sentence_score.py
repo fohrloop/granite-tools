@@ -5,7 +5,7 @@ Running:
 uv run granite_tools/scripts/check_sentence_score.py <config-file.yaml> <bigram.ranking> <trigram.relative.scoring>
 
 where <config-file.yaml> is the configuration file, for example:  examples/config.yml
-      <bigram.ranking> is a bigram (+unigram) ranking file
+      <bigram.ranking> is a bigram  ranking file
 
 The <config-file.yaml> must contain the fitted model parameters.
 """
@@ -15,7 +15,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from granite_tools.bigram_scores import load_bigram_and_unigram_scores
+from granite_tools.bigram_scores import load_bigram_scores
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.trigram_model.scorer import TrigramModelParameters, get_trigram_score
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     bigram_ranking_file = sys.argv[2]
     raw_anchor_ngram_scores_file = sys.argv[3]
 
-    bigram_and_unigram_scores = load_bigram_and_unigram_scores(
+    bigram_and_unigram_scores = load_bigram_scores(
         bigram_ranking_file, raw_anchor_ngram_scores_file
     )
 

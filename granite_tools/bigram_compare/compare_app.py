@@ -1,9 +1,8 @@
 """The Key Sequence Comparer App; granite-bigram-compare
 
-Used to compare bigrams (and unigrams) to create a new order based on the user's
-preferences. The user is presented with two bigrams (or unigram or unigram and a bigram)
-and selects the one that they think is easier or "nicer" to type. The program then uses
-this data to create a new order.
+Used to compare bigrams to create a new order based on the user's
+preferences. The user is presented with two bigrams and selects the one that they think
+is easier or "nicer" to type. The program then uses this data to create a new order.
 
 Development
 ------------

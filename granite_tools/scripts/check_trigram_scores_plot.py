@@ -4,7 +4,7 @@ Running:
 
 uv run granite_tools/scripts/check_trigram_scores_plot.py examples/config.yml <bigram.ranking> <trigram.relative.scoring>
 
-where <bigram.ranking> is a bigram (+unigram) ranking file and
+where <bigram.ranking> is a bigram ranking file and
       <trigram.relative.scoring> a trigram relative scoring file.
 """
 
