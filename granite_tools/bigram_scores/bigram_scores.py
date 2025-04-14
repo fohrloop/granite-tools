@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import json
 import typing
 from pathlib import Path
 
+from granite_tools.app_types import BigramScoreDict
 from granite_tools.bigram_scores.anchor_scores import read_raw_anchor_scores_json
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.bigram_scores.spline_smoothing import get_spline_scores
@@ -11,6 +13,13 @@ from granite_tools.utils import get_linear_scaling_function
 if typing.TYPE_CHECKING:
 
     from granite_tools.app_types import KeySeq
+
+
+def read_bigram_scores(file: str | Path) -> list[BigramScoreDict]:
+    """Read bigram scores from a bigram scores JSON file."""
+    with open(file, "r") as f:
+        bigram_scores = json.load(f)
+    return bigram_scores
 
 
 def load_bigram_and_unigram_scores(

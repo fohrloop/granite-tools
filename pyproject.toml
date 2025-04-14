@@ -34,6 +34,8 @@ granite-bigram-compare = "granite_tools.bigram_compare.compare_app:main"
 granite-bigram-compare-merge = "granite_tools.bigram_compare.merge_data:main"
 granite-bigram-score-ratio-template = "granite_tools.bigram_scores.cli:create_bigram_score_ratio_template"
 granite-bigram-scores-fit = "granite_tools.bigram_scores.cli:bigram_scores_fit"
+granite-bigram-scores-plot = "granite_tools.bigram_scores.cli:bigram_scores_plot"
+granite-bigram-scores-dumbbell-plot = "granite_tools.bigram_scores.cli:bigram_scores_dumbbell_plot_cli"
 granite-trigram-model-fit = "granite_tools.trigram_model.cli:fit_parameters_cli"
 granite-trigram-model-fit-check = "granite_tools.trigram_model.cli:fit_check_cli"
 
