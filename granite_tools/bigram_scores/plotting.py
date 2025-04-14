@@ -18,7 +18,7 @@ from granite_tools.hands import Hands
 
 
 def plot_anchor_scores(ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]):
-    """Plot the bigram (and unigram) raw scores. These scores are not final as they're
+    """Plot the anchor bigram raw scores. These scores are not final as they're
     not yet put into scale. This plot is for debugging the bigram score fitting process
     and its easier to spot problems in an unscaled plot."""
     x_train, y_train, x_all = scores_to_training_data(ngrams_ordered, scores)
@@ -52,7 +52,7 @@ def plot_anchor_scores(ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
 
 
 def plot_bigram_scores(scores: list[BigramScoreDict]):
-
+    """Plots bigram (and unigram) scores."""
     bigrams = [s for s in scores if s["type"] == "bigram"]
     unigrams = [s for s in scores if s["type"] == "unigram"]
 
@@ -65,8 +65,9 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         [s["rank_type"] for s in unigrams],
         [s["score"] for s in unigrams],
         marker=".",
-        s=34,
+        s=122,
         color="tab:blue",
+        zorder=10,
     )
     ax_unigram.set_xlabel("Rank of unigram")
     ax_unigram.set_title("Unigrams")
@@ -77,6 +78,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         marker=".",
         s=5,
         color="tab:red",
+        zorder=10,
     )
     ax_bigram.set_xlabel("Rank of bigram")
     ax_bigram.set_title("Bigrams")
@@ -84,7 +86,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
     for ax in axes:
         ax.set_ylabel("Score")
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-        ax.grid(ls="--", lw=0.5, color="lightgray")
+        ax.grid(ls="--", lw=0.5, color="lightgray", zorder=-10)
 
     plt.tight_layout()
     cur = cursor(figure, hover=True)

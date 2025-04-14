@@ -15,8 +15,8 @@ The full process is:
 2. **Initial bigram ranking**: Create initial ranking/ordering with `granite-bigram-ranking-initial`.
 3. **View the initial order** (optional): Use the `granite-bigram-ranking-view` view or fine tune the initial order. 
 4. **Create comparison file**. Use the `granite-bigram-compare`  to create comparisons of different key sequences. 
-5. **Create bigram (and unigram) ranking file** using `python create_ngram_ranking.py <some.compare.pickle>`. The output file will be called `some.compare.ranking`.
-6. **Create bigram (and unigram) score ratio file** using `granite-bigram-score-ratio-template` and filling up the template.
+5. **Create bigram ranking file** using `python create_ngram_ranking.py <some.compare.pickle>`. The output file will be called `some.compare.ranking`.
+6. **Create bigram score ratio file** using `granite-bigram-score-ratio-template` and filling up the template.
 7. **Create bigram (and unigram) scores** based on score ratios
 8. **Create trigram scoring file**: Hint: use `granite-trigram-score-template` for creating the trigram scoring template.
 9. **Fit the trigram coefficients**: Use `granite-trigram-model-fit` to fit the trigram coefficients.
@@ -31,7 +31,7 @@ Create a keyboard configuration yaml file. Copy the `examples/config.yml` and us
 
 ### (2) Initial bigram ranking
 
-Create initial ordering for the bigrams (and unigrams) with `granite-bigram-ranking-initial`. This takes approximately 4.5 hours (16 keys per side). 
+Create initial ordering for the bigrams with `granite-bigram-ranking-initial`. This takes approximately 5.5 hours (18 keys per side). 
 
 Tip: It's possible to use the `granite-bigram-ranking-view` also with partial initial order file (e.g. if you find something that's a bit off while working with `granite-bigram-ranking-initial`).
 
@@ -96,7 +96,7 @@ where
 ![](img/granite-bigram-compare.png)
 
 
-### (5) Create bigram (and unigram) ranking file
+### (5) Create bigram ranking file
 
 Exract the bigram ranking file from the `.compare.pickle` file using:
 
@@ -104,13 +104,13 @@ Exract the bigram ranking file from the `.compare.pickle` file using:
 python granite_tools/scripts/granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
 ```
 
-The output file will be called `some.compare.ranking`, which contains all the unigrams and bigrams in rank order (easiest on the top of the file, most difficult at the bottom).
+The output file will be called `some.compare.ranking`, which contains all the bigrams in rank order (easiest on the top of the file, most difficult at the bottom).
 
 > [!TIP]
 > You can use the `granite-bigram-ranking-view`  at _any point_ to make adjustments to the ngram ranking file if you wish.
 
 
-### (6) Create bigram (and unigram) score ratio file
+### (6) Create bigram score ratio file
 
 Before continuing, it's a good idea to do the last check for the ordering of the ngrams in your ngram ranking file. For example:
 
@@ -163,7 +163,7 @@ to create a template and fill in the details. Example:
 
 ### (7) Create bigram (and unigram) scores based on score ratios
 
-This part can be a bit iterative and requires some level of patience. Any outliers in the score_ratio file should be fixed. 
+This part can be a bit iterative and requires some level of patience. Any outliers in the score ratio file should be fixed. 
 
 ### Fit the model
 
@@ -264,14 +264,16 @@ python granite_tools/scripts/scoreratios_show_worst_fit.py examples/config.yml d
 .json
 ```
 
-It's a good idea to fix large negative `log2err` (the score ratios you estimated too high and which should be lowered a bit). The score ratios between unigrams and bigrams do not matter too much.
+It's a good idea to fix large negative `log2err` (the score ratios you estimated too high and which should be lowered a bit).
 
 #### Removing ngrams from scoreratio file
-If the "Q" unigram was selected to be one of the anchor ngrams (included in the score ratio file), you might want to remove it with `scoreratios_modify.py`. For example:
+You can remove any ngram (and all score ratio pairs associated with it) with `scoreratios_modify.py`. For example:
 
 ```
-python granite_tools/scripts/scoreratios_modify.py examples/config.yml data/granite.scoreratios-fixed.yml --remove Q
+python granite_tools/scripts/scoreratios_modify.py examples/config.yml data/granite.scoreratios-fixed.yml --remove SD DF QE
 ```
+
+The above woud remove all score ratios associated with any of the left side bigrams SD, DF, and QE (and the ones with same `key_indices` on the right hand side).
 
 #### When to continue to the next step?
 

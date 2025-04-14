@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 from granite_tools.app_types import FingerType
-from granite_tools.bigram_scores.bigram_scores import load_bigram_and_unigram_scores
+from granite_tools.bigram_scores.bigram_scores import load_bigram_scores
 from granite_tools.config import read_config
 from granite_tools.easy_rolling import get_easy_rolling_type_mapping
 from granite_tools.hands import get_hands_data
@@ -32,7 +32,7 @@ def get_trigram_data_from_files(
     raw_anchor_ngram_scores_file: str | Path,
 ) -> pd.DataFrame:
     config = read_config(config_file)
-    bigram_scores = load_bigram_and_unigram_scores(
+    bigram_scores = load_bigram_scores(
         bigram_ranking_file, raw_anchor_ngram_scores_file
     )
     # TODO: fix this

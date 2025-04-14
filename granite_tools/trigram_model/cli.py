@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from granite_tools.bigram_scores import load_bigram_and_unigram_scores
+from granite_tools.bigram_scores import load_bigram_scores
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
 from granite_tools.score_ratios import load_score_ratio_entries
@@ -49,7 +49,7 @@ def fit_parameters_cli():
 ARG_BIGRAM_RANKING_FILE = Annotated[
     Path,
     typer.Argument(
-        help="The path to the bigram (+unigram) ranking file. Created with create_ngram_ranking.py",
+        help="The path to the bigram ranking file. Created with create_ngram_ranking.py",
         show_default=False,
     ),
 ]
@@ -87,9 +87,7 @@ def fit_parameters(
 ):
     config_base = read_config(str(config_file))
     hands = get_hands_data(config_base)
-    bigram_scores = load_bigram_and_unigram_scores(
-        bigram_ranking_file, bigram_anchor_scores_file
-    )
+    bigram_scores = load_bigram_scores(bigram_ranking_file, bigram_anchor_scores_file)
 
     x0 = get_initial_params(hands.config)
     if len(x0) == 0:
@@ -152,9 +150,7 @@ def fit_check(
 ):
     config = read_config(config_file)
     hands = get_hands_data(config)
-    bigram_scores = load_bigram_and_unigram_scores(
-        bigram_ranking_file, bigram_anchor_scores_file
-    )
+    bigram_scores = load_bigram_scores(bigram_ranking_file, bigram_anchor_scores_file)
 
     params = TrigramModelParameters.from_config(config)
     trigram_score_ratios = load_score_ratio_entries(trigram_score_ratio_file, hands)

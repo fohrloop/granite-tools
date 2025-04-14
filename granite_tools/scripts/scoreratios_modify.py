@@ -50,22 +50,22 @@ if __name__ == "__main__":
 
     def remove_ngram(d, keyseq: tuple[int, ...]):
         out = []
-        ngrams_to_remove = set()
+        to_remove = set()
         for hand in ("Left", "Right"):
-            ngrams_to_remove.add(
+            to_remove.add(
                 hands.get_symbols_visualization(
                     typing.cast(typing.Literal["Left", "Right"], hand), keyseq
                 )
             )
 
         for x in d:
-            if x["ngram"] in ngrams_to_remove or x["ref"] in ngrams_to_remove:
+            if x["ngram"] in to_remove or x["ref"] in to_remove:
                 continue
             out.append(x)
         return out
 
     for ngram in ngrams_to_remove:
-        keyseq, _ = hands.where(ngram)
+        keyseq, _ = hands.where(ngram, visualization=True)
         d = remove_ngram(d, keyseq)
 
     print("Ngram pairs after:", len(d))

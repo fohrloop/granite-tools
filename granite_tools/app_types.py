@@ -18,7 +18,7 @@ BigramOrUnigram = Literal["unigram", "bigram"]
 
 
 class BigramScoreDict(TypedDict):
-    """A dictionary containing information about a bigram score."""
+    """A dictionary containing information about a bigram (or unigram) score."""
 
     key_indices: KeySeq
     """The indices of the keys on the keyboard (defined in config file)."""

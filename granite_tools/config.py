@@ -26,6 +26,9 @@ DEFAULT_LIMIT_MULTIPLIERS = {
     3.0: 1.4,
 }
 
+DEFAULT_EASIEST_UNIGRAM_SCORE = 1.0
+DEFAULT_MOST_DIFFICULT_UNIGRAM_SCORE = 1.95
+
 
 class Config(BaseModel):
     key_indices: list[list[int]]
@@ -41,6 +44,10 @@ class Config(BaseModel):
     matrix_positions: list[list[tuple[int, int]]] | None = None
 
     vert2u_penalties: Vert2uPenaltyConfig = Field(default_factory=dict)
+
+    # Scoring / Bigram Model Parameters
+    easiest_unigram_score: float = DEFAULT_EASIEST_UNIGRAM_SCORE
+    most_difficult_unigram_score: float = DEFAULT_MOST_DIFFICULT_UNIGRAM_SCORE
 
     # Scoring / Trigram Model Parameters
     w_ac_one: float | None = None

@@ -37,16 +37,17 @@ def get_spline_scores(
     ngrams_ordered:
         The list of ngrams ordered by difficulty. The first ngram is the easiest.
     scores:
-        The dictionary with ANCHOR ngram (bigram or unigram) RAW scores. The keys are
-        the ngrams (key sequences) and the values are the raw scores.
+        The dictionary with ANCHOR bigram RAW scores. The keys are the ngrams (key
+        sequences) and the values are the raw scores.
 
     Returns
     -------
     bspline_scores:
-        The smoothed scores for the ngrams (bigrams and unigrams). The scores are in the
-        same order as the output ranks.
+        The smoothed scores for the bigrams. The scores are in the same order as the
+        output ranks.
     ranks:
-        The ranks of the ngrams (bigrams and unigrams). Basically a list of integers."""
+        The ranks of the bigrams. Basically a list of integers.
+    """
     x_train, y_train, ranks = scores_to_training_data(ngrams_ordered, scores)
     bspline = create_monotone_bspline(
         x_train,

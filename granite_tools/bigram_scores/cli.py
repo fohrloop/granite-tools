@@ -14,7 +14,10 @@ import typer
 from matplotlib import pyplot as plt
 
 from granite_tools.app_types import BigramScoreDict
-from granite_tools.bigram_scores.anchor_scores import fit_anchor_ngram_scores
+from granite_tools.bigram_scores.anchor_scores import (
+    fit_anchor_ngram_scores,
+    read_raw_anchor_scores_json,
+)
 from granite_tools.bigram_scores.bigram_scores import read_bigram_scores
 from granite_tools.bigram_scores.plotting import (
     BIGRAM_DUMBBELL_PLOT_LEGEND_INFO,
@@ -32,6 +35,7 @@ from granite_tools.bigram_scores.spline_smoothing import get_spline_scores
 from granite_tools.config import read_config
 from granite_tools.hands import Hands, get_hands_data
 from granite_tools.score_ratios import load_score_ratio_entries
+from granite_tools.unigram_scores import calculate_unigram_scores
 from granite_tools.utils import DATA_FOLDER
 
 try:
@@ -204,15 +208,24 @@ def bigram_scores_fit_(
     config = read_config(config_file)
     hands = get_hands_data(config)
 
-    ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
+    bigram_keyseq_ordered = load_bigram_rankings(bigram_ranking_file)
     score_ratio_entries = load_score_ratio_entries(bigram_scoreratio_file, hands)
 
     t0 = time.time()
     print("Fitting anchor ngram scores.. (this might take a few minutes)")
-    raw_anchor_scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
+    # raw_anchor_scores = fit_anchor_ngram_scores(score_ratio_entries, ngrams_ordered)
+    raw_anchor_scores = read_raw_anchor_scores_json(anchor_bigram_raw_score_file_out)
+    bigram_scores_ordered, _ = get_spline_scores(
+        bigram_keyseq_ordered, raw_anchor_scores
+    )
 
-    scores_ordered, _ = get_spline_scores(ngrams_ordered, raw_anchor_scores)
-    bigram_scores = make_bigram_score_dicts(scores_ordered, ngrams_ordered, hands)
+    bigram_scores_dct = dict(zip(bigram_keyseq_ordered, bigram_scores_ordered))
+    unigram_scores_dct = calculate_unigram_scores(bigram_scores_dct, config)
+    u_scores = {(k,): v for (k, v) in unigram_scores_dct.items()}
+
+    bigram_and_unigram_scores = make_bigram_score_dicts(
+        u_scores | bigram_scores_dct, hands
+    )
 
     worst = get_worst_score_ratios(score_ratio_entries, raw_anchor_scores, hands)
     n_show = 100
@@ -220,11 +233,11 @@ def bigram_scores_fit_(
         print(worst.tail(n_show))
 
     print(f"Fitting scores took {time.time() - t0:.2f}s")
-    plot_anchor_scores(ngrams_ordered, raw_anchor_scores)
-    plot_bigram_scores(bigram_scores)
+    plot_anchor_scores(bigram_keyseq_ordered, raw_anchor_scores)
+    plot_bigram_scores(bigram_and_unigram_scores)
 
     with open(bigram_score_file_out, "w") as f:
-        json.dump(bigram_scores, f, indent=2)
+        json.dump(bigram_and_unigram_scores, f, indent=2)
     print(f"Bigram scores written to {bigram_score_file_out}")
 
     with open(anchor_bigram_raw_score_file_out, "w") as f:
@@ -235,15 +248,16 @@ def bigram_scores_fit_(
 
 
 def make_bigram_score_dicts(
-    scores: Sequence[float],
-    ngrams_ordered: list[KeySeq],
+    scores: dict[KeySeq, float],
     hands: Hands,
 ) -> list[BigramScoreDict]:
+
+    scores = dict(sorted(scores.items(), key=lambda item: item[1]))
     scoredcts = []
     unigram_rank = 0
     bigram_rank = 0
     ngram_type: BigramOrUnigram
-    for rank, (key_indices, score) in enumerate(zip(ngrams_ordered, scores), start=1):
+    for rank, (key_indices, score) in enumerate(scores.items(), start=1):
 
         if len(key_indices) == 1:
             ngram_type = "unigram"

@@ -23,6 +23,7 @@ def get_used_key_indices(comparisons: list[tuple[KeySeq, KeySeq]]) -> list[int]:
     return sorted(key_indices)
 
 
+# TODO: check if needed
 def get_ordered_unigrams_and_repeats(unigram_scores: dict[int, float]):
     """Get the unigrams and repeats ordered by their score (lowest to highest)"""
     unigram_indices = get_ordered_keys(unigram_scores)

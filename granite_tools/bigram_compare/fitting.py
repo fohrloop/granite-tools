@@ -8,8 +8,8 @@ KeySeq = tuple[int, ...]
 def get_scores(
     comparison_data: list[tuple[KeySeq, KeySeq]],
 ) -> dict[KeySeq, float]:
-    """Calculate "scores" for bigrams (and unigrams) based on comparison data. These
-    scores can be used to rank the bigrams."""
+    """Calculate "scores" for bigrams based on comparison data. These scores can be
+    used to rank the bigrams."""
 
     unique_key_sequences = {ks for pair in comparison_data for ks in pair}
     mapping = {i: ks for i, ks in enumerate(unique_key_sequences)}

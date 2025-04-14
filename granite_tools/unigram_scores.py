@@ -11,10 +11,13 @@ from sklearn.linear_model import LinearRegression  # type: ignore
 
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
+from granite_tools.scaling import get_scaled_scores
 
 if typing.TYPE_CHECKING:
     KeySeq = tuple[int, ...]
     from typing import Callable
+
+    from granite_tools.config import Config
 
 
 def create_data_for_fitting(
@@ -36,6 +39,31 @@ def create_data_for_fitting(
 
 
 def calculate_unigram_scores(
+    bigram_scores: dict[KeySeq, float], config: Config
+) -> dict[int, float]:
+    """Fit a linear regression model which estimates unigram scores from bigram
+    comparison data
+
+    Returns
+    -------
+    dict[int, float]
+        A dictionary mapping key indices to the estimated unigram scores
+    """
+
+    used_key_indices = list(set(ks for pair in bigram_scores for ks in pair))
+
+    unigram_scores = unigram_scores_using_linear_regression(
+        bigram_scores, used_key_indices
+    )
+    scaled_unigram_scores = get_scaled_scores(
+        unigram_scores,
+        newmax=config.most_difficult_unigram_score,
+        newmin=config.easiest_unigram_score,
+    )
+    return scaled_unigram_scores
+
+
+def unigram_scores_using_linear_regression(
     scores: dict[KeySeq, float], used_key_indices: list[int]
 ) -> dict[int, float]:
     """Fit a linear regression model which estimates unigram scores from bigram
@@ -55,36 +83,20 @@ def calculate_unigram_scores(
     out = dict()
     for idx, coef in zip(used_key_indices, coefs):
         out[idx] = float(coef)
+
     return out
 
 
 T = TypeVar("T")
 
 
-def scale_scores(
-    unigram_scores: dict[T, float], newmin: float = 1.0, newmax: float = 5.0
-) -> dict[T, float]:
-    scores = unigram_scores.copy()
-    minval = min(scores.values())
-    maxval = max(scores.values())
-    valrange = maxval - minval
-    newvalrange = newmax - newmin
-    k = newvalrange / valrange
-    for idx in scores:
-        score = scores[idx]
-        scaled_score = newmin + (score - minval) * k
-        scores[idx] = float(scaled_score)
-    return scores
-
-
 def print_results(unigram_scores: dict[int, float], config_file: str | None):
     config = read_config(config_file) if config_file is not None else None
     hands = get_hands_data(config) if config else None
 
-    scores = scale_scores(unigram_scores, 1.0, 5.0)
-    colorfunc = get_hex_func(min(scores.values()), max(scores.values()))
+    colorfunc = get_hex_func(min(unigram_scores.values()), max(unigram_scores.values()))
 
-    for idx, score in scores.items():
+    for idx, score in unigram_scores.items():
         score = round(score, 3)
         color = colorfunc(score)
         if hands is None:
