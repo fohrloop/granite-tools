@@ -362,6 +362,7 @@ source = { editable = "." }
 dependencies = [
     { name = "choix" },
     { name = "matplotlib" },
+    { name = "mplcursors" },
     { name = "pandas" },
     { name = "panel-graphic-walker" },
     { name = "plotext" },
@@ -393,6 +394,7 @@ dev = [
 requires-dist = [
     { name = "choix", specifier = "==0.3.5" },
     { name = "matplotlib", specifier = "==3.9.2" },
+    { name = "mplcursors", specifier = ">=0.6" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "panel-graphic-walker", specifier = "==0.5.3" },
     { name = "plotext", specifier = "==5.3.2" },
@@ -686,6 +688,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba", size = 8729 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8", size = 9979 },
+]
+
+[[package]]
+name = "mplcursors"
+version = "0.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "matplotlib" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d4/51/05bfb154407ca93f98032faf30596f610178c92dad454d4d7273910d600a/mplcursors-0.6.tar.gz", hash = "sha256:775217cd09965bb17179c0cd0fb123fed4f4f00d7ade7e7e8788a6581fb2c8a9", size = 88578 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/a4/070512af1bbf73de4d2648bbfc355619abf27dd468dba6dae35805a05b43/mplcursors-0.6-py3-none-any.whl", hash = "sha256:2d900267848378987c46ad2504ea484e274adbb596a71547c5c95d2b4f520a56", size = 20471 },
 ]
 
 [[package]]

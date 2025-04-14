@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from matplotlib import pyplot as plt
+from mplcursors import Selection, cursor
 
 from granite_tools.app_types import BigramScoreDict, KeySeq
 from granite_tools.bigram_scores.spline_smoothing import (
@@ -54,7 +55,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
     ax_unigram = axes[0]
     ax_bigram = axes[1]
 
-    ax_unigram.scatter(
+    scatter_unigram = ax_unigram.scatter(
         [s["rank_type"] for s in unigrams],
         [s["score"] for s in unigrams],
         marker=".",
@@ -65,7 +66,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
     ax_unigram.set_ylabel("Score")
     ax_unigram.set_title("Unigrams")
 
-    ax_bigram.scatter(
+    scatter_bigram = ax_bigram.scatter(
         [s["rank_type"] for s in bigrams],
         [s["score"] for s in bigrams],
         marker=".",
@@ -79,3 +80,25 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
     ax_unigram.grid(ls="--", lw=0.5, color="lightgray")
     ax_bigram.grid(ls="--", lw=0.5, color="lightgray")
     plt.tight_layout()
+    cur = cursor(figure, hover=True)
+
+    def set_annotation_text(sel: Selection):
+        if sel.artist == scatter_unigram:
+            scores = unigrams
+        elif sel.artist == scatter_bigram:
+            scores = bigrams
+        else:
+            return
+        dct = scores[sel.index]
+
+        labels = [
+            f"left: {dct['__comment__left']}",
+            f"right: {dct['__comment__right']}",
+            f"score: {dct['score']}",
+            f"rank: {dct['rank_type']}",
+            f"key_indices: {dct['key_indices']}",
+        ]
+
+        sel.annotation.set_text("\n".join(labels))
+
+    cur.connect("add", set_annotation_text)
