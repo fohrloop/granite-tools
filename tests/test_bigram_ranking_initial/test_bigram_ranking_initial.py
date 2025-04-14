@@ -20,7 +20,9 @@ class TestKeySeqApp:
     @pytest.mark.slow
     async def test_move_left_one_step(self, config_minimal: Config):
 
-        app = KeySequenceSortApp("__some_nonexisting_file__", config=config_minimal)
+        app = KeySequenceSortApp(
+            "__some_nonexisting_file__", config=config_minimal, sequence_lengths=(1, 2)
+        )
         async with app.run_test() as pilot:
 
             assert app.ordered_ngrams == [(0,)]
@@ -32,7 +34,9 @@ class TestKeySeqApp:
     @pytest.mark.slow
     async def test_move_right_one_step(self, config_minimal: Config):
 
-        app = KeySequenceSortApp("__some_nonexisting_file__", config=config_minimal)
+        app = KeySequenceSortApp(
+            "__some_nonexisting_file__", config=config_minimal, sequence_lengths=(1,)
+        )
         async with app.run_test() as pilot:
 
             assert app.ordered_ngrams == [(0,)]
@@ -57,7 +61,10 @@ class TestKeySeqApp:
     async def test_saving_and_loading(self, config_minimal: Config):
         filename = "__test_temp_file_remove_after_tests__"
         Path(filename).unlink(missing_ok=True)
-        app = KeySequenceSortApp(filename, config=config_minimal)
+        sequence_lengths = (1, 2)
+        app = KeySequenceSortApp(
+            filename, config=config_minimal, sequence_lengths=sequence_lengths
+        )
         async with app.run_test() as pilot:
 
             assert app.ordered_ngrams == [(0,)]
@@ -79,12 +86,18 @@ class TestKeySeqApp:
             assert f.read() == self.testfile_contents
 
         # First, starting an app without file will not load it from file
-        app = KeySequenceSortApp("__nonexistent__file__", config=config_minimal)
+        app = KeySequenceSortApp(
+            "__nonexistent__file__",
+            config=config_minimal,
+            sequence_lengths=sequence_lengths,
+        )
         async with app.run_test() as pilot:
             assert app.ordered_ngrams == [(0,)]
 
         # Now, load from the file
-        app = KeySequenceSortApp(filename, config=config_minimal)
+        app = KeySequenceSortApp(
+            filename, config=config_minimal, sequence_lengths=sequence_lengths
+        )
         async with app.run_test() as pilot:
 
             assert app.ordered_ngrams == [(0,), (0, 1), (0, 0), (1,), (2,)]

@@ -148,12 +148,17 @@ class NgramTableViewerApp(App):
         Binding("ctrl+c", "exit", "Exit"),
     ]
 
-    def __init__(self, file_out: Path | str, config: Config) -> None:
+    def __init__(
+        self,
+        file_out: Path | str,
+        config: Config,
+        sequence_lengths: tuple[int, ...] = (2,),
+    ) -> None:
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
         self.permutations: list[tuple[int, ...]] = create_permutations(
-            self.hands.left, self.hands.right, sequence_lengths=(1, 2)
+            self.hands.left, self.hands.right, sequence_lengths=sequence_lengths
         )
         super().__init__()
         self.help_panel_visible: bool = False

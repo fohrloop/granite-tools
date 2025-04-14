@@ -227,13 +227,18 @@ class KeySequenceSortApp(App):
         Binding("p", "previous_ngram", "Previous ngram"),
     ]
 
-    def __init__(self, file_out: Path | str, config: Config) -> None:
+    def __init__(
+        self,
+        file_out: Path | str,
+        config: Config,
+        sequence_lengths: tuple[int, ...] = (2,),
+    ) -> None:
         super().__init__()
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
         permutations = create_permutations(
-            self.hands.left, self.hands.right, sequence_lengths=(1, 2)
+            self.hands.left, self.hands.right, sequence_lengths=sequence_lengths
         )
         self.n_ngrams = len(permutations)
         self.main_area = MainArea(
@@ -372,7 +377,9 @@ def main():
             "Usage:  granite-bigram-ranking-initial <bigram-ranking-file-out> <config-file-yml>"
         )
         sys.exit(1)
-    app = KeySequenceSortApp(bigram_ranking_file, config=read_config(config_file))
+    app = KeySequenceSortApp(
+        bigram_ranking_file, config=read_config(config_file), sequence_lengths=(2,)
+    )
     app.run()
 
 

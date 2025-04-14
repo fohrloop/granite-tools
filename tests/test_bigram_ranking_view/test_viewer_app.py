@@ -10,13 +10,15 @@ examples_folder = test_folder.parent / "examples"
 
 
 @pytest.mark.asyncio
-class TestKeySeqApp:
+class TestNgramTableViewerApp:
 
     @pytest.mark.slow
     async def test_permutations(self, config: Config):
 
         N = 10  # from config (10 keys per side)
-        app = NgramTableViewerApp("__some_nonexisting_file__", config=config)
+        app = NgramTableViewerApp(
+            "__some_nonexisting_file__", config=config, sequence_lengths=(1, 2)
+        )
         async with app.run_test():
             assert len(app.permutations) == N**2 + N
             # fmt: off
@@ -31,7 +33,7 @@ class TestKeySeqApp:
         the file are skipped. Skipping should not be based on the number of
         key sequences in the file, but the actual key sequences themselves."""
 
-        app = NgramTableViewerApp(test_file1, config=config)
+        app = NgramTableViewerApp(test_file1, config=config, sequence_lengths=(1,))
         async with app.run_test() as pilot:
 
             # Three items were loaded from the file

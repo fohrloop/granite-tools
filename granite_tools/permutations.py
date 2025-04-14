@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
 
 
 def create_permutations(
-    left: Hand, right: Hand, sequence_lengths: tuple[int, ...] = (1, 2)
+    left: Hand, right: Hand, sequence_lengths: tuple[int, ...] = (2,)
 ) -> list[tuple[int, ...]]:
     """This creates permutations of given sequence lengths that can be typed with at
     least one of the hands. The returned list contains tuples of key indices."""
@@ -26,7 +26,7 @@ def create_permutations(
 
 
 def iterate_permutations(
-    key_indices: list[int], sequence_lengths: tuple[int, ...]
+    key_indices: list[int], sequence_lengths: tuple[int, ...] = (2,)
 ) -> Iterable[tuple[int, ...]]:
     for seq_length in sequence_lengths:
         for seq in itertools.product(key_indices, repeat=seq_length):
