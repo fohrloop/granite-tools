@@ -77,7 +77,7 @@ def get_label_color_marker(repeats: str, rowdiff: str):
     return rowdiff, hex_color, "x"
 
 
-def plot_trigram_scores(
+def bigram_scores_dumbbell_plot(
     data: NgramDataDict,
     outfile: Path,
 ):
@@ -179,6 +179,7 @@ def plot_trigram_scores(
     print("Plot saved to", outfile)
     plt.close()
 
+    # TODO: replace this part with a function
     plt.plot(
         df.index,
         df.y,
@@ -220,4 +221,4 @@ if __name__ == "__main__":
         data["rowdiff"].append(str(hands.get_rowdiff_text(keyseq)))
 
     print(LEGEND_INFO)
-    plot_trigram_scores(data, Path(outfile_figure))
+    bigram_scores_dumbbell_plot(data, Path(outfile_figure))
