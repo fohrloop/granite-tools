@@ -364,7 +364,15 @@ class KeySequenceSortApp(App):
 
 
 def main():
-    app = KeySequenceSortApp(sys.argv[1], config=read_config(sys.argv[2]))
+    try:
+        bigram_ranking_file = sys.argv[1]
+        config_file = sys.argv[2]
+    except IndexError:
+        print(
+            "Usage:  granite-bigram-ranking-initial <bigram-ranking-file-out> <config-file-yml>"
+        )
+        sys.exit(1)
+    app = KeySequenceSortApp(bigram_ranking_file, config=read_config(config_file))
     app.run()
 
 
