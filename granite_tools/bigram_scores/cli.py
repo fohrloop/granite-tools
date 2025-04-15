@@ -300,7 +300,7 @@ ARG_BIGRAM_SCORE_FILE = Annotated[
 ]
 
 ARG_SHORT_OR_LONG_ANNOTATIONS = Annotated[
-    Optional[bool],
+    bool,
     typer.Option(
         "--short/--long",
         help="Whether to show short or long form of the annotations.",
