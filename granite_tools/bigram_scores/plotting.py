@@ -128,7 +128,9 @@ def plot_bigram_scores(scores: list[BigramScoreDict], short_annotations: bool = 
 
         sel.annotation.set_text(annotation_text)
         sel.annotation.set_fontfamily("monospace")
-        sel.annotation.set_bbox(dict(boxstyle="round,pad=0.38", fc="white", ec="black"))
+        sel.annotation.set_bbox(
+            dict(boxstyle="round4,pad=0.58", fc="white", ec="black")
+        )
         sel.annotation.set_alpha(0.8)
         sel.annotation.set_fontsize("x-small")
 
