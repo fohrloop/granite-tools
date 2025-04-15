@@ -89,7 +89,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         ax.grid(ls="--", lw=0.5, color="lightgray", zorder=-10)
 
     plt.tight_layout()
-    cur = cursor(figure, hover=True)
+    cur = cursor(figure, hover=False, multiple=True)
 
     def set_annotation_text(sel: Selection):
         add_relative_score = False
