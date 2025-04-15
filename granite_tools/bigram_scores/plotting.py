@@ -51,7 +51,7 @@ def plot_anchor_scores(ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
     plt.title("Bigram scores (raw, unscaled)")
 
 
-def plot_bigram_scores(scores: list[BigramScoreDict]):
+def plot_bigram_scores(scores: list[BigramScoreDict], short_annotations: bool = True):
     """Plots bigram (and unigram) scores."""
     bigrams = [s for s in scores if s["type"] == "bigram"]
     unigrams = [s for s in scores if s["type"] == "unigram"]
@@ -66,7 +66,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         [s["score"] for s in unigrams],
         marker=".",
         s=122,
-        color="tab:blue",
+        color="tab:red",
         zorder=10,
     )
     ax_unigram.set_xlabel("Rank of unigram")
@@ -89,7 +89,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
         ax.grid(ls="--", lw=0.5, color="lightgray", zorder=-10)
 
     plt.tight_layout()
-    cur = cursor(figure, hover=True)
+    cur = cursor(figure, hover=False, multiple=True)
 
     def set_annotation_text(sel: Selection):
         add_relative_score = False
@@ -102,19 +102,37 @@ def plot_bigram_scores(scores: list[BigramScoreDict]):
             return
         dct = scores[sel.index]
 
-        labels = [
-            f"left: {dct['__comment__left']}",
-            f"right: {dct['__comment__right']}",
-            f"score: {dct['score']:.2f}",
-            f"rank: {dct['rank_type']}",
-            f"key_indices: {dct['key_indices']}",
-        ]
+        left = dct.get("__comment__left", "??")
+        right = dct.get("__comment__right", "??")
+        score = f"{dct.get('score', 0):.2f}"
+        rank = "#" + str(dct.get("rank_type", "??"))
 
-        if add_relative_score:
-            ref_score = scores[0]["score"]
-            labels.insert(3, f"relative_score: {dct['score']/ref_score:.2f}")
+        if short_annotations:
+            max_len = max(len(score), len(rank))
+            upper = f"{left} {score.rjust(max_len)}"
+            lower = f"{right} {rank.rjust(max_len)}"
+            annotation_text = f"{upper}\n{lower}"
+        else:
+            labels = [
+                f"left: {left}",
+                f"right: {right}",
+                f"score: {score}",
+                f"rank: {rank}",
+                f"key_indices: {dct.get('key_indices', '??')}",
+            ]
 
-        sel.annotation.set_text("\n".join(labels))
+            if add_relative_score:
+                ref_score = scores[0]["score"]
+                labels.insert(3, f"relative_score: {dct['score']/ref_score:.2f}")
+            annotation_text = "\n".join(labels)
+
+        sel.annotation.set_text(annotation_text)
+        sel.annotation.set_fontfamily("monospace")
+        sel.annotation.set_bbox(
+            dict(boxstyle="round4,pad=0.58", fc="white", ec="black")
+        )
+        sel.annotation.set_alpha(0.8)
+        sel.annotation.set_fontsize("x-small")
 
     cur.connect("add", set_annotation_text)
 

@@ -8,6 +8,7 @@ import time
 import typing
 from collections import defaultdict
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 import typer
@@ -298,13 +299,23 @@ ARG_BIGRAM_SCORE_FILE = Annotated[
     ),
 ]
 
+ARG_SHORT_OR_LONG_ANNOTATIONS = Annotated[
+    bool,
+    typer.Option(
+        "--short/--long",
+        help="Whether to show short or long form of the annotations.",
+        show_default=True,
+    ),
+]
+
 
 def bigram_scores_plot_(
     bigram_score_file: ARG_BIGRAM_SCORE_FILE = DEFAULT_SCORE_FILE_OUT,
+    short_annotations: ARG_SHORT_OR_LONG_ANNOTATIONS = True,  # True means "--short"
 ):
     """Plot bigram scores from a bigram score JSON file."""
     bigram_scores = read_bigram_scores(bigram_score_file)
-    plot_bigram_scores(bigram_scores)
+    plot_bigram_scores(bigram_scores, short_annotations=short_annotations)
     plt.show()
 
 
