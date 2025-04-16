@@ -49,7 +49,7 @@ def fit_parameters_cli():
 ARG_BIGRAM_RANKING_FILE = Annotated[
     Path,
     typer.Argument(
-        help="The path to the bigram ranking file. Created with granite-bigram-ranking-from-compare",
+        help="The path to the bigram ranking file. Created with granite-bigram-ranking-fit",
         show_default=False,
     ),
 ]
