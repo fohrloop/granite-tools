@@ -15,7 +15,7 @@ The full process is:
 2. **Initial bigram ranking**: Create initial ranking/ordering with `granite-bigram-ranking-initial`.
 3. **View the initial order** (optional): Use the `granite-bigram-ranking-view` view or fine tune the initial order. 
 4. **Create comparison file**. Use the `granite-bigram-compare`  to create comparisons of different key sequences. 
-5. **Create bigram ranking file** using `python create_ngram_ranking.py <some.compare.pickle>`. The output file will be called `some.compare.ranking`.
+5. **Create bigram ranking file** using `granite-bigram-ranking-from-compare <some.compare.pickle>`. The output file will be called `some.compare.ranking`.
 6. **Create bigram score ratio file** using `granite-bigram-score-ratio-template` and filling up the template.
 7. **Create bigram (and unigram) scores** based on score ratios
 8. **Create trigram scoring file**: Hint: use `granite-trigram-score-template` for creating the trigram scoring template.
@@ -101,7 +101,7 @@ where
 Exract the bigram ranking file from the `.compare.pickle` file using:
 
 ```
-python granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
+granite-bigram-ranking-from-compare <some.compare.pickle>
 ```
 
 The output file will be called `some.compare.ranking`, which contains all the bigrams in rank order (easiest on the top of the file, most difficult at the bottom).

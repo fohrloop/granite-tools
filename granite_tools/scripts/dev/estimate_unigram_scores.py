@@ -6,7 +6,7 @@ Usage:
     python granite_tools/scripts/dev/estimate_unigram_scores.py <bigram_ranking_file> <anchor_bigram_raw_score_file.json> <config_file.yml>
 
 where the
-    - bigram_ranking_file is the file containing the bigram rankings (from create_ngram_ranking.py)
+    - bigram_ranking_file is the file containing the bigram rankings (from granite-bigram-ranking-from-compare)
     - anchor_bigram_raw_score_file.json is created with granite-bigram-scores-fit
     - config_file.yml is the Granite Config YAML file (optional)
 """

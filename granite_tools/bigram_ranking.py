@@ -1,17 +1,9 @@
-"""Used to create estimate for ngram ranking scores using .compare.pickle file from the
-granite-bigram-compare application.
-
-
-Usage: python granite_tools/scripts/create_ngram_ranking.py <some.compare.pickle>
-
-NOTE: This saves the ranking to a file with the same name as the input file, but with
-the extension changed to .ranking (any file with the same name will be overwritten).
-"""
-
 import pickle
 import sys
 from enum import Enum
 from pathlib import Path
+
+import typer
 
 from granite_tools.bigram_compare.fitting import get_scores
 from granite_tools.bigram_compare.scorer import is_bigram, is_repeat, is_unigram
@@ -22,6 +14,12 @@ from granite_tools.comparison_data import (
     get_used_key_indices,
 )
 from granite_tools.unigram_scores import calculate_unigram_scores
+
+try:
+    from typing import Annotated
+except ImportError:
+    # For older python versions
+    from typing_extensions import Annotated  # type: ignore
 
 KeySeq = tuple[int, ...]
 Unigram = tuple[int]
@@ -102,19 +100,35 @@ def save_ranking_to_file(file, ngram_ranking):
             f.write(",".join(map(str, ngram)) + "\n")
 
 
-if __name__ == "__main__":
+ARG_NGRAM_COMPARE_FILE = Annotated[
+    Path,
+    typer.Argument(
+        help="The path to the bigram.compare.pickle file (from: granite-bigram-compare). NOTE: The output file will have the same name but with .ranking extension.",
+        show_default=False,
+    ),
+]
 
-    compare_file = sys.argv[1]
-    with open(compare_file, "rb") as f:
+
+def create_bigram_ranking():
+    typer.run(create_bigram_ranking_)
+
+
+def create_bigram_ranking_(
+    bigram_compare_file: ARG_NGRAM_COMPARE_FILE,
+):
+    """Used to create estimate for ngram ranking scores using .compare.pickle file from the
+    granite-bigram-compare application."""
+
+    with open(bigram_compare_file, "rb") as f:
         data = pickle.load(f)
 
     comparisons_all = data["comparisons_all"]
     ngram_ranking = create_ngram_ranking(comparisons_all)
 
-    if compare_file.endswith(".compare.pickle"):
-        outfile = Path(compare_file[:-15] + ".ranking")
+    if bigram_compare_file.endswith(".compare.pickle"):
+        outfile = Path(bigram_compare_file[:-15] + ".ranking")
     else:
-        outfile = Path(compare_file).with_suffix(".ranking")
+        outfile = Path(bigram_compare_file).with_suffix(".ranking")
 
     if outfile.exists():
         print(f"ERROR: {outfile} already exists! Aborting")
