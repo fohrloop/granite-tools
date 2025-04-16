@@ -31,7 +31,7 @@ from granite_tools.bigram_ranking_initial.positionbar import PositionBar
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.config import Config, read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.permutations import create_permutations
+from granite_tools.permutations import create_bigrams
 from granite_tools.textual_widgets.exit_modal import ExitModal
 from granite_tools.textual_widgets.progress import Progress
 
@@ -231,15 +231,12 @@ class KeySequenceSortApp(App):
         self,
         file_out: Path | str,
         config: Config,
-        sequence_lengths: tuple[int, ...] = (2,),
     ) -> None:
         super().__init__()
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
-        permutations = create_permutations(
-            self.hands.left, self.hands.right, sequence_lengths=sequence_lengths
-        )
+        permutations = create_bigrams(self.hands.left, self.hands.right)
         self.n_ngrams = len(permutations)
         self.main_area = MainArea(
             ngram_params=NgramShowParams(None, None, None, hands=self.hands),

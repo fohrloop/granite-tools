@@ -9,6 +9,8 @@ from granite_tools.bigram_ranking_initial.bigram_ranking_initial import (
 )
 from granite_tools.bigram_scores.rankings import DuplicateValuesError
 from granite_tools.config import Config
+from granite_tools.hands import get_hands_data
+from granite_tools.permutations import create_bigrams
 
 test_folder = Path(__file__).parent.parent
 examples_folder = test_folder.parent / "examples"
@@ -20,38 +22,34 @@ class TestKeySeqApp:
     @pytest.mark.slow
     async def test_move_left_one_step(self, config_minimal: Config):
 
-        app = KeySequenceSortApp(
-            "__some_nonexisting_file__", config=config_minimal, sequence_lengths=(1, 2)
-        )
+        app = KeySequenceSortApp("__some_nonexisting_file__", config=config_minimal)
         async with app.run_test() as pilot:
 
-            assert app.ordered_ngrams == [(0,)]
+            assert app.ordered_ngrams == [(0, 1)]
             await pilot.press("left")
 
             pilot.app.action_place_ngram()
-            assert pilot.app.ordered_ngrams == [(1,), (0,)]
+            assert pilot.app.ordered_ngrams == [(0, 2), (0, 1)]
 
     @pytest.mark.slow
     async def test_move_right_one_step(self, config_minimal: Config):
 
-        app = KeySequenceSortApp(
-            "__some_nonexisting_file__", config=config_minimal, sequence_lengths=(1,)
-        )
+        app = KeySequenceSortApp("__some_nonexisting_file__", config=config_minimal)
         async with app.run_test() as pilot:
 
-            assert app.ordered_ngrams == [(0,)]
+            assert app.ordered_ngrams == [(0, 1)]
             await pilot.press("right")
 
             pilot.app.action_place_ngram()
-            assert pilot.app.ordered_ngrams == [(0,), (1,)]
+            assert pilot.app.ordered_ngrams == [(0, 1), (0, 2)]
 
     testfile_contents = dedent(
         """
-    0
     0,1
-    0,0
-    1
-    2
+    0,2
+    1,0
+    1,2
+    2,0
     """.strip(
             "\n"
         )
@@ -61,13 +59,13 @@ class TestKeySeqApp:
     async def test_saving_and_loading(self, config_minimal: Config):
         filename = "__test_temp_file_remove_after_tests__"
         Path(filename).unlink(missing_ok=True)
-        sequence_lengths = (1, 2)
-        app = KeySequenceSortApp(
-            filename, config=config_minimal, sequence_lengths=sequence_lengths
-        )
+        hands = get_hands_data(config_minimal)
+        b = create_bigrams(hands.left, hands.right)
+
+        app = KeySequenceSortApp(filename, config=config_minimal)
         async with app.run_test() as pilot:
 
-            assert app.ordered_ngrams == [(0,)]
+            assert app.ordered_ngrams == [(0, 1)]
             await pilot.press("right")
             await pilot.press("enter")
             await pilot.press("right")
@@ -77,33 +75,34 @@ class TestKeySeqApp:
             await pilot.press("left")
             await pilot.press("enter")
             await pilot.press("ctrl+s")
-            assert app.ordered_ngrams == [(0,), (0, 1), (0, 0), (1,), (2,)]
-            assert app.manager._current_ngram == (0, 2)
-            assert app.manager.ngrams_left_side_of_current == [(0,), (0, 1)]
-            assert app.manager.ngrams_right_side_of_current == [(0, 0), (1,), (2,)]
+            assert app.ordered_ngrams == [b[0], b[4], b[3], b[1], b[2]]
+            assert app.manager._current_ngram == b[5]
+            assert app.manager.ngrams_left_side_of_current == [b[0], b[4]]
+            assert app.manager.ngrams_right_side_of_current == [b[3], b[1], b[2]]
+
+        expected_contents = (
+            "\n".join(
+                ",".join(map(str, bigram)) for bigram in [b[0], b[4], b[3], b[1], b[2]]
+            )
+            + "\n"
+        )
 
         with open(app.file_out, "r") as f:
-            assert f.read() == self.testfile_contents
+            assert f.read() == expected_contents
 
         # First, starting an app without file will not load it from file
-        app = KeySequenceSortApp(
-            "__nonexistent__file__",
-            config=config_minimal,
-            sequence_lengths=sequence_lengths,
-        )
+        app = KeySequenceSortApp("__nonexistent__file__", config=config_minimal)
         async with app.run_test() as pilot:
-            assert app.ordered_ngrams == [(0,)]
+            assert app.ordered_ngrams == [b[0]]
 
         # Now, load from the file
-        app = KeySequenceSortApp(
-            filename, config=config_minimal, sequence_lengths=sequence_lengths
-        )
+        app = KeySequenceSortApp(filename, config=config_minimal)
         async with app.run_test() as pilot:
 
-            assert app.ordered_ngrams == [(0,), (0, 1), (0, 0), (1,), (2,)]
-            assert app.manager._current_ngram == (0, 2)
-            assert app.manager.ngrams_left_side_of_current == [(0,), (0, 1)]
-            assert app.manager.ngrams_right_side_of_current == [(0, 0), (1,), (2,)]
+            assert app.ordered_ngrams == [b[0], b[4], b[3], b[1], b[2]]
+            assert app.manager._current_ngram == b[5]
+            assert app.manager.ngrams_left_side_of_current == [b[0], b[4]]
+            assert app.manager.ngrams_right_side_of_current == [b[3], b[1], b[2]]
 
         Path(filename).unlink()
 
@@ -113,12 +112,10 @@ class TestKeySeqApp:
         Path(filename).unlink(missing_ok=True)
         contents_with_duplicate = dedent(
             """
-        0
         0,1
         0,0
-        1
+        2,0
         0,1
-        2
         """.strip(
                 "\n"
             )

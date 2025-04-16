@@ -100,7 +100,7 @@ def hands_minimal() -> Hands:
 def test_file1():
     # to be paired in tests with TEST_CONFIG_MINIMAL_TXT
     file = test_folder / "test_file1_remove_me"
-    file.write_text("0,0\n0,1\n0,2")
+    file.write_text("2,0\n2,1\n1,2")
     try:
         yield str(file)
     finally:
