@@ -24,7 +24,7 @@ from granite_tools.bigram_scores.spline_smoothing import (
     create_monotone_bspline,
     scores_to_training_data,
 )
-from granite_tools.utils import get_linear_scaling_function
+from granite_tools.scaling import get_linear_scaling_function
 
 try:
     bigram_ranking_file = sys.argv[1]

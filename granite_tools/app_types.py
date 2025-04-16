@@ -30,7 +30,7 @@ class BigramScoreDict(TypedDict):
     """The score of the bigram (or unigram)."""
 
     rank: int
-    """The rank of the ngram (bigram or unigram) in the list of ngrams. 1 means the 
+    """The rank of the ngram (bigram or unigram) in the list of ngrams. 1 means the
     easiest to type (and lowest score)."""
 
     rank_type: int

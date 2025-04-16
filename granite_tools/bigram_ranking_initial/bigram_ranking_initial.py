@@ -31,7 +31,7 @@ from granite_tools.bigram_ranking_initial.positionbar import PositionBar
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 from granite_tools.config import Config, read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.permutations import create_permutations
+from granite_tools.permutations import create_bigrams
 from granite_tools.textual_widgets.exit_modal import ExitModal
 from granite_tools.textual_widgets.progress import Progress
 
@@ -227,14 +227,16 @@ class KeySequenceSortApp(App):
         Binding("p", "previous_ngram", "Previous ngram"),
     ]
 
-    def __init__(self, file_out: Path | str, config: Config) -> None:
+    def __init__(
+        self,
+        file_out: Path | str,
+        config: Config,
+    ) -> None:
         super().__init__()
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
-        permutations = create_permutations(
-            self.hands.left, self.hands.right, sequence_lengths=(1, 2)
-        )
+        permutations = create_bigrams(self.hands.left, self.hands.right)
         self.n_ngrams = len(permutations)
         self.main_area = MainArea(
             ngram_params=NgramShowParams(None, None, None, hands=self.hands),
@@ -364,7 +366,15 @@ class KeySequenceSortApp(App):
 
 
 def main():
-    app = KeySequenceSortApp(sys.argv[1], config=read_config(sys.argv[2]))
+    try:
+        bigram_ranking_file = sys.argv[1]
+        config_file = sys.argv[2]
+    except IndexError:
+        print(
+            "Usage:  granite-bigram-ranking-initial <bigram-ranking-file-out> <config-file-yml>"
+        )
+        sys.exit(1)
+    app = KeySequenceSortApp(bigram_ranking_file, config=read_config(config_file))
     app.run()
 
 

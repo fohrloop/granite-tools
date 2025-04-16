@@ -25,7 +25,7 @@ from textual.widgets import Footer, Label, Log, Static
 from granite_tools.bigram_ranking_view.keyseq_table import GotoModal, KeySequenceTable
 from granite_tools.config import Config, read_config
 from granite_tools.hands import get_hands_data
-from granite_tools.permutations import create_permutations
+from granite_tools.permutations import create_bigrams
 from granite_tools.textual_widgets.exit_modal import ExitModal
 from granite_tools.textual_widgets.progress import Progress
 
@@ -148,12 +148,16 @@ class NgramTableViewerApp(App):
         Binding("ctrl+c", "exit", "Exit"),
     ]
 
-    def __init__(self, file_out: Path | str, config: Config) -> None:
+    def __init__(
+        self,
+        file_out: Path | str,
+        config: Config,
+    ) -> None:
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
-        self.permutations: list[tuple[int, ...]] = create_permutations(
-            self.hands.left, self.hands.right, sequence_lengths=(1, 2)
+        self.permutations: list[tuple[int, int]] = create_bigrams(
+            self.hands.left, self.hands.right
         )
         super().__init__()
         self.help_panel_visible: bool = False

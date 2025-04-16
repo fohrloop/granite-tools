@@ -15,12 +15,12 @@ KeySeq = tuple[int, ...]
 
 
 @pytest.fixture
-def testfile(permutations_full: list[KeySeq]):
+def testfile(bigrams_full: list[KeySeq]):
     filename = "__tmp_file_compare_app_tests__"
     file = this_folder / filename
     pickle_file = file.with_suffix(".compare.pickle")
     with open(file, "w") as f:
-        for ks in permutations_full:
+        for ks in bigrams_full:
             f.write(f"{','.join(map(str,ks))}\n")
     if pickle_file.exists():
         pickle_file.unlink()

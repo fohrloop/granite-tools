@@ -1,5 +1,6 @@
 from granite_tools.hands import Hand
 from granite_tools.permutations import (
+    create_bigrams,
     create_permutations,
     get_union_of_keys,
     permutation_is_typable,
@@ -91,3 +92,29 @@ class TestCreateUnionOfKeys:
         right = Hand(hand="Right", symbols_visualization={1: "B"})
 
         assert get_union_of_keys(left, right) == [0, 1, 6]
+
+
+class TestCreateBigrams:
+
+    left = Hand(hand="Left", symbols_visualization={0: "x", 1: "y", 2: "z"})
+    right = Hand(hand="Right", symbols_visualization={0: "a", 1: "b", 2: "c", 3: "d"})
+
+    def test_simple(self):
+        bigrams = create_bigrams(self.left, self.right)
+
+        assert len(bigrams) == 4**2 - 4
+        # No repeats or unigrams
+        assert bigrams == [
+            (0, 1),
+            (0, 2),
+            (0, 3),
+            (1, 0),
+            (1, 2),
+            (1, 3),
+            (2, 0),
+            (2, 1),
+            (2, 3),
+            (3, 0),
+            (3, 1),
+            (3, 2),
+        ]

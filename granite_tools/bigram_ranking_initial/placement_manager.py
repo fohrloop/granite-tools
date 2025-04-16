@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from granite_tools.permutations import iterate_permutations
 
 if typing.TYPE_CHECKING:
-    from typing import Callable, Literal
+    from typing import Callable, Literal, Sequence
 
     KeySeq = tuple[int, ...]
 
@@ -43,9 +43,9 @@ class NgramPlacementManager:
     _current_ngram_movement_history: list[NgramPlacementState]
 
     def __init__(
-        self, permutations: list[KeySeq], callback: None | Callable[[], None] = None
+        self, permutations: Sequence[KeySeq], callback: None | Callable[[], None] = None
     ) -> None:
-        self.all_ngrams = permutations
+        self.all_ngrams = list(permutations)
         self._current_index = 0
         self._current_ngram = tuple()
         self._current_ngram_movement_history = []

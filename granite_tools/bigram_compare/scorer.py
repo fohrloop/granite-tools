@@ -465,15 +465,16 @@ def filter_candidates(
     return all_key_sequences
 
 
-def is_unigram(current_key_sequence: KeySeq):
-    return len(current_key_sequence) == 1
+def is_unigram(key_sequence: KeySeq):
+    return len(key_sequence) == 1
 
 
-def is_repeat(current_key_sequence: KeySeq):
-    return len(set(current_key_sequence)) == 1
+def is_repeat(key_sequence: KeySeq):
+    return len(key_sequence) >= 2 and len(set(key_sequence)) == 1
 
 
-def is_bigram(current_key_sequence: KeySeq):
-    if len(current_key_sequence) != 2:
+def is_bigram(key_sequence: KeySeq):
+    """Checks if keysequence is a non-repeating bigram"""
+    if len(key_sequence) != 2:
         return False
-    return current_key_sequence[0] != current_key_sequence[1]
+    return key_sequence[0] != key_sequence[1]

@@ -9,6 +9,16 @@ if typing.TYPE_CHECKING:
     from granite_tools.hands import Hand
 
 
+def create_bigrams(left: Hand, right: Hand) -> list[tuple[int, int]]:
+    """Creates bigrams that can be typed with at least one of the hands. The returned
+    list contains 2-tuples of key indices. Repeats (like (2,2) are NOT included)."""
+    bigrams: list[tuple[int, int]] = []
+    for bigram in create_permutations(left, right, (2,)):
+        if len(set(bigram)) == 2 and len(bigram) == 2:
+            bigrams.append(bigram)
+    return bigrams
+
+
 def create_permutations(
     left: Hand, right: Hand, sequence_lengths: tuple[int, ...] = (1, 2)
 ) -> list[tuple[int, ...]]:
@@ -26,7 +36,7 @@ def create_permutations(
 
 
 def iterate_permutations(
-    key_indices: list[int], sequence_lengths: tuple[int, ...]
+    key_indices: list[int], sequence_lengths: tuple[int, ...] = (1, 2)
 ) -> Iterable[tuple[int, ...]]:
     for seq_length in sequence_lengths:
         for seq in itertools.product(key_indices, repeat=seq_length):

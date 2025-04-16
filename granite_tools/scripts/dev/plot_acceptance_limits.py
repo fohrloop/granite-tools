@@ -44,7 +44,7 @@ ARG_TRIGRAM_SCORING_FILE = Annotated[
 ARG_BIGRAM_RANKING_FILE = Annotated[
     Path | None,
     typer.Argument(
-        help="The path to the bigram ranking file. Created with create_ngram_ranking.py",
+        help="The path to the bigram ranking file. Created with granite-bigram-ranking-fit",
         show_default=False,
     ),
 ]
