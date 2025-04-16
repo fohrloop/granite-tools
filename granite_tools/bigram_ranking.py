@@ -46,8 +46,8 @@ def create_bigram_ranking_cli_(
     comparisons_all = data["comparisons_all"]
     ngram_ranking = create_ngram_ranking(comparisons_all)
 
-    if bigram_compare_file.endswith(".compare.pickle"):
-        outfile = Path(bigram_compare_file[:-15] + ".ranking")
+    if str(bigram_compare_file).endswith(".compare.pickle"):
+        outfile = Path(str(bigram_compare_file)[:-15] + ".ranking")
     else:
         outfile = Path(bigram_compare_file).with_suffix(".ranking")
 

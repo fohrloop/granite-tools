@@ -12,11 +12,11 @@ if typing.TYPE_CHECKING:
 def create_bigrams(left: Hand, right: Hand) -> list[tuple[int, int]]:
     """Creates bigrams that can be typed with at least one of the hands. The returned
     list contains 2-tuples of key indices. Repeats (like (2,2) are NOT included)."""
-    return [
-        bigram
-        for bigram in create_permutations(left, right, (2,))
-        if len(set(bigram)) == 2
-    ]
+    bigrams: list[tuple[int, int]] = []
+    for bigram in create_permutations(left, right, (2,)):
+        if len(set(bigram)) == 2 and len(bigram) == 2:
+            bigrams.append(bigram)
+    return bigrams
 
 
 def create_permutations(

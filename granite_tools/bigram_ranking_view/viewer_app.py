@@ -156,7 +156,7 @@ class NgramTableViewerApp(App):
         self.file_out = Path(file_out)
         self.config = config
         self.hands = get_hands_data(self.config)
-        self.permutations: list[tuple[int, ...]] = create_bigrams(
+        self.permutations: list[tuple[int, int]] = create_bigrams(
             self.hands.left, self.hands.right
         )
         super().__init__()
