@@ -8,7 +8,6 @@ import time
 import typing
 from collections import defaultdict
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 import typer

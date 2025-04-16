@@ -7,7 +7,7 @@ import typer
 
 from granite_tools.app_types import KeySeq
 from granite_tools.bigram_compare.fitting import get_scores
-from granite_tools.bigram_compare.scorer import is_bigram, is_repeat, is_unigram
+from granite_tools.bigram_compare.scorer import is_repeat, is_unigram
 from granite_tools.comparison_data import get_bigram_pairs, get_ordered_keys
 
 try:
