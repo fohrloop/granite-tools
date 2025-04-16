@@ -1,103 +1,20 @@
 import pickle
 import sys
-from enum import Enum
+import warnings
 from pathlib import Path
 
 import typer
 
+from granite_tools.app_types import KeySeq
 from granite_tools.bigram_compare.fitting import get_scores
 from granite_tools.bigram_compare.scorer import is_bigram, is_repeat, is_unigram
-from granite_tools.comparison_data import (
-    get_bigram_pairs,
-    get_ordered_keys,
-    get_ordered_unigrams_and_repeats,
-    get_used_key_indices,
-)
-from granite_tools.unigram_scores import calculate_unigram_scores
+from granite_tools.comparison_data import get_bigram_pairs, get_ordered_keys
 
 try:
     from typing import Annotated
 except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
-
-KeySeq = tuple[int, ...]
-Unigram = tuple[int]
-Bigram = tuple[int, int]
-
-
-class NgramType(Enum):
-    UNIGRAM = 1
-    REPEAT = 2
-    BIGRAM = 3
-
-
-# TODO: Check this function. Does it work without any unigram data?
-def get_combined_order(
-    unigrams: list[Unigram],
-    repeats: list[Bigram],
-    bigrams: list[Bigram],
-    ngram_type_order: list[NgramType],
-):
-
-    combined_data: list[KeySeq] = []
-    for ngram_type in ngram_type_order:
-        if ngram_type == NgramType.UNIGRAM:
-            if not unigrams:
-                raise RuntimeError("Not enough unigrams")
-            combined_data.append(unigrams.pop(0))
-        elif ngram_type == NgramType.REPEAT:
-            if not repeats:
-                raise RuntimeError("Not enough repeats")
-            combined_data.append(repeats.pop(0))
-        elif ngram_type == NgramType.BIGRAM:
-            if not bigrams:
-                raise RuntimeError("Not enough bigrams")
-            combined_data.append(bigrams.pop(0))
-    if unigrams or repeats or bigrams:
-        raise RuntimeError("Too many ngrams (ngram_type_order too short)")
-    return combined_data
-
-
-def get_order_for_types(ordered_ngrams: list[KeySeq]) -> list[NgramType]:
-    ngram_types = []
-    for ngram in ordered_ngrams:
-        if is_unigram(ngram):
-            ngram_types.append(NgramType.UNIGRAM)
-        elif is_repeat(ngram):
-            ngram_types.append(NgramType.REPEAT)
-        elif is_bigram(ngram):
-            ngram_types.append(NgramType.BIGRAM)
-        else:
-            raise ValueError(f"Unknown ngram type: {ngram}")
-    return ngram_types
-
-
-# TODO: Check this function. Does it work without unigram data?
-def create_ngram_ranking(comparisons_all: list[tuple[KeySeq, KeySeq]]) -> list[KeySeq]:
-    bigram_pairs = get_bigram_pairs(comparisons_all)
-
-    bigram_scores = get_scores(bigram_pairs)
-    used_key_indices = get_used_key_indices(bigram_pairs)
-    unigram_scores = calculate_unigram_scores(bigram_scores, used_key_indices)
-
-    unigrams_ordered, repeats_ordered = get_ordered_unigrams_and_repeats(unigram_scores)
-    bigrams_ordered = get_ordered_keys(bigram_scores)
-
-    scores_all = get_scores(comparisons_all)
-    ngrams_ordered_all = get_ordered_keys(scores_all)
-    ngram_types = get_order_for_types(ngrams_ordered_all)
-
-    ngram_ranking = get_combined_order(
-        unigrams_ordered, repeats_ordered, bigrams_ordered, ngram_types
-    )
-    return ngram_ranking
-
-
-def save_ranking_to_file(file, ngram_ranking):
-    with open(file, "w") as f:
-        for ngram in ngram_ranking:
-            f.write(",".join(map(str, ngram)) + "\n")
 
 
 ARG_NGRAM_COMPARE_FILE = Annotated[
@@ -109,15 +26,19 @@ ARG_NGRAM_COMPARE_FILE = Annotated[
 ]
 
 
-def create_bigram_ranking():
-    typer.run(create_bigram_ranking_)
+class NotBigramWarning(UserWarning):
+    """Used to warn when a ngram in comparison is not a (non-repeating) bigram."""
 
 
-def create_bigram_ranking_(
+def create_bigram_ranking_cli():
+    typer.run(create_bigram_ranking_cli_)
+
+
+def create_bigram_ranking_cli_(
     bigram_compare_file: ARG_NGRAM_COMPARE_FILE,
 ):
     """Used to create estimate for ngram ranking scores using .compare.pickle file from the
-    granite-bigram-compare application."""
+    granite-bigram-cfompare application."""
 
     with open(bigram_compare_file, "rb") as f:
         data = pickle.load(f)
@@ -136,3 +57,30 @@ def create_bigram_ranking_(
 
     print("Saving to", outfile)
     save_ranking_to_file(outfile, ngram_ranking)
+
+
+def create_ngram_ranking(comparisons_all: list[tuple[KeySeq, KeySeq]]) -> list[KeySeq]:
+    for pair in comparisons_all:
+        for keyseq in pair:
+            if is_repeat(keyseq):
+                warnings.warn(
+                    f"One of the ngrams, {keyseq}, is a repeat. It will be ignored. Comparison pair: {pair}",
+                    NotBigramWarning,
+                    stacklevel=2,
+                )
+            if is_unigram(keyseq):
+                warnings.warn(
+                    f"One of the ngrams, {keyseq}, is a unigram. It will be ignored. Comparison pair: {pair}",
+                    NotBigramWarning,
+                    stacklevel=2,
+                )
+    bigram_pairs = get_bigram_pairs(comparisons_all)
+    bigram_scores = get_scores(bigram_pairs)
+    bigrams_ordered = get_ordered_keys(bigram_scores)
+    return bigrams_ordered
+
+
+def save_ranking_to_file(file, ngram_ranking):
+    with open(file, "w") as f:
+        for ngram in ngram_ranking:
+            f.write(",".join(map(str, ngram)) + "\n")
