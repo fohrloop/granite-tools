@@ -374,9 +374,7 @@ def main():
             "Usage:  granite-bigram-ranking-initial <bigram-ranking-file-out> <config-file-yml>"
         )
         sys.exit(1)
-    app = KeySequenceSortApp(
-        bigram_ranking_file, config=read_config(config_file), sequence_lengths=(2,)
-    )
+    app = KeySequenceSortApp(bigram_ranking_file, config=read_config(config_file))
     app.run()
 
 
