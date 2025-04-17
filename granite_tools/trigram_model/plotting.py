@@ -26,7 +26,7 @@ def plot_trigram_scores(
     scores: list[TrigramScoreDict],
     hands: Hands,
     outfile: Path,
-):
+) -> None:
     """Plots trigram scores and saves the plot to a file.
 
     Parameters

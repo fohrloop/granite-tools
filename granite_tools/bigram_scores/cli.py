@@ -51,7 +51,7 @@ if typing.TYPE_CHECKING:
     from granite_tools.hands import Hand, Hands
 
 
-def create_bigram_score_ratio_template():
+def create_bigram_score_ratio_template() -> None:
     typer.run(create_bigram_score_ratio_template_)
 
 
@@ -93,7 +93,7 @@ def create_bigram_score_ratio_template_(
     config_file: ARG_CONFIG,
     outfile: ARG_NGRAM_TEMPLATE_OUTFILE,
     n: ARG_SCORE_RATIO_NGRAM_GAP = 8,
-):
+) -> None:
     if outfile.exists():
         print(f"Output file {outfile} already exists. Aborting.")
         sys.exit(1)
@@ -164,7 +164,7 @@ def _get_left_or_right(
     raise RuntimeError(f"Key sequence {keyseq} not found in both hands.")
 
 
-def bigram_scores_fit():
+def bigram_scores_fit() -> None:
     typer.run(bigram_scores_fit_)
 
 
@@ -202,7 +202,7 @@ def bigram_scores_fit_(
     bigram_scoreratio_file: ARG_BIGRAM_TEMPLATE_FILE,
     bigram_score_file_out: ARG_BIGRAM_SCORE_OUTFILE = DEFAULT_SCORE_FILE_OUT,
     anchor_bigram_raw_score_file_out: ARG_ANCHOR_BIGRAM_RAW_SCORE_OUTFILE = DEFAULT_ANCHOR_RAW_SCORE_FILE_OUT,
-):
+) -> None:
     """Create bigram.scores.json (and the raw anchor score json) files based on the
     bigram.ranking and bigram.scoreratios.yml files."""
     config = read_config(config_file)
@@ -286,7 +286,7 @@ def make_bigram_score_dicts(
     return scoredcts
 
 
-def bigram_scores_plot():
+def bigram_scores_plot() -> None:
     typer.run(bigram_scores_plot_)
 
 
@@ -311,7 +311,7 @@ ARG_SHORT_OR_LONG_ANNOTATIONS = Annotated[
 def bigram_scores_plot_(
     bigram_score_file: ARG_BIGRAM_SCORE_FILE = DEFAULT_SCORE_FILE_OUT,
     short_annotations: ARG_SHORT_OR_LONG_ANNOTATIONS = True,  # True means "--short"
-):
+) -> None:
     """Plot bigram scores from a bigram score JSON file."""
     bigram_scores = read_bigram_scores(bigram_score_file)
     plot_bigram_scores(bigram_scores, short_annotations=short_annotations)
@@ -327,7 +327,7 @@ ARG_BIGRAM_DUMBBELL_PLOT_OUTFILE = Annotated[
 ]
 
 
-def bigram_scores_dumbbell_plot_cli():
+def bigram_scores_dumbbell_plot_cli() -> None:
     typer.run(bigram_scores_dumbbell_plot_cli_)
 
 
@@ -335,7 +335,7 @@ def bigram_scores_dumbbell_plot_cli_(
     bigram_score_file: ARG_BIGRAM_SCORE_FILE,
     config_file: ARG_CONFIG,
     save_to: ARG_BIGRAM_DUMBBELL_PLOT_OUTFILE,
-):
+) -> None:
 
     config = read_config(config_file)
     hands = get_hands_data(config)

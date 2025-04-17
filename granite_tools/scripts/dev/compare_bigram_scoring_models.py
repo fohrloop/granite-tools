@@ -34,7 +34,9 @@ except IndexError:
     sys.exit(1)
 
 
-def get_spline_data(bigram_ranking_file: str, scores_raw_out_file: str):
+def get_spline_data(
+    bigram_ranking_file: str, scores_raw_out_file: str
+) -> tuple[list[int], np.ndarray]:
 
     ngrams_ordered = load_bigram_rankings(bigram_ranking_file)
     scores = read_raw_anchor_scores_json(scores_raw_out_file)
@@ -42,11 +44,11 @@ def get_spline_data(bigram_ranking_file: str, scores_raw_out_file: str):
     bspline = create_monotone_bspline(
         x_train,
         y_train,
-        **SPLINE_KWARGS,
+        **SPLINE_KWARGS,  # type: ignore[arg-type]
     )
 
     y_all = bspline(x_all)
-    return x_all, y_all
+    return x_all, np.array(y_all)
 
 
 bigram_scaling_exponent1 = 0.242

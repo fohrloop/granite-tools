@@ -31,7 +31,7 @@ def opposite_hand(hand: HandType) -> HandType:
 
 
 def get_canonical_hand_permutation(
-    hand1, hand2, hand3
+    hand1: HandType, hand2: HandType, hand3: HandType
 ) -> tuple[HandType, HandType, HandType]:
     """Canonical hand permutation is the one with more Left hands keys in it."""
     left_count = sum([h == "Left" for h in (hand1, hand2, hand3)])
@@ -72,7 +72,7 @@ ARG_NUMBER = Annotated[
 ]
 
 
-def create_trigram_table_cli():
+def create_trigram_table_cli() -> None:
     typer.run(create_trigram_table)
 
 
@@ -80,7 +80,7 @@ def create_trigram_table(
     config_file: ARG_CONFIG,
     outfile: ARG_OUTFILE = None,
     n: ARG_NUMBER = 4,
-):
+) -> None:
 
     config = read_config(config_file)
     hands = get_hands_data(config)

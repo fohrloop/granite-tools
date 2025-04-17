@@ -14,6 +14,7 @@ from granite_tools.app_types import Vert2uPenaltyConfig
 
 if typing.TYPE_CHECKING:
     from pathlib import Path
+    from typing import Self
 
 HandType = Literal["Left", "Right"]
 
@@ -71,12 +72,18 @@ class Config(BaseModel):
     limit_multipliers: dict[float, float] = Field(default=DEFAULT_LIMIT_MULTIPLIERS)
 
     @model_validator(mode="after")
-    def set_default_symbols_scoring(self):
-        self.symbols_scoring = self.symbols_scoring or self.symbols_visualization
+    def set_default_symbols_scoring(self) -> Self:
+        if not self.symbols_scoring:
+            vis: list[list[str | None]] = [
+                [cell for cell in row] for row in self.symbols_visualization
+            ]
+            self.symbols_scoring = vis
         return self
 
     @field_validator("easy_rolling_trigrams", mode="before")
-    def convert_to_numpy_arrays(cls, value: dict[str, list[list[str]]] | None):
+    def convert_to_numpy_arrays(
+        cls, value: dict[str, list[list[str]]] | None
+    ) -> dict[str, np.ndarray] | None:
         if not value:
             return None
         result = {}

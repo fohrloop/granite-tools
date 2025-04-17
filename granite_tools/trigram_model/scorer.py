@@ -94,7 +94,7 @@ def get_balanced_score(
     keytypes: Sequence[HandOrKey],
     bigram_scores: dict[KeySeq, float],
     params: TrigramModelParameters,
-):
+) -> dict[str, str | float]:
     """Get score for a balanced type of trigram."""
     key_sequences, key_seq_types = _to_balanced_key_sequences(indices, keytypes)
 
@@ -201,7 +201,7 @@ def get_onehand_score(
     bigram_scores: dict[KeySeq, float],
     features: TrigramFeatures,
     params: TrigramModelParameters,
-):
+) -> dict[str, float | str]:
     d = get_onehand_base_score(indices, bigram_scores, params)
     multiplier = get_feature_multiplier(features, params)
 
@@ -214,7 +214,7 @@ def get_onehand_base_score(
     indices: Sequence[int],
     bigram_scores: dict[KeySeq, float],
     params: TrigramModelParameters,
-):
+) -> dict[str, float]:
     bigram_ab_score = bigram_scores[indices[0], indices[1]]
     bigram_bc_score = bigram_scores[indices[1], indices[2]]
     skipgram_ac_score = bigram_scores[indices[0], indices[2]]
@@ -249,7 +249,7 @@ def get_normalization_factor(w_ac_one: float) -> float:
 def get_feature_multiplier(
     features: TrigramFeatures,
     params: TrigramModelParameters,
-):
+) -> dict[str, float]:
 
     if features.vert2u == "v1x":
         vert2u = 1.0 + params.vert2u_coeff

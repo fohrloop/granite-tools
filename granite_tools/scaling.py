@@ -1,14 +1,28 @@
-from typing import TypeVar
+from __future__ import annotations
 
-T = TypeVar("T")
+import typing
+
+if typing.TYPE_CHECKING:
+    from typing import Callable, TypeVar, Union
+
+    import numpy as np
+
+    T = TypeVar("T")
+
+    Number = Union[int, float]
+    NumericArray = np.ndarray
+
+    NumericLike = TypeVar("NumericLike", Number, NumericArray)
 
 
-def get_linear_scaling_function(oldmin, oldmax, newmin=1, newmax=5):
+def get_linear_scaling_function(
+    oldmin: float, oldmax: float, newmin: float = 1, newmax: float = 5
+) -> Callable[[NumericLike], NumericLike]:
     oldrange = oldmax - oldmin
     newrange = newmax - newmin
     k = newrange / oldrange
 
-    def _scale_a_score(score: T) -> T:
+    def _scale_a_score(score: NumericLike) -> NumericLike:
         return newmin + (score - oldmin) * k
 
     return _scale_a_score

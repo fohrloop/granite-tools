@@ -52,7 +52,7 @@ def get_spline_scores(
     bspline = create_monotone_bspline(
         x_train,
         y_train,
-        **SPLINE_KWARGS,
+        **SPLINE_KWARGS,  # type: ignore[arg-type]
     )
 
     bspline_scores = bspline(ranks)
@@ -62,12 +62,12 @@ def get_spline_scores(
 
 
 def create_monotone_bspline(
-    rank_train,
-    score_train,
-    bspline_degree=3,
-    knot_segments=10,
-    lambda_smoothing=0.1,
-    kappa_penalty=10**6,
+    rank_train: Sequence[float],
+    score_train: Sequence[float],
+    bspline_degree: int = 3,
+    knot_segments: int = 10,
+    lambda_smoothing: float = 0.1,
+    kappa_penalty: float = 10**6,
 ) -> BSpline:
 
     alphas, knots = fit_iter_pspline_smooth(
@@ -83,13 +83,13 @@ def create_monotone_bspline(
 
 
 def fit_iter_pspline_smooth(
-    x_train,
-    y_train,
-    bspline_degree=3,
-    knot_segments=10,
-    lambda_smoothing=0.1,
-    kappa_penalty=10**6,
-):
+    x_train: Sequence[float],
+    y_train: Sequence[float],
+    bspline_degree: int = 3,
+    knot_segments: int = 10,
+    lambda_smoothing: float = 0.1,
+    kappa_penalty: float = 10**6,
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Parameters
     ----------

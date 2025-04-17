@@ -1,7 +1,16 @@
+from __future__ import annotations
+
+import typing
+
 import plotext._utility as ut  # type: ignore
 from rich.text import Text
 from textual.widget import Widget
 from textual.widgets import Label
+
+if typing.TYPE_CHECKING:
+    from typing import Sequence
+
+    from textual.app import ComposeResult
 
 
 class PositionBar(Widget):
@@ -15,7 +24,7 @@ class PositionBar(Widget):
         )
         super().__init__()
 
-    def compose(self):
+    def compose(self) -> ComposeResult:
         yield self.label
 
     def update(
@@ -28,7 +37,7 @@ class PositionBar(Widget):
         left_outer: float, left: float, right: float, right_outer: float
     ) -> Text:
         return Text.from_ansi(
-            get_bar(left_outer, left, right, right_outer, width=100, colors=colors)
+            get_bar(left_outer, left, right, right_outer, colors=colors, width=100)
         )
 
 
@@ -37,8 +46,8 @@ def get_bar(
     left: float,
     right: float,
     right_outer: float,
+    colors: Sequence[tuple[int, int, int]],
     width: int = 100,
-    colors=None,
 ) -> str:
     # Modified (pruned) version of simple_stacked_bar from plotext/_global.py
     bar_widths = left_outer, left, right, right_outer
@@ -58,11 +67,11 @@ def get_bar(
         ut.transpose(colors)
         if colors_ok1
         else (
-            [colors] * n_bars
+            [colors] * n_bars  # type:ignore
             if colors_ok2
             else [ut.color_sequence[:stacked_bars]] * n_bars
         )
-    )
+    )  # type:ignore
 
     x_vals = list(Y[0])
     # hack: make sure at least something is shown. The bar width is not super accurate
@@ -74,7 +83,9 @@ def get_bar(
     return single_bar(x_vals, marker, colors[0])
 
 
-def single_bar(x, marker, colors) -> str:
+def single_bar(
+    x: Sequence[int], marker: str, colors: Sequence[tuple[int, int, int]]
+) -> str:
     # modified (pruned) version of single_bar from plotext/_utility.py
     lenofx = len(x)
     lc = len(colors)

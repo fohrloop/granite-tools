@@ -41,22 +41,22 @@ class BigramScoreDict(TypedDict):
 
 
 class OrderedStrEnum(Enum):
-    def __lt__(self, other):
+    def __lt__(self, other: object) -> bool:
         if isinstance(other, OrderedStrEnum):
             return self.value < other.value
         return NotImplemented
 
-    def __le__(self, other):
+    def __le__(self, other: object) -> bool:
         if isinstance(other, OrderedStrEnum):
             return self.value <= other.value
         return NotImplemented
 
-    def __gt__(self, other):
+    def __gt__(self, other: object) -> bool:
         if isinstance(other, OrderedStrEnum):
             return self.value > other.value
         return NotImplemented
 
-    def __ge__(self, other):
+    def __ge__(self, other: object) -> bool:
         if isinstance(other, OrderedStrEnum):
             return self.value >= other.value
         return NotImplemented

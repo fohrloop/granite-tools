@@ -20,6 +20,11 @@ from granite_tools.app_types import (
 )
 from granite_tools.config import Config
 
+if typing.TYPE_CHECKING:
+    from typing import Any, Self, TypeVar
+
+    TDict = TypeVar("TDict", bound=typing.Dict)
+
 
 def get_rowdiff_for_bigram(
     finger1: FingerType, row1: int, finger2: FingerType, row2: int
@@ -148,16 +153,16 @@ class Hand(BaseModel):
     """Keys: key indices. Values: (column, row) positions in the matrix."""
 
     @field_validator("symbols_visualization", mode="before")
-    def sort_dict(cls, v):
+    def sort_dict(cls, v: TDict) -> dict[Any, Any]:
         return dict(sorted(v.items(), key=lambda item: item[0]))
 
     @model_validator(mode="after")
-    def set_default_symbols_scoring(self):
+    def set_default_symbols_scoring(self) -> Self:
         self.symbols_scoring = self.symbols_scoring or self.symbols_visualization
         return self
 
     def get_symbols_visualization(
-        self, key_seq: Sequence[int] | None, fallback=""
+        self, key_seq: Sequence[int] | None, fallback: str = ""
     ) -> str:
         if key_seq is None:
             return fallback
@@ -352,7 +357,7 @@ class Hands(BaseModel):
     config: Config  # the config used in creation
 
     def get_symbols_visualization(
-        self, hand: HandOrKey, key_seq: Sequence[int] | None, fallback=""
+        self, hand: HandOrKey, key_seq: Sequence[int] | None, fallback: str = ""
     ) -> str:
         handobj = getattr(self, hand.lower())
         return handobj.get_symbols_visualization(key_seq, fallback)
@@ -423,7 +428,7 @@ class Hands(BaseModel):
         self,
         hand: HandOrKey,
         key_seq: tuple[int, ...] | None,
-        fallback="",
+        fallback: str = "",
         center: int | None = None,
     ) -> Text:
         symbols = self.get_symbols_visualization(hand, key_seq, fallback)

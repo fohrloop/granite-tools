@@ -90,7 +90,7 @@ class NgramPlacementManager:
 
         return ngram_placed
 
-    def move_left(self):
+    def move_left(self) -> None:
         if self.left_of_current is None or self.is_finished():
             return
         self._current_ngram_movement_history.append(self.placement_state)
@@ -101,7 +101,7 @@ class NgramPlacementManager:
         )
         self.refresh_callback()
 
-    def move_right(self):
+    def move_right(self) -> None:
         if self.right_of_current is None or self.is_finished():
             return
         self._current_ngram_movement_history.append(self.placement_state)
@@ -113,7 +113,7 @@ class NgramPlacementManager:
         )
         self.refresh_callback()
 
-    def move_back(self):
+    def move_back(self) -> None:
         """Move the ngram being currently placed 'back' in the movement history (if it
         has any)"""
         if self.is_finished():
@@ -122,14 +122,14 @@ class NgramPlacementManager:
             self.placement_state = self._current_ngram_movement_history.pop()
         self.refresh_callback()
 
-    def reset_current_ngram(self):
+    def reset_current_ngram(self) -> None:
         """Resets the current ngram placement process."""
         if self.is_finished():
             return
         self._start_placing_next_ngram()
         self.refresh_callback()
 
-    def previous_ngram(self):
+    def previous_ngram(self) -> None:
         """Move back to the previous ngram."""
         if self._current_index < 1:
             self.reset_current_ngram()
@@ -213,11 +213,11 @@ class NgramPlacementManager:
         right_side = right_all - right_search_area
         return left_side, left_search_area, right_search_area, right_side
 
-    def refresh_callback(self):
+    def refresh_callback(self) -> None:
         if self._callback:
             self._callback()
 
-    def load_state(self, ordered_ngrams: list[KeySeq]):
+    def load_state(self, ordered_ngrams: list[KeySeq]) -> None:
         n_new = len(ordered_ngrams)
         set_of_ordered_ngrams = set(ordered_ngrams)
         if len(ordered_ngrams) != len(set_of_ordered_ngrams):

@@ -12,7 +12,7 @@ from granite_tools.trigram_model.params import TrigramModelParameters
 from granite_tools.trigram_model.scorer import get_trigram_scores
 
 if typing.TYPE_CHECKING:
-    from typing import Iterable, Sequence
+    from typing import Any, Callable, Iterable, Sequence
 
     from granite_tools.app_types import KeySeq
     from granite_tools.config import Config
@@ -26,7 +26,7 @@ def create_optimization_target_function(
     hands: Hands,
     bigram_scores: dict[KeySeq, float],
     mapping: EasyRollingTrigramsMap | None = None,
-):
+) -> Callable[[tuple[float, ...], Any], float]:
     """Creates a function that can be used as the target for optimizing the trigram
     model parameters.
 
@@ -40,7 +40,7 @@ def create_optimization_target_function(
     )
     get_log_m = create_log_m_func(hands.config.limit_multipliers)
 
-    def func(x: tuple[float], *_: typing.Any) -> float:
+    def func(x: tuple[float, ...], *_: Any) -> float:
         """Function that can be used as optimization target. Takes the model parameters
         as a tuple (or: Sequence) and returns a single float."""
         sum_: float = 0
@@ -98,7 +98,7 @@ def get_initial_params(
 
 
 def optimize_parameters(
-    scorefunc: typing.Callable[[list[float]], float],
+    scorefunc: typing.Callable[[tuple[float,], Any], float],
     x0: Sequence[float],
     config: Config,
 ) -> tuple[float, ...]:
@@ -131,13 +131,14 @@ def create_log_m_func(
 
     spline = PchipInterpolator(score_ratios, log_m, extrapolate=False)
 
-    def get_log_m(r):
+    def get_log_m(r: float) -> float:
 
         if r <= score_ratios[0]:
-            return log_m[0]
+            return float(log_m[0])
         elif r >= score_ratios[-1]:
-            return log_m[-1]
-        return spline(r)
+            return float(log_m[-1])
+        x = spline([r])[0]
+        return float(x)
 
     return get_log_m
 

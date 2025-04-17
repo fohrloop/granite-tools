@@ -12,6 +12,8 @@ Example:
 
 """
 
+from __future__ import annotations
+
 import argparse
 import typing
 
@@ -20,6 +22,9 @@ import yaml
 from granite_tools.bigram_scores.score_ratio_template import save_score_ratios
 from granite_tools.config import read_config
 from granite_tools.hands import get_hands_data
+
+if typing.TYPE_CHECKING:
+    from granite_tools.score_ratios import ScoreRatioYamlEntry
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -48,8 +53,10 @@ if __name__ == "__main__":
     print(f"Removing ngrams: {ngrams_to_remove}")
     print("Ngram pairs before:", len(d))
 
-    def remove_ngram(d, keyseq: tuple[int, ...]):
-        out = []
+    def remove_ngram(
+        d: list[ScoreRatioYamlEntry], keyseq: tuple[int, ...]
+    ) -> list[ScoreRatioYamlEntry]:
+        out: list[ScoreRatioYamlEntry] = []
         to_remove = set()
         for hand in ("Left", "Right"):
             to_remove.add(
@@ -58,10 +65,10 @@ if __name__ == "__main__":
                 )
             )
 
-        for x in d:
-            if x["ngram"] in to_remove or x["ref"] in to_remove:
+        for entry in d:
+            if entry["ngram"] in to_remove or entry["ref"] in to_remove:
                 continue
-            out.append(x)
+            out.append(entry)
         return out
 
     for ngram in ngrams_to_remove:

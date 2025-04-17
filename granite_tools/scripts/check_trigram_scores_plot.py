@@ -19,7 +19,7 @@ from granite_tools.trigram_model import get_trigram_data_from_files
 pd.set_option("display.max_rows", 1000)
 
 
-def get_rmse(df):
+def get_rmse(df: pd.DataFrame) -> float:
     return float((df["score_ratio_resid"] ** 2).mean() ** 0.5)
 
 

@@ -13,6 +13,7 @@ htmlcov/
 .coverage
 .ruff_cache
 .mypy_cache
+.dmypy.json
 
 # Virtual environments
 .venv

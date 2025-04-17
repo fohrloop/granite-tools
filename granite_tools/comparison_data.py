@@ -7,6 +7,10 @@ from granite_tools.bigram_compare.scorer import is_bigram
 if typing.TYPE_CHECKING:
     KeySeq = tuple[int, ...]
 
+    from typing import TypeVar
+
+    T = TypeVar("T")
+
 
 def get_bigram_pairs(
     comparisons_all: list[tuple[KeySeq, KeySeq]],
@@ -24,7 +28,7 @@ def get_used_key_indices(comparisons: list[tuple[KeySeq, KeySeq]]) -> list[int]:
 
 
 # TODO: check if needed
-def get_ordered_unigrams_and_repeats(unigram_scores: dict[int, float]):
+def get_ordered_unigrams_and_repeats(unigram_scores: dict[int, float]):  # type: ignore
     """Get the unigrams and repeats ordered by their score (lowest to highest)"""
     unigram_indices = get_ordered_keys(unigram_scores)
     unigrams = [(x,) for x in unigram_indices]
@@ -32,5 +36,5 @@ def get_ordered_unigrams_and_repeats(unigram_scores: dict[int, float]):
     return unigrams, repeats
 
 
-def get_ordered_keys(dct):
+def get_ordered_keys(dct: dict[T, float]) -> list[T]:
     return sorted(dct, key=lambda x: dct[x], reverse=False)

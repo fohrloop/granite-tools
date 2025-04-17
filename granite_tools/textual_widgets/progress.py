@@ -9,6 +9,9 @@ from textual.containers import Vertical
 from textual.widgets import Label, ProgressBar
 
 if typing.TYPE_CHECKING:
+    from typing import Iterator
+
+    from textual.widget import Widget
 
     KeySeq = tuple[int, ...]
 
@@ -19,7 +22,7 @@ class Progress(Vertical):
         self.total_sequences = total_sequences or 0
         super().__init__(id="progress-container")
 
-    def compose(self):
+    def compose(self) -> Iterator[Widget]:
         yield Label(
             f"Processed 0 out of of {self.total_sequences} ngrams", id="progress-title"
         )

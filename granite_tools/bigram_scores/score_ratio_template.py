@@ -49,7 +49,7 @@ def save_score_ratios(
     ngrams: Sequence[str],
     ref_ngrams: Sequence[str],
     score_ratios: Sequence[float] | None = None,
-):
+) -> None:
     """Save the score ratios to a YAML file. The ngrams and ref_ngrams are lists of
     ngrams and their references. The score_ratios is a list of score ratios, which is
     optional. If not provided, the score ratio is set to 1.0 for all ngram pairs."""

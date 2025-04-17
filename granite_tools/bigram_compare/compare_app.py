@@ -9,7 +9,7 @@ Development
 Run in one terminal: (this shows logs and prints)
     uv run textual console
 Run in another terminal: (this runs the app)
-    uv run textual run --dev app/compare/compare_app.py examples/config_numbers_mini.yml foo
+    uv run textual run --dev granite_tools/bigram_compare/compare_app.py foo examples/config_numbers_mini.yml
 """
 
 from __future__ import annotations
@@ -17,6 +17,7 @@ from __future__ import annotations
 import datetime as dt
 import sys
 import typing
+import warnings
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
@@ -38,6 +39,8 @@ from granite_tools.textual_widgets.exit_modal import ExitModal
 from granite_tools.textual_widgets.progress import Progress
 
 if typing.TYPE_CHECKING:
+
+    from typing import Any
 
     from granite_tools.hands import Hands
 
@@ -123,7 +126,7 @@ class NgramSelectionColumn(Horizontal, Center):
         self,
         left: KeySeq | None,
         right: KeySeq | None,
-    ):
+    ) -> None:
         self.card_left.update(left)
         self.card_right.update(right)
 
@@ -184,7 +187,7 @@ class MainArea(Vertical):
         right: KeySeq | None,
         additional_text: Text | str = "",
         is_finished: bool = False,
-    ):
+    ) -> None:
         if is_finished:
             self.text.update(
                 "🎉 All ngrams processed! Save the results (Ctrl-S) and quit (Ctrl-C)."
@@ -195,7 +198,7 @@ class MainArea(Vertical):
             self.text_additional.update(additional_text)
         self.compare_col.update(left, right)
 
-    def write_log(self, message: str):
+    def write_log(self, message: str) -> None:
         self.log_component.write_line(message)
 
 
@@ -245,30 +248,41 @@ class KeySequenceCompareApp(App):
         self.write_log(STARTING_INSTRUCTIONS)
         self.do_refresh()
 
-    def action_exit(self):
+    def action_exit(self) -> None:
         self.push_screen(ExitModal(), self.conditional_exit)
 
-    def action_select_left(self):
-        if self.scorer.is_finished():
+    def action_select_left(self) -> None:
+        if not self.scorer or self.scorer.is_finished():
             return
         if not self.scorer.is_current_round_finished():
             self.scorer.handle_select_left()
         self._after_pressing_left_or_right()
 
-    def action_select_right(self):
-        if self.scorer.is_finished():
+    def action_select_right(self) -> None:
+        if not self.scorer or self.scorer.is_finished():
             return
         if not self.scorer.is_current_round_finished():
             self.scorer.handle_select_right()
         self._after_pressing_left_or_right()
 
-    def _after_pressing_left_or_right(self):
+    def _after_pressing_left_or_right(self) -> None:
+        if not self.scorer:
+            return
         if self.scorer.is_current_round_finished():
             self.write_log("Round finished. Press Enter to continue.")
 
-    def action_press_enter(self):
-        if not self.scorer.is_current_round_finished() or self.scorer.is_finished():
+    def action_press_enter(self) -> None:
+        if (
+            not self.scorer
+            or not self.scorer.is_current_round_finished()
+            or self.scorer.is_finished()
+        ):
             return
+
+        if self.scorer.current_key_sequence is None:
+            self.write_log("No current_key_sequence.")
+            return
+
         self.handle_fit_start(
             self.scorer.current_key_sequence,
             len(self.scorer.processed_key_sequences),
@@ -287,29 +301,40 @@ class KeySequenceCompareApp(App):
         self.scorer.select_next_key_sequence()
         self.write_log("Fitting ready. You should save the progress now.")
 
-    def action_previous_paír(self):
+    def action_previous_paír(self) -> None:
+        if not self.scorer:
+            return
         self.scorer.handle_goto_previous()
 
-    def action_save(self):
+    def action_save(self) -> None:
+        if not self.scorer:
+            return
         if self.scorer.save_to_file(str(self.pickle_file)):
             self.write_log(f"Saved state to {self.pickle_file}.")
         else:
             self.write_log("Data validation failed. Not saving the data to file.")
 
-    def do_refresh(self):
-
+    def do_refresh(self) -> None:
+        if not self.scorer:
+            return
         is_finished = self.scorer.is_finished()
+
+        comparison_pair: tuple[KeySeq | None, KeySeq | None]
         if is_finished:
             comparison_pair = (None, None)
         else:
             comparison_pair = self.scorer.current_comparison_pair
+
         self.main_area.update(*comparison_pair, is_finished=is_finished)
 
-    def conditional_exit(self, condition: bool):
+    def conditional_exit(self, condition: Any) -> None:
+        if not isinstance(condition, bool):
+            warnings.warn("Exit condition is not a boolean.")
+
         if condition:
             self.exit()
 
-    def write_log(self, message: str):
+    def write_log(self, message: str) -> None:
         ts = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         line = f"[{ts}] {message}"
         self.main_area.write_log(line)
@@ -329,7 +354,9 @@ class KeySequenceCompareApp(App):
     def set_progress(self, progress: int) -> None:
         self.main_area.set_progress(progress)
 
-    def handle_fit_start(self, key_sequence: KeySeq, processed: int, total: int):
+    def handle_fit_start(
+        self, key_sequence: KeySeq, processed: int, total: int
+    ) -> None:
         left = self.hands.left.get_symbols_visualization(key_sequence)
         right = self.hands.right.get_symbols_visualization(key_sequence)
         self.write_log(
@@ -351,7 +378,7 @@ def get_files(file: Path | str) -> tuple[Path | None, Path]:
     return initial_order_file, pickle_file
 
 
-def main():
+def main() -> None:
     try:
         app = KeySequenceCompareApp(sys.argv[1], config=read_config(sys.argv[2]))
     except IndexError:

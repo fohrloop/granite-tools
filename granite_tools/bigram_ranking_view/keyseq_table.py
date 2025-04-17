@@ -18,8 +18,9 @@ from granite_tools.bigram_ranking_view.twowaydict import change_twowaydct_value_
 from granite_tools.bigram_scores.rankings import load_bigram_rankings
 
 if typing.TYPE_CHECKING:
-    from typing import ClassVar, Iterable
+    from typing import Any, ClassVar, Iterable
 
+    from textual.app import ComposeResult
     from textual.binding import BindingType
     from textual.widgets.data_table import ColumnKey
 
@@ -56,11 +57,9 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
     class Placed(Message):
         """Sent when a key sequence has been placed."""
 
-        def __init__(
-            self, keyseq: tuple[int, ...], left: str, right: str, row_label: str
-        ) -> None:
+        def __init__(self, keyseq: str, left: str, right: str, row_label: str) -> None:
             super().__init__()
-            self.keyseq = keyseq
+            self.keyseq = keyseq  # Example: "7,6"
             self.left = left
             self.right = right
             self.row_label = row_label
@@ -98,7 +97,7 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
         Binding("g", "goto", "Go to", show=True),
     ]
 
-    def __init__(self, hands: Hands | None = None, **kwargs) -> None:
+    def __init__(self, hands: Hands | None = None, **kwargs: Any) -> None:
         super().__init__(**kwargs)
         self.hands = hands
         self.cursor_foreground_priority = "css"
@@ -121,10 +120,10 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
 
     def add_row_with_autolabel(
         self,
-        *contents,
-        loc="center",
-        select_added_row=True,
-        change_to_moving_selection=False,
+        *contents: object,
+        loc: str = "center",
+        select_added_row: bool = True,
+        change_to_moving_selection: bool = False,
     ) -> bool:
         """
         loc: str
@@ -143,10 +142,10 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
 
     def _add_row_with_autolabel(
         self,
-        *contents,
-        loc="center",
-        select_added_row=True,
-        change_to_moving_selection=False,
+        *contents: object,
+        loc: str = "center",
+        select_added_row: bool = True,
+        change_to_moving_selection: bool = False,
     ) -> bool:
         """
         Parameters
@@ -160,18 +159,24 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
             True if the row was added, False if it was not (e.g. because it was
             already in the table).
         """
-
         length_before = len(self)
         # Rows are _always_ added first to the end of the table.
         key_seq, left, right, *other_cols = contents
 
         if key_seq in self.loaded_permutations:
             return False
+        if not isinstance(key_seq, tuple) or not all(
+            isinstance(x, int) for x in key_seq
+        ):
+            raise ValueError(f"Key sequence must be a tuple of integers: {key_seq}")
+        if not isinstance(left, str) or not isinstance(right, str):
+            raise ValueError(f"Left and right must be strings: {left}, {right}")
 
         self.currently_placing_key_seq = ",".join(str(x) for x in key_seq)
 
         key_sequence = Text(self.currently_placing_key_seq)
         key_sequence.stylize("italic bright_black")
+
         left, right = Text(left), Text(right)
         left.stylize("sky_blue1 bold")
         right.stylize("light_pink1 bold")
@@ -215,7 +220,7 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
             self.change_to_moving_selection()
         return True
 
-    def _set_bindings(self):
+    def _set_bindings(self) -> None:
         # Remove inherited bindings that are not used / needed
         # This removes both: the listing in the help panel and the actual
         # shortcut functionality.
@@ -303,11 +308,12 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
         else:
             super().action_scroll_bottom()
 
-    def post_message_placed(self):
+    def post_message_placed(self) -> None:
         self.currently_placing_key_seq = None
         label = str(self.cursor_row + 1)
         self.previously_added_row_index = self.cursor_row
-        self.post_message(self.Placed(*self.get_current_row(), row_label=label))
+        current_row = self.get_current_row()
+        self.post_message(self.Placed(*current_row, row_label=label))
 
     def action_goto(self) -> None:
 
@@ -454,6 +460,8 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
         return self.get_current_row(plain)[1:3]
 
     def get_current_row(self, plain: bool = True) -> tuple[str, str, str]:
+        """Returns the current row as a tuple of (key_seq, left, right).
+        For example: ('7,6', 'EV', 'IM') (if plain=True)"""
         return self.get_row_at(self.cursor_row, plain=plain)[:3]
 
     def get_current_key_seq(self) -> str:
@@ -473,7 +481,7 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
     def __len__(self) -> int:
         return self.row_count
 
-    def save(self, path: str):
+    def save(self, path: str) -> None:
         """Saves the data table to a file. If a row is selected with the cursor
         to be moved, that row will be excluded (as it has no been placed yet)."""
         Path(path).parent.mkdir(parents=True, exist_ok=True)
@@ -486,7 +494,7 @@ class KeySequenceTable(DataTable, inherit_bindings=True):
                     continue
                 f.write(f"{row[0]}\n")
 
-    def load(self, path: str, hands: Hands):
+    def load(self, path: str, hands: Hands) -> None:
 
         key_seqs = load_bigram_rankings(path)
 
@@ -517,7 +525,7 @@ class FileHasDuplicatesError(RuntimeError):
 
 class GotoModal(ModalScreen):
 
-    def compose(self):
+    def compose(self) -> ComposeResult:
         with Vertical():
             yield Static("Goto (left or right hand sequence):")
             input_widget = Input(placeholder="Type here", id="goto-input", type="text")
