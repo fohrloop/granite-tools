@@ -21,9 +21,24 @@ except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
 
+
 if typing.TYPE_CHECKING:
+    from typing import Callable, Literal, TypedDict
+
     import pandas as pd
     from matplotlib.axes import Axes
+
+    class PlotKwargs(TypedDict):
+        color: str
+        alpha: float
+        ls: str
+        lw: float
+
+    class ScatterKwargs(TypedDict):
+        label: str
+        alpha: float
+        s: float
+
 
 ARG_CONFIG_FILE = Annotated[
     Path | None,
@@ -128,7 +143,7 @@ def main(
     plt.show()
 
 
-def print_sse(df):
+def print_sse(df: pd.DataFrame) -> None:
     for col, name in zip(
         [
             "score_ratio_resid",
@@ -148,7 +163,7 @@ def print_sse(df):
         )
 
 
-def create_dashboard(df: pd.DataFrame):
+def create_dashboard(df: pd.DataFrame) -> None:
 
     import panel as pn
     from panel_gwalker import GraphicWalker
@@ -179,7 +194,7 @@ class BasePlotter:
         self.lower_limit = self.get_lower_limit(self.r)
         self.upper_limit = self.get_upper_limit(self.r)
 
-    def run(self):
+    def run(self) -> None:
         raise NotImplementedError
 
     def plot_acceptance_limits_on_ax(
@@ -192,7 +207,7 @@ class BasePlotter:
         ylabel: str,
         color: str = "tab:blue",
         xlabel: str = "Score ratio (r)",
-    ):
+    ) -> None:
 
         self._plot_with_extrapolate_on(ax, lower_limit, upper_limit, color)
         ax.set_xlabel(xlabel)
@@ -202,14 +217,14 @@ class BasePlotter:
 
     def _plot_with_extrapolate_on(
         self,
-        ax,
-        y_upper,
-        y_lower,
+        ax: Axes,
+        y_upper: np.ndarray,
+        y_lower: np.ndarray,
         color: str,
-        color_extrapolate="gray",
-        alpha_extrapolate=0.6,
-        ls_extrapolate="--",
-    ):
+        color_extrapolate: str = "gray",
+        alpha_extrapolate: float = 0.6,
+        ls_extrapolate: str = "--",
+    ) -> None:
 
         extrapolate_mask_left = self.r < self.r_range_start
         extrapolate_mask_right = self.r > self.r_range_end
@@ -219,7 +234,7 @@ class BasePlotter:
 
         ax.plot(self.r[idx], y_lower[idx], color=color)
         ax.plot(self.r[idx], y_upper[idx], color=color)
-        kwargs = dict(
+        kwargs: PlotKwargs = dict(
             color=color_extrapolate,
             alpha=alpha_extrapolate,
             ls=ls_extrapolate,
@@ -231,7 +246,7 @@ class BasePlotter:
         ax.plot(self.r[idx_extrapolate_right], y_upper[idx_extrapolate_right], **kwargs)
 
     @staticmethod
-    def _finalize_ax(ax, aspect: str = "equal"):
+    def _finalize_ax(ax: Axes, aspect: Literal["auto", "equal"] = "equal") -> None:
         ax.axvline(x=1, color="black", ls="-", lw=0.8)
         ax.grid(ls="--", color="gray", alpha=0.5, lw=0.5)
         ax.set_aspect(aspect)
@@ -239,7 +254,7 @@ class BasePlotter:
 
 
 class AcceptanceLimitPlotter(BasePlotter):
-    def run(self):
+    def run(self) -> None:
 
         plt.figure(figsize=(8, 8))
         self.ax_m = plt.subplot2grid((4, 4), (0, 1), 2, 2)
@@ -266,7 +281,7 @@ class AcceptanceLimitPlotter(BasePlotter):
             ylabel="Acceptance limits of residual",
         )
 
-    def plot_log_m_on_ax(self, ax: Axes, r: np.ndarray):
+    def plot_log_m_on_ax(self, ax: Axes, r: np.ndarray) -> None:
 
         get_log_m = create_log_m_func(self.limit_multipliers)
         log_m = np.vectorize(get_log_m)(r)
@@ -291,7 +306,7 @@ class ModelCheckPlotter(BasePlotter):
         super().__init__(limit_multipliers)
         self.df = df
 
-    def run(self):
+    def run(self) -> None:
 
         fig, axes = plt.subplots(ncols=3, figsize=(18, 6))
         fig2, axes2 = plt.subplots(ncols=2, figsize=(12, 6))
@@ -345,7 +360,9 @@ class ModelCheckPlotter(BasePlotter):
         sns.histplot(self.df["score_ratio_scaled_resid_actual"], ax=axes3[2])
         print_sse(self.df)
 
-    def do_plot(self, ax_resid, ax_scaled_resid, use_actual_r=False):
+    def do_plot(
+        self, ax_resid: Axes, ax_scaled_resid: Axes, use_actual_r: bool = False
+    ) -> None:
 
         xlabel = "r (actual)" if use_actual_r else "r (predicted)"
 
@@ -372,7 +389,7 @@ class ModelCheckPlotter(BasePlotter):
             r = df_type["score_ratio_actual"].to_numpy()
             r_est = df_type["score_ratio_pred"].to_numpy()
             resid = r_est - r
-            kwargs = dict(label=trigram_type, alpha=0.5, s=10)
+            kwargs: ScatterKwargs = dict(label=str(trigram_type), alpha=0.5, s=10)
 
             idx_neg = np.where(resid < 0)[0]
             idx_pos = np.where(resid >= 0)[0]
@@ -390,7 +407,7 @@ class ModelCheckPlotter(BasePlotter):
             ax_scaled_resid.scatter(score_ratio_scaled, resid_scaled, **kwargs)
 
 
-def print_table(get_log_m):
+def print_table(get_log_m: Callable[[float], float]) -> None:
     # Helper function to print a table of limits
     # fmt: off
     r_table = (0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0)

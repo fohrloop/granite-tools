@@ -5,7 +5,7 @@ Development
 Run in one terminal: (this shows logs and prints)
     uv run textual console
 Run in another terminal: (this runs the app)
-    uv run textual run --dev granite_tools/scorer_baseline/scorer_baseline.py  foo examples/config_numbers_mini.yml
+    uv run textual run --dev granite_tools/bigram_ranking_initial/bigram_ranking_initial.py  foo examples/config_numbers_mini.yml
 """
 
 from __future__ import annotations
@@ -36,6 +36,8 @@ from granite_tools.textual_widgets.exit_modal import ExitModal
 from granite_tools.textual_widgets.progress import Progress
 
 if typing.TYPE_CHECKING:
+
+    from typing import Any
 
     from granite_tools.hands import Hands
 
@@ -131,7 +133,7 @@ class NgramSortColumn(Horizontal):
         right: KeySeq | None,
         new: KeySeq | None,
         is_finished: bool = False,
-    ):
+    ) -> None:
         self.card_left.update(left)
         self.card_middle.update(new, is_finished=is_finished)
         self.card_right.update(right)
@@ -197,7 +199,7 @@ class MainArea(Vertical):
         positions: tuple[float, float, float, float],
         additional_text: Text | str = "",
         is_finished: bool = False,
-    ):
+    ) -> None:
         if is_finished:
             self.text.update(
                 "🎉 All ngrams placed! Save the results (Ctrl-S) and quit (Ctrl-C)."
@@ -209,7 +211,7 @@ class MainArea(Vertical):
         self.sort_col.update(left, right, new, is_finished=is_finished)
         self.position_bar.update(*positions)
 
-    def write_log(self, message: str):
+    def write_log(self, message: str) -> None:
         self.log_component.write_line(message)
 
 
@@ -265,16 +267,16 @@ class KeySequenceSortApp(App):
             )
             raise e
 
-    def action_exit(self):
+    def action_exit(self) -> None:
         self.push_screen(ExitModal(), self.conditional_exit)
 
-    def action_left(self):
+    def action_left(self) -> None:
         self.manager.move_left()
 
-    def action_right(self):
+    def action_right(self) -> None:
         self.manager.move_right()
 
-    def action_place_ngram(self):
+    def action_place_ngram(self) -> None:
         if self.manager.is_finished():
             return
 
@@ -288,26 +290,26 @@ class KeySequenceSortApp(App):
 
         self.write_log(f"Placed ngram {ngram_left} {ngram_right} to {idx+1}")
 
-    def action_move_back(self):
+    def action_move_back(self) -> None:
         self.manager.move_back()
 
-    def action_reset_current_ngram(self):
+    def action_reset_current_ngram(self) -> None:
         self.manager.reset_current_ngram()
 
-    def action_previous_ngram(self):
+    def action_previous_ngram(self) -> None:
         self.manager.previous_ngram()
 
-    def action_save(self):
+    def action_save(self) -> None:
         with open(self.file_out, "w") as f:
             for key_seq in self.ordered_ngrams:
                 f.write(",".join(map(str, key_seq)) + "\n")
         self.write_log(f"Saved ngrams to {self.file_out}")
 
-    def conditional_exit(self, condition: bool):
+    def conditional_exit(self, condition: Any) -> None:
         if condition:
             self.exit()
 
-    def write_log(self, message: str):
+    def write_log(self, message: str) -> None:
         ts = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         line = f"[{ts}] {message}"
         self.main_area.write_log(line)
@@ -365,7 +367,7 @@ class KeySequenceSortApp(App):
         return self.manager.ordered_ngrams
 
 
-def main():
+def main() -> None:
     try:
         bigram_ranking_file = sys.argv[1]
         config_file = sys.argv[2]

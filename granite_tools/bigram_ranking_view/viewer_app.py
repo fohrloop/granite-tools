@@ -13,6 +13,7 @@ from __future__ import annotations
 import datetime as dt
 import sys
 import typing
+import warnings
 from functools import cached_property
 from pathlib import Path
 
@@ -193,7 +194,7 @@ class NgramTableViewerApp(App):
                 f"Error loading data from: {self.file_out} (File does not exist)"
             )
 
-    def action_toggle_help(self):
+    def action_toggle_help(self) -> None:
         """Toggle the help panel."""
         self.help_panel_visible = not self.help_panel_visible
         if self.help_panel_visible:
@@ -201,24 +202,26 @@ class NgramTableViewerApp(App):
         else:
             self.action_hide_help_panel()
 
-    def action_exit(self):
+    def action_exit(self) -> None:
         self.push_screen(ExitModal(), self.conditional_exit)
 
-    def conditional_exit(self, condition: bool):
+    def conditional_exit(self, condition: typing.Any) -> None:
+        if type(condition) is not bool:
+            warnings.warn("Warning: condition is not a boolean")
         if condition:
             self.exit()
 
-    def act_all_key_sequences_placed(self):
+    def act_all_key_sequences_placed(self) -> None:
         self.write_log("All key sequences have been placed.")
         self.table.change_to_moving_cursor()
 
-    def write_log(self, text: Text | str):
+    def write_log(self, text: Text | str) -> None:
         datetime = dt.datetime.now().strftime("%H:%M:%S")
         self.logwidget.write_line(f"[{datetime}] {text}")
 
-    def action_save(self):
+    def action_save(self) -> None:
         """Save the table to a file."""
-        self.table.save(self.file_out)
+        self.table.save(str(self.file_out))
         self.write_log(f"Saved to: {self.file_out}")
 
     @cached_property
@@ -254,7 +257,7 @@ class NgramTableViewerApp(App):
         self.write_log(message.text)
 
 
-def main():
+def main() -> None:
     app = NgramTableViewerApp(sys.argv[1], config=read_config(sys.argv[2]))
     app.run()
 

@@ -90,7 +90,7 @@ def unigram_scores_using_linear_regression(
 T = TypeVar("T")
 
 
-def print_results(unigram_scores: dict[int, float], config_file: str | None):
+def print_results(unigram_scores: dict[int, float], config_file: str | None) -> None:
     config = read_config(config_file) if config_file is not None else None
     hands = get_hands_data(config) if config else None
 
@@ -108,9 +108,9 @@ def print_results(unigram_scores: dict[int, float], config_file: str | None):
 def get_hex_func(
     min_value: float,
     max_value: float,
-    min_color=(1, 1, 1),
-    max_color=(0.542, 0.211, 0.973),
-    n_bins=100,
+    min_color: tuple[float, float, float] = (1, 1, 1),
+    max_color: tuple[float, float, float] = (0.542, 0.211, 0.973),
+    n_bins: int = 100,
 ) -> Callable[[float], str]:
     colors = [min_color, max_color]
     custom_cmap = LinearSegmentedColormap.from_list(

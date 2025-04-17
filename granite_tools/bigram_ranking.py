@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import pickle
 import sys
+import typing
 import warnings
 from pathlib import Path
 
@@ -16,6 +19,8 @@ except ImportError:
     # For older python versions
     from typing_extensions import Annotated  # type: ignore
 
+if typing.TYPE_CHECKING:
+    from typing import Sequence
 
 ARG_NGRAM_COMPARE_FILE = Annotated[
     Path,
@@ -30,13 +35,13 @@ class NotBigramWarning(UserWarning):
     """Used to warn when a ngram in comparison is not a (non-repeating) bigram."""
 
 
-def create_bigram_ranking_cli():
+def create_bigram_ranking_cli() -> None:
     typer.run(create_bigram_ranking_cli_)
 
 
 def create_bigram_ranking_cli_(
     bigram_compare_file: ARG_NGRAM_COMPARE_FILE,
-):
+) -> None:
     """Used to create estimate for ngram ranking scores using .compare.pickle file from the
     granite-bigram-cfompare application."""
 
@@ -80,7 +85,9 @@ def create_ngram_ranking(comparisons_all: list[tuple[KeySeq, KeySeq]]) -> list[K
     return bigrams_ordered
 
 
-def save_ranking_to_file(file, ngram_ranking):
+def save_ranking_to_file(
+    file: str | Path, ngram_ranking: Sequence[tuple[int, ...]]
+) -> None:
     with open(file, "w") as f:
         for ngram in ngram_ranking:
             f.write(",".join(map(str, ngram)) + "\n")

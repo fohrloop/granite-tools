@@ -41,7 +41,7 @@ def save_compare_pickle(file_path: str, d: CompareDataDict) -> None:
         pickle.dump(d, f)
 
 
-def get_distribution_sigma(n: int, p95_fraction=1 / 5) -> float:
+def get_distribution_sigma(n: int, p95_fraction: float = 1 / 5) -> float:
     """Gets the normal distribution sigma (STD), which is chosen so that the normal
     distribution central 95% inter-percentile would have a width of n*p95_fraction.
     In other words, if n=10 and p95_fraction=0.2, and mean would be set to 5 there would
@@ -54,7 +54,11 @@ def get_distribution_sigma(n: int, p95_fraction=1 / 5) -> float:
 
 
 def unique_numbers_from_normal_dist(
-    num_samples, current_index: int, lower_bound: int, upper_bound: int, sigma: float
+    num_samples: int,
+    current_index: int,
+    lower_bound: int,
+    upper_bound: int,
+    sigma: float,
 ) -> list[int]:
     """Generates a list of unique integers from a normal distribution centered around
     current_index. The output may contain lower_bound and upper_bound, but not anything
@@ -230,17 +234,23 @@ class ComparisonBasedScorer:
             raise ValueError("No more key sequences to compare.")
         return random.choice(available_key_sequences)
 
-    def handle_select_left(self):
+    def handle_select_left(self) -> None:
         if self.is_current_round_finished():
             raise RoundFinishedError("The current round is already finished.")
 
-        self.comparisons_new.append(
-            tuple(reversed(self.current_comparison_pairs[self.pair_index]))
+        new_pair = self.current_comparison_pairs[self.pair_index]
+        if len(new_pair) != 2:
+            raise ValueError(
+                f"Invalid pair length: {len(new_pair)}. Expected 2, got {new_pair}"
+            )
+        new_pair_reversed = typing.cast(
+            tuple[tuple[int, ...], tuple[int, ...]], tuple(reversed(new_pair))
         )
+        self.comparisons_new.append(new_pair_reversed)
         self.pair_index += 1
         self.refresh()
 
-    def handle_select_right(self):
+    def handle_select_right(self) -> None:
         if self.is_current_round_finished():
             raise RoundFinishedError("The current round is already finished.")
 
@@ -248,14 +258,14 @@ class ComparisonBasedScorer:
         self.pair_index += 1
         self.refresh()
 
-    def handle_goto_previous(self):
+    def handle_goto_previous(self) -> None:
         if not self.comparisons_new:
             return
         self.comparisons_new.pop()
         self.pair_index -= 1
         self.refresh()
 
-    def fit(self, allow_unfinished: bool = False):
+    def fit(self, allow_unfinished: bool = False) -> None:
         if not allow_unfinished and not self.is_current_round_finished():
             raise RoundNotFinishedError("The current round is not yet finished.")
         self.comparisons_all += self.comparisons_new
@@ -270,7 +280,7 @@ class ComparisonBasedScorer:
             )
         self.processed_key_sequences.append(self.current_key_sequence)
 
-    def select_next_key_sequence(self):
+    def select_next_key_sequence(self) -> None:
         if not self.is_current_round_finished():
             raise RoundNotFinishedError("The current round is not yet finished.")
         self.current_comparison_pairs = self._select_new_comparison_pairs()
@@ -278,7 +288,7 @@ class ComparisonBasedScorer:
         self.refresh()
 
     @property
-    def current_comparison_pair(self):
+    def current_comparison_pair(self) -> tuple[KeySeq, KeySeq]:
         try:
             return self.current_comparison_pairs[self.pair_index]
         except IndexError:
@@ -304,7 +314,7 @@ class ComparisonBasedScorer:
             "pairs_per_sequence": self.pairs_per_sequence,
         }
 
-    def save_to_file(self, file_path: str):
+    def save_to_file(self, file_path: str) -> bool:
         d = self.to_dict()
         if not self._verify_data(d):
             return False
@@ -331,7 +341,7 @@ class ComparisonBasedScorer:
         instance._verify_data(data)
         return instance
 
-    def refresh(self):
+    def refresh(self) -> None:
         if self.app is None:
             return
 
@@ -342,7 +352,7 @@ class ComparisonBasedScorer:
 
         self.app.set_progress(len(self.processed_key_sequences))
 
-    def _verify_data(self, data) -> bool:
+    def _verify_data(self, data: CompareDataDict) -> bool:
         """Verifies the data.
 
         Returns
@@ -364,7 +374,7 @@ class ComparisonBasedScorer:
 class DataValidityError(RuntimeError): ...
 
 
-def verify_data(data: CompareDataDict):
+def verify_data(data: CompareDataDict) -> None:
     initial_pairs = len(data["initial_order"]) - 1
     p = data["pairs_per_sequence"]
     n_sequences = len(data["processed_key_sequences"])
@@ -465,15 +475,15 @@ def filter_candidates(
     return all_key_sequences
 
 
-def is_unigram(key_sequence: KeySeq):
+def is_unigram(key_sequence: KeySeq) -> bool:
     return len(key_sequence) == 1
 
 
-def is_repeat(key_sequence: KeySeq):
+def is_repeat(key_sequence: KeySeq) -> bool:
     return len(key_sequence) >= 2 and len(set(key_sequence)) == 1
 
 
-def is_bigram(key_sequence: KeySeq):
+def is_bigram(key_sequence: KeySeq) -> bool:
     """Checks if keysequence is a non-repeating bigram"""
     if len(key_sequence) != 2:
         return False

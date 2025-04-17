@@ -17,13 +17,15 @@ from granite_tools.bigram_scores.spline_smoothing import (
 from granite_tools.hands import Hands
 
 
-def plot_anchor_scores(ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]):
+def plot_anchor_scores(
+    ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
+) -> None:
     """Plot the anchor bigram raw scores. These scores are not final as they're
     not yet put into scale. This plot is for debugging the bigram score fitting process
     and its easier to spot problems in an unscaled plot."""
     x_train, y_train, x_all = scores_to_training_data(ngrams_ordered, scores)
 
-    bspline = create_monotone_bspline(x_train, y_train, **SPLINE_KWARGS)
+    bspline = create_monotone_bspline(x_train, y_train, **SPLINE_KWARGS)  # type: ignore[arg-type]
 
     plt.plot(x_train, y_train, marker="*", ls="", markersize=8, label="raw", alpha=0.4)
     plt.plot(
@@ -51,7 +53,9 @@ def plot_anchor_scores(ngrams_ordered: list[KeySeq], scores: dict[KeySeq, float]
     plt.title("Bigram scores (raw, unscaled)")
 
 
-def plot_bigram_scores(scores: list[BigramScoreDict], short_annotations: bool = True):
+def plot_bigram_scores(
+    scores: list[BigramScoreDict], short_annotations: bool = True
+) -> None:
     """Plots bigram (and unigram) scores."""
     bigrams = [s for s in scores if s["type"] == "bigram"]
     unigrams = [s for s in scores if s["type"] == "unigram"]
@@ -91,7 +95,7 @@ def plot_bigram_scores(scores: list[BigramScoreDict], short_annotations: bool = 
     plt.tight_layout()
     cur = cursor(figure, hover=False, multiple=True)
 
-    def set_annotation_text(sel: Selection):
+    def set_annotation_text(sel: Selection) -> None:
         add_relative_score = False
         if sel.artist == scatter_unigram:
             scores = unigrams
@@ -158,7 +162,7 @@ rp2u: Ring below pinky (2u)
 ROWDIFF_MAPPING = {v: k for (k, v) in Hands.rowdiff_names.items()}
 
 
-def bigram_scores_dumbbell_plot(data: dict[str, list[float | str]]):
+def bigram_scores_dumbbell_plot(data: dict[str, list[float | str]]) -> None:
     """Plots ngram scores and saves the plot to a file.
 
     Parameters
@@ -183,6 +187,7 @@ def bigram_scores_dumbbell_plot(data: dict[str, list[float | str]]):
     n_items = len(df)
     y_ticks = []
     shown_labels = set()
+    label: None | str
 
     for row in df.itertuples():
 
@@ -268,7 +273,7 @@ def bigram_scores_dumbbell_plot(data: dict[str, list[float | str]]):
     plt.tight_layout()
 
 
-def _get_label_color_marker(repeats: str, rowdiff: str):
+def _get_label_color_marker(repeats: str, rowdiff: str) -> tuple[str, str, str]:
     if repeats.startswith("SFB"):
         return "SFB", "tab:red", ">"
     elif repeats.startswith("REP"):

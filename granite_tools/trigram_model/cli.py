@@ -42,7 +42,7 @@ ARG_OUTFILE = Annotated[
 ]
 
 
-def fit_parameters_cli():
+def fit_parameters_cli() -> None:
     typer.run(fit_parameters)
 
 
@@ -84,7 +84,7 @@ def fit_parameters(
     bigram_ranking_file: ARG_BIGRAM_RANKING_FILE,
     bigram_anchor_scores_file: ARG_ANCHOR_SCORES_FILE,
     trigram_score_ratio_file: ARG_TRIGRAM_SCORE_RATIO_FILE,
-):
+) -> None:
     config_base = read_config(str(config_file))
     hands = get_hands_data(config_base)
     bigram_scores = load_bigram_scores(bigram_ranking_file, bigram_anchor_scores_file)
@@ -119,7 +119,7 @@ def fit_parameters(
         print(f"{name}: {value:.3f}")
 
 
-def fit_check_cli():
+def fit_check_cli() -> None:
     app = typer.Typer(pretty_exceptions_enable=False)
     app.command()(fit_check)
     app()
@@ -147,7 +147,7 @@ def fit_check(
     bigram_ranking_file: ARG_BIGRAM_RANKING_FILE,
     bigram_anchor_scores_file: ARG_ANCHOR_SCORES_FILE,
     trigram_score_ratio_file: ARG_TRIGRAM_SCORE_RATIO_INPUT_FILE,
-):
+) -> None:
     config = read_config(config_file)
     hands = get_hands_data(config)
     bigram_scores = load_bigram_scores(bigram_ranking_file, bigram_anchor_scores_file)

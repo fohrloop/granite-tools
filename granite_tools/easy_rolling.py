@@ -132,7 +132,7 @@ def _iter_shape_tuples(
 
     ref_location = tuple(int(x) for x in locations_of_one[0])
 
-    def start_from_origin(x):
+    def start_from_origin(x: np.ndarray) -> tuple[int, int]:
         # Note that argwhere returns (y, x) coordinates
         return (int(x[1] - ref_location[1]), int(x[0] - ref_location[0]))
 

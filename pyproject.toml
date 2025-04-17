@@ -75,6 +75,8 @@ select = [
 ignore = ['E501']
 
 [tool.mypy]
+disallow_untyped_defs = true
+check_untyped_defs = true
 exclude = "granite_tools/ngram_tools/.*"
 
 [build-system]
